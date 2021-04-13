@@ -1,0 +1,368 @@
+.wrapper {
+    width: auto;
+    margin: auto;
+  }
+
+
+  body {
+    font-family: Arial, Helvetica, Sans-serif; 
+    font-size: 100%; 
+    margin: 0; 
+    padding: 0; 
+    width: 100%;
+    overflow: hidden;
+  }
+  .ui-content {
+    line-height: 1.5em;
+  }
+  
+  #searchField {
+    width: 100%;
+  }
+  .ui-helper-hidden-accessible {
+    display: none;
+  }
+   .ui-autocomplete {
+    margin:0;
+    padding: 0;
+    width: 100%!important;
+    max-width: 400px!important;
+   }
+  .ui-autocomplete li {
+    list-style: none;
+    margin:0;
+    padding: 0;
+  }
+  .ui-autocomplete li a {
+    background: #fff;
+    padding: 10px 5px;
+    border: 1px solid #333;
+    display: block;
+    border-top: 0px;
+    border-radius: 0px;
+    cursor: pointer;
+  }
+
+  .ui-autocomplete li a:hover {
+    background:#eee;
+  }
+
+  .ui-autocomplete li a.ui-corner-all {
+    border-radius: 0px;
+  }
+
+  .ui-content #loader h1 {
+    display: none;
+  }
+  .ui-content li {
+    margin: 1em 0;
+  }
+  #hymnSelect {
+    width: 98%;
+    margin: 5px;
+  }
+  a, a:visited {
+    color: #336688;
+    text-decoration: none;
+  }
+  nav {
+    background: #333;
+    color: #336688;
+    height: 50px;
+  }
+  nav ul {
+    display: block;
+    list-style: none;
+    width: 100%;
+  }
+  nav li{
+    float: left;
+    width: 33%;
+    line-height: 50px
+  }
+  nav li:last-child {
+    text-align: right;
+  }
+  .ui-content {
+    background:#fff;
+  }
+  #hymn {
+    width: 100%;
+
+  }
+  .app .main {
+     padding-top: 95px;
+  }
+  .main {
+    padding: 1em;
+   
+  }
+  .main2 {
+    background: rgb(255,255,255); /* Old browsers */
+background: -moz-linear-gradient(top,  rgba(255,255,255,1) 0%, rgba(238,238,238,1) 100%); /* FF3.6+ */
+background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(255,255,255,1)), color-stop(100%,rgba(238,238,238,1))); /* Chrome,Safari4+ */
+background: -webkit-linear-gradient(top,  rgba(255,255,255,1) 0%,rgba(238,238,238,1) 100%); /* Chrome10+,Safari5.1+ */
+background: -o-linear-gradient(top,  rgba(255,255,255,1) 0%,rgba(238,238,238,1) 100%); /* Opera 11.10+ */
+background: -ms-linear-gradient(top,  rgba(255,255,255,1) 0%,rgba(238,238,238,1) 100%); /* IE10+ */
+background: linear-gradient(to bottom,  rgba(255,255,255,1) 0%,rgba(238,238,238,1) 100%); /* W3C */
+filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#eeeeee',GradientType=0 ); /* IE6-9 */
+
+  }
+  .main ol {
+    margin-left: 15px;
+    padding: 0;
+  }
+  .main h2 {
+    line-height: 1.5em;
+  }
+  .ui-bar #footerNav {
+    margin: 0px;
+  }
+  #footerNav .ui-controlgroup-controls {
+    display: block;
+  }
+  #footerNav a {
+    width: 15%;
+  }
+  #footerNav .ui-select{
+    width: 70%;
+  }
+
+  .ui-footer-fixed {
+    padding-bottom: 10px;
+  }
+  #downloadBtn {
+    float: right;
+  }
+
+  h1.lefty.ui-title {
+    margin-left: 0.5em;
+    float: left;
+    text-align: left;
+    font-size: 21px;
+    text-shadow: 1px -1px 2px #000;
+    line-height: 36px;
+    font-weight: bold;
+    margin: 0;
+  }
+  h1.lefty.ui-title span {
+    color: #fff;
+  }
+
+  body.v2 #loader {
+    padding-top: 1em;
+  }
+  body.v2 #loader h2 {
+    display: none;
+  }
+
+  body.v2 .ui-icon {
+    float: left;
+  }
+
+  body.v2 .ui-btn-text {
+    text-align: left;
+  }
+  body.v2 .ui-select {
+    margin: 0 0.2em;
+  }
+
+  body.v2 #footerNav a {
+    width: auto;
+  }
+  body.v2 .ui-bar h1 {
+    line-height: 50px;
+  }
+  body.v2 .ui-bar {
+    border-bottom: 1px solid #000;
+  }
+
+  .header-btns {
+    float: right;
+  }
+  .custom-btns {
+    float: right;
+    width: auto;
+  }
+  .app .custom-btns a {
+    height: 50px;
+    margin-top: 0px
+  }
+  .custom-btns a {
+    display: block;
+    float: right;
+    width: 44px;
+    margin-top: 7px;
+    border:1px solid #222;
+    text-align: center;
+    margin-left: 5px;
+  }
+  .custom-btns a:first-child {
+    float: right;
+  }
+  .custom-btns a.current {
+    background-color: #000;
+  }
+  .custom-btns a span {
+   
+    background-image: url(../assets/icons-36-white.png);
+    background-position: -864px -1px;
+    width: 32px;
+    height: 32px;
+    display: inline-block;
+  }
+
+  .app .custom-btns a span {
+    margin-top: 8px;
+  }
+  .custom-btns a.searcher span {
+    background-position: -1224px -1px
+  }
+  .app .headerTop {
+    position: fixed;
+    top:0;
+    width:100%;
+    height:110px;
+  }
+
+  .app .headerTop .ui-bar {
+    padding-right: 0;
+  }
+  .headerTop .ui-bar {
+    background-color: #222;
+    background-image: none;
+    
+    padding-right: 0.3em;
+  }
+  .v2 .ui-bar h1.lefty {
+    line-height: 50px;
+    font-weight: bold;
+    font-size: 1.3em;
+    text-shadow: 1px -1px 2px #000;
+    float: left;
+  }
+  .v2 .ui-bar h1.lefty span {
+    color: #fff;
+  }
+
+  #footerBot {
+    background-image: none;
+    background-color: transparent;
+    border-top: 0px solid #ccc;
+    text-align: right;
+    position: fixed;
+    bottom: 10px;
+    width: 100%;
+    font-size: 0.6em;
+    border: none;
+  }
+  .v3 .ui-body-c, .v3 .ui-overlay-c {
+    background-image: none;
+    background-color: #fff;
+  }
+  .app #footerBot a {
+     display: block;
+    float: right;
+  }
+  #footerBot a {
+   display:inline-block;
+    border: 1px solid #ccc;
+    padding: 5px;
+    margin: 0px;
+    margin-right: 5px;
+    background-image: none;
+    background-color: #eee;
+    color: #333;
+    line-height: 44px;
+    height: 44px;
+    width: 44px;
+    padding-top: 0;
+    padding-bottom: 0;
+    border-radius: 8px;
+    font-weight: normal;
+    text-align: center;
+  }
+  #footerBot a span {
+    padding-top: 0;
+    padding-bottom: 0;
+  }
+  #footerBot a.smallerText span {
+    font-size: 13px;
+  }
+  #footerBot a.biggerText span {
+    font-size: 20px;
+  }
+  #formByNum input[type=submit] {
+    display:inline-block;
+    width:48%;
+    float: right;
+    margin-top: 0.4em;
+  }
+  #formByNum .ui-input-text.ui-btn-shadow {
+    display:inline-block;
+    width:48%;
+    float: left;
+
+  }
+.ui-header-fixed, .ui-footer-fixed {
+  z-index: 997;
+}
+  .v2 .ui-bar a {
+    background: none;
+    border: 0px solid #000;
+    box-shadow: none;
+    -webkit-box-shadow: none;
+  }
+  .v2 .ui-bar a span {
+    border: none;
+  }
+  .v2 .ui-bar a.current {
+    background: #494949;
+  }
+
+    .hidePage {
+    display: none;
+  }
+  .ui-front {
+    z-index: 999;
+  }
+  .ui-bar, .ui-body {
+    padding: 0px 15px;
+  }
+  #numSearch, #search {
+    position: absolute;
+    left: 0;
+    top:55px;
+    text-align: center;
+    width: 100%;
+    z-index: 998;
+  }
+  #numSearch .wrapForm, #search .searchWrap {
+    z-index:21;
+    margin: auto;
+    padding: 1em;
+    background: #fff;
+    border: 1px solid #333;
+    box-shadow: 2px 2px 20px #000;
+    position: relative;
+  }
+  .searchWrap h2,#numSearch h2 {margin-top:0;}
+  .overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    background: #333;
+    opacity: 0.6;
+    height: 100%;
+    z-index: 12;
+    width: 100%;
+  }
+  .ui-body-c, .ui-overlay-c {
+    background:#fff;
+  }
+
+.app #formByNum, .searchWrapper {
+  width: 100%;
+  margin: auto;
+  max-width: 400px;
+}

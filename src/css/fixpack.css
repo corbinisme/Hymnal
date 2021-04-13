@@ -1,0 +1,71 @@
+
+.ui-bar, .ui-body {
+	padding: 0px 15px;
+}
+.ui-bar, .ui-body {
+	position: relative;
+	padding: .4em 15px;
+	overflow: hidden;
+	display: block;
+	clear: both;
+}
+.ui-bar, .ui-body {
+  padding: 0px 15px;
+}
+.ui-front {
+  z-index: 999;
+}
+.ui-body-c, .ui-overlay-c {
+  background-image: none;
+  background-color: #fff;
+}
+.ui-header-fixed, .ui-footer-fixed {
+	z-index: 997;
+}
+
+.ui-bar-b {
+  border: 1px solid #456f9a;
+	background: #5e87b0;
+	color: #fff;
+	clear: both;
+	font-weight: 700;
+	text-shadow: 0 1px 0 #3e6790;
+	background-image: -webkit-gradient(linear,left top,left bottom,from(#6facd5),to(#497bae));
+	background-image: -webkit-linear-gradient(#6facd5,#497bae);
+	background-image: -moz-linear-gradient(#6facd5,#497bae);
+	background-image: -ms-linear-gradient(#6facd5,#497bae);
+	background-image: -o-linear-gradient(#6facd5,#497bae);
+	background-image: linear-gradient(#6facd5,#497bae);
+}
+
+.ui-helper-hidden-accessible {
+  display: none;
+}
+ .ui-autocomplete {
+  margin:0;
+  padding: 0;
+  width: 89%!important;
+  max-width: 320px!important;
+ }
+.ui-autocomplete li {
+  list-style: none;
+  margin:0;
+  padding: 0;
+}
+.ui-autocomplete li a {
+  background: #fff;
+  padding: 10px 5px;
+  border: 1px solid #333;
+  display: block;
+  border-top: 0px;
+  border-radius: 0px;
+  cursor: pointer;
+}
+
+.ui-autocomplete li a:hover {
+  background:#eee;
+}
+
+.ui-autocomplete li a.ui-corner-all {
+  border-radius: 0px;
+}
