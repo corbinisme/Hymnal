@@ -3,9 +3,9 @@ New NPM project to make my hymnal app
 
 # Gulp
 The gulp tasks to run when making changes are:
-$ gulp minify-css
-$ gulp minify-scripts
-$ gulp minify-lang
+$ gulp minify-css;
+$ gulp minify-scripts;
+$ gulp minify-lang;
 
 The minified files will save to 
 www/css/styles.min.css 
