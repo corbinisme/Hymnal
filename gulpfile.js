@@ -11,25 +11,11 @@ const rename = require('gulp-rename');
 const uglify = require('gulp-uglify');
 
 
-
-
-gulp.task('run', function() {
-  // Stuff here
-  console.log("running")
-});
-
 gulp.task('lr-server', function() {
     server.listen(35729, function(err) {
         if(err) return console.log(err);
     });
 })
-
-
-gulp.task('hello', function() {
-  console.log('Hello Zell');
-});
-
-
 
 gulp.task('sass', function() {
     gulp.src(['assets/css/**/*.scss'])
@@ -68,16 +54,8 @@ gulp.task('minify-css', () => {
 });
 
 gulp.task('default', function() {
-    //'lr-server', 
-    gulp.start('hello', 'styles', 'sass');
 
-    /*
-    gulp.watch('app/js/**', function(event) {
-        gulp.run('scripts');
-    })
-    */
-
-    gulp.watch('app/css/**', function(event) {
+    gulp.watch('src/css/**', function(event) {
         gulp.run('styles');
     })
 

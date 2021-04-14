@@ -38,7 +38,7 @@ var title_en = [
 "37) O God, Forsake Me Not",
 "38) For Even From My Youth, O God",
 "39) His Name Is Great!",
-"40) O Thou the Shepher of Israel Art",
+"40) O Thou the Shepherd of Israel Art",
 "41) Thou Shepherd That Dost Israel Keep",
 "42) Praise the Eternal With A Psalm!",
 "43) Sing Songs of Praise to Him!",

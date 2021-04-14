@@ -660,6 +660,10 @@ ul.tabs {
 .musicCell .jp-audio {
   width: auto!important;
 }
+
+.musicCell .jp-audio .jp-controls {
+  width: 100%!important;
+}
 .musicCell .jp-controls button {
   opacity: 1;
   background-image: none;
@@ -768,9 +772,9 @@ div.jp-play-bar {
 }
 .byNumWrap {
   border: 1px solid #333;
+  display: flex;
 } 
 .byNumWrap input {
-  float: left;
   width:45%;
   margin: 2%;
   height: 35px;
@@ -778,9 +782,11 @@ div.jp-play-bar {
   font-family: arial, Helvetica, sans-serif;
   font-size: 20px;
 }
+
 #formByNum input.goBtn {
   display:inline-block;
-  float: right;
+  height: 35px;
+  margin-top: 0!important;
 }
 .byNumWrap .goBtn {
   border: none;
