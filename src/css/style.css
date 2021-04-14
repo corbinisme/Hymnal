@@ -159,9 +159,7 @@ a.hiddenLink {
 }
 
 .custom-btns a span {
-  /*background-image: url(../assets/icons-36-white.png);
-  background-position: -864px -1px;
-  */
+
   width: 44px;
   height: 50px;
   display: inline-block;

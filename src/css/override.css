@@ -204,8 +204,6 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', end
     background-color: #000;
   }
   .custom-btns a span {
-   
-    background-image: url(../assets/icons-36-white.png);
     background-position: -864px -1px;
     width: 32px;
     height: 32px;
