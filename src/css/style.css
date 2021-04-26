@@ -634,7 +634,7 @@ ul.tabs {
 #numSearch .wrapForm, #search .searchWrap {
   z-index:21;
   margin: auto;
-
+  min-height: calc(100vh - 50px);
   background: #fff;
   /*
   border: 1px solid #333;
@@ -766,25 +766,24 @@ div.jp-play-bar {
 #formByNum, .searchWrapper {
   width: 100%;
   margin: auto;
-  /*max-width: 320px;*/
 }
 .byNumWrap {
   border: 1px solid #333;
   display: flex;
 } 
 .byNumWrap input {
-  width:45%;
-  margin: 2%;
   height: 35px;
   line-height: 35px;
   font-family: arial, Helvetica, sans-serif;
   font-size: 20px;
+  width: 50%;
 }
 
 #formByNum input.goBtn {
   display:inline-block;
   height: 35px;
-  margin-top: 0!important;
+  width: 50%;
+  margin: 0!important;
 }
 .byNumWrap .goBtn {
   border: none;

@@ -26,7 +26,6 @@
     margin:0;
     padding: 0;
     width: 100%!important;
-    max-width: 400px!important;
    }
   .ui-autocomplete li {
     list-style: none;
@@ -362,5 +361,4 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', end
 .app #formByNum, .searchWrapper {
   width: 100%;
   margin: auto;
-  max-width: 400px;
 }
