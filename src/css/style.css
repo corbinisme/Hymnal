@@ -614,7 +614,12 @@ ul.tabs {
   display: none;
   position: absolute;
   bottom: 60px;
+  width: 100%;
   right: 0;
+  padding: 0 1em;
+}
+#fontSlider {
+  width: 100%;
 }
 /* overlay stuff */
 .hidePage {

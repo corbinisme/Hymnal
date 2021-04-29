@@ -4080,6 +4080,7 @@ var app = {
 			app.storage.setItem(fontKey, fontSize)
 		}
 		app.size = fontSize;
+		$("#fontSlider").val(app.size)
 		$(".main.ui-content, #copyrightPage").css("font-size", app.size + "px");
 
 		var contrastKey = "contrast";
@@ -4152,6 +4153,14 @@ var app = {
 	    $(".fontSizer").on("click", function(){
 	    	$(".fontOptions").toggle()
 
+	    });
+
+	    $("#fontSlider").on("change", function(){
+	    	var current = $(this).val();
+	    	var $context = $(".ui-content");
+		    app.size = current;
+		    app.storage.setItem("size", current)
+		    $context.css("font-size", current + "px");
 	    });
 
 	    // language selector
