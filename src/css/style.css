@@ -616,7 +616,13 @@ ul.tabs {
   bottom: 60px;
   width: 100%;
   right: 0;
-  padding: 0 1em;
+  padding: 2em;
+  background: rgba(255,255,255,0.8);
+
+}
+.dim .fontOptions {
+  background: rgba(0,0,0,0.8);
+  border: 1px solid #333;
 }
 #fontSlider {
   width: 100%;
