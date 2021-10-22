@@ -3996,7 +3996,8 @@ var languageMap = {
 	"de": "Deutsch",
 	"es": "Español",
 	"pg": "Português",
-	"asl": "ASL English"
+	"asl": "ASL English",
+	"nl": "Nederlands"
 };
 
 var browserLang = navigator.language;
@@ -4048,6 +4049,7 @@ var app = {
 			case "pg": currentTitle = "Hinário"; break;
 			case "de": currentTitle = "Gesangbuch"; break;
 			case "es": currentTitle = "Himnario"; break;
+			case "nl": currentTitle = "Gezangboek"; break;
 			default: currentTitle = "Hymnal"; break;
 		}
 		$("#brand").html(currentTitle)
@@ -4326,15 +4328,16 @@ var app = {
 		    $('#jquery_jplayer_1').jPlayer("stop")
 		    // get language support
 		    //console.log(id + " and " + app.lang);
+			var result = null;
 		    if(app.lang=='es'){
-		      var result = lyrics_es[file];
+		      result = lyrics_es[file];
 		      if(result){
 		        $(".mainPage #loader").html(result);
 		      } else {
 		        $(".mainPage #loader").html("Select a hymn!");
 		      }
 		    } else if(app.lang=='fr'){
-		      var result = lyrics_fr[file];
+		      result = lyrics_fr[file];
 
 		      if(result){
 		        $(".mainPage #loader").html(result);
@@ -4343,22 +4346,30 @@ var app = {
 		      }
 
 		    } else if(app.lang=='pg'){
-		      var result = lyrics_pg[file];
+		      result = lyrics_pg[file];
 		      if(result){
 		        $(".mainPage #loader").html(result);
 		      } else {
 		        $(".mainPage #loader").html("Select a hymn!");
 		      }
-		    }  else if(app.lang=='de'){
-		      var result = lyrics_de[file];
+		    }  else if(app.lang=='nl'){
+		      result = lyrics_nl[file];
 		      if(result){
 		        $(".mainPage #loader").html(result);
 		      } else {
 		        $(".mainPage #loader").html("Select a hymn!");
-		      }
+		      }  
+			 } else if(app.lang=='de'){
+				result = lyrics_de[file];
+				if(result){
+				  $(".mainPage #loader").html(result);
+				} else {
+				  $(".mainPage #loader").html("Select a hymn!");
+				}
+			  
 		    } else {
 		      // english
-		      var result = lyrics_en[file];
+		      result = lyrics_en[file];
 		      if(result){
 		        $(".mainPage #loader").html(result);
 		      } else {
@@ -4592,6 +4603,14 @@ var app = {
 	    	pageText = "Seite";
 	    	searchText = "Suche nach Titel";
 	    	searchByNumText = "Suche nach Liednummer";
+	    	goText = "Suche";
+	    	break;
+		case 'nl': 
+	    	title = title_nl; 
+	    	titleText = "Titel"; 
+	    	pageText = "Pagina";
+	    	searchText = "Zoek Op Titel";
+	    	searchByNumText = "Zoek Op Nummer";
 	    	goText = "Suche";
 	    	break;
 	    case 'asl': 
