@@ -9,7 +9,8 @@
   "dependencies": {
     "graceful-fs": {
       "version": "4.2.2"
-    }
+    },
+    "gulp-uglifycss": "^1.1.0"
   },
   "author": "Corbin Rose",
   "license": "ISC",

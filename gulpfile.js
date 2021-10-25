@@ -1,29 +1,72 @@
-const gulp = require('gulp');
-const concat = require('gulp-concat');
-const refresh = require('gulp-livereload');
-const lr = require('tiny-lr');
-const server = lr();
-const sass = require('gulp-sass');
-const minify = require('gulp-minify');
-const cleanCSS = require('gulp-clean-css');
-const minifyCSS = require('gulp-minify-css');
-const rename = require('gulp-rename');
-const uglify = require('gulp-uglify');
+const { series, parallel, watch } = require('gulp');
+var gulp = require('gulp');
+var concat = require('gulp-concat');
+var rename = require('gulp-rename');
+var uglify = require('gulp-uglify');
+var sass = require('gulp-sass');
+sass.compiler = require('node-sass');
+var uglifycss = require('gulp-uglifycss');
 
 
-gulp.task('lr-server', function() {
-    server.listen(35729, function(err) {
-        if(err) return console.log(err);
+
+function clean(cb) {
+    // body omitted
+    cb();
+    
+  }
+
+
+  function css(cb) {
+    // body omitted
+    watch('src/css/*.css', { ignoreInitial: false }, function(cb) {
+      // body omitted
+      gulp.src('./src/css/*.css')
+      .pipe(concat('assets.css'))
+        .pipe(gulp.dest("www/css"))
+        .pipe(rename('assets.min.css'))
+        .pipe(uglifycss())
+        .pipe(gulp.dest("www/css"));
+      cb();
     });
-})
+  }
 
-gulp.task('sass', function() {
-    gulp.src(['assets/css/**/*.scss'])
-        //.pipe(browserify())
-        .pipe(sass()) 
-        .pipe(concat('theme.css'))
-        .pipe(gulp.dest('www/css'))
-        .pipe(refresh(server))
+  
+function javascript(cb) {
+    // body omitted
+    watch('src/lang/**/*.js', { ignoreInitial: false }, function(cb) {
+        // body omitted
+        gulp.src('./src/widgets/*.js')
+        .pipe(concat('lang.js'))
+          .pipe(uglify())
+          .pipe(rename({suffix: '.min'}))
+          .pipe(gulp.dest('./www/js'));
+        cb();
+      });
+  }
+  
+
+  function scss(cb) {
+    // body omitted
+    watch('src/sass/*.scss', { ignoreInitial: false }, function(cb) {
+      // body omitted
+      gulp.src('./src/sass/*.scss')
+      .pipe(sass().on('error', sass.logError))
+      .pipe(gulp.dest('./www/css'))
+      .pipe(uglifycss())
+      .pipe(rename({suffix: '.min'}))
+      .pipe(gulp.dest('./www/css'))
+      cb();
+    });
+  }
+
+
+gulp.task('sass', function(cb) {
+  return gulp.src(['src/sass/**/*.scss'])
+  //.pipe(browserify())
+  .pipe(sass()) 
+  .pipe(concat('style.css'))
+  .pipe(gulp.dest('www/css'))
+
 });
 
 
@@ -36,35 +79,6 @@ gulp.task('minify-scripts', function() {
         .pipe(gulp.dest("www/js"));
 });
 
-gulp.task('minify-lang', function() {
-    return gulp.src("src/lang/**/*.js")
-        .pipe(concat('lang.js'))
-        .pipe(gulp.dest("www/js"))
-        .pipe(rename('lang.min.js'))
-        .pipe(uglify())
-        .pipe(gulp.dest("www/js"));
-});
 
-gulp.task('minify-css', () => {
-  return gulp.src('src/css/**/*.css')
-    .pipe(concat('styles.css'))
-    .pipe(rename('styles.min.css'))
-    .pipe(cleanCSS({compatibility: 'ie8'}))
-    .pipe(gulp.dest('www/css'));
-});
 
-gulp.task('default', function() {
-
-    gulp.watch('src/css/**', function(event) {
-        gulp.run('styles');
-    })
-
-})
-
-/*
-gulp.task('task-name', function () {
-  return gulp.src('source-files') // Get source files with gulp.src
-    .pipe(aGulpPlugin()) // Sends it through a gulp plugin
-    .pipe(gulp.dest('destination')) // Outputs the file in the destination folder
-});
-*/
+exports.build = series(clean, parallel(css, scss, javascript));

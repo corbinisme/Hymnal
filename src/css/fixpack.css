@@ -69,3 +69,7 @@
 .ui-autocomplete li a.ui-corner-all {
   border-radius: 0px;
 }
+
+body {
+  display: inherit
+}

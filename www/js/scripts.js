@@ -3982,11 +3982,6 @@ function redirectToSystemBrowser(url) {
 
 var hymn = 1;
 var brand = "";
-var espXML ={};
-var frXML = {};
-var deXML = {};
-var pgXML = {};
-var aslXML = {};
 var path = config.path;
 var vocal_path = config.vocal_path;
 
@@ -4004,7 +3999,6 @@ var app = {
 		app.eventBindings();
 		app.initJplayer();
 		app.makeDropdown();
-
 		app.startRandom();
 	},
 	changeStorage:function(key,val){
@@ -4072,7 +4066,6 @@ var app = {
 			$("body").addClass("dim");
 		}
 
-
 		if(config.icon!=""){
 			var icon = config.icon;
 		    var link = document.querySelector("link[rel*='icon']") || document.createElement('link');
@@ -4082,16 +4075,9 @@ var app = {
 		    document.getElementsByTagName('head')[0].appendChild(link);
 		}
 
-
-		//console.log(app.storage)
-		// Pass a key name and its value to add or update that key.
-		//storage.removeItem(key) // Pass a key name to remove that key from storage.
-
-
 	  	app.languages = langs.split(",");
 	  	app.makeLanguageDropdown();
 	  	$("#footerBot").addClass(app.lang)
-	  	// set languages
 	},
 	eventBindings: function(){
 
@@ -4342,12 +4328,16 @@ var app = {
 		//alert(variable);
 		variable = parseInt(variable,10);
 		var prepend="";
-		if(variable<192&&variable>0) {
+		let maxHymn = 191;
+		if(window["title_" + app.lang]){
+			maxHymn = window["title_" + app.lang].length;
+		}
+		if(variable<maxHymn&&variable>0) {
 			if(variable<100) {
-			prepend="0";
+				prepend="0";
 			}
 			if(variable<10) {
-			prepend="00";
+				prepend="00";
 			}
 			variable = prepend + variable;
 			$("#hymnSelect").val(variable).change();
@@ -4372,11 +4362,11 @@ var app = {
 			$("#numSearch").hide();
 			$("#search").hide();
 			$(".hymnalSelection").show();
-			//$("#footerBot").show();
+
 	});
 
 	$(".dropdown li a").on("click", function(){
-		//$(".currentApp h1 span").html($(this).attr("rel"));
+
 		$(".dropdown").removeClass("open").hide();
 
 		$(".dropdown li a").removeClass("active");
@@ -4391,7 +4381,7 @@ var app = {
 		var returnHymn = $("#hymnSelect").val();
 		$("#copyrightPage").hide();
 		app.makeDropdown(app.lang, returnHymn);
-	// console.log(lang + " | " + returnHymn);
+
 		$("#hymnSelect").val(returnHymn).change();
 
 	});
@@ -4462,45 +4452,44 @@ var app = {
 	  $("#hymnSelect").val(num).change();
 	},
 	makeDropdown(){
-	  var lang = app.lang;
-	  var hymn = app.hymn;
-	  var scriptPath = "lang/" + lang + "/list.js";
-	  $("#tocWrap").html("");
+		var lang = app.lang;
+		var hymn = app.hymn;
+		$("#tocWrap").html("");
 
-	  var titleText = "Title";
-      var pageText = "Page";
-      var searchText = "Search";
-      var searchByNumText = "Search By Number";
-      var goText = "Go"
-      var title = null;
-	
-	  if(window['menu_'+lang]){
-		title = window['title_'+lang];
-		titleText = window['menu_'+lang]['Title']; 
-		pageText = window['menu_'+lang]['Page'];
-		searchText = window['menu_'+lang]['Search By Title'];
-		searchByNumText = window['menu_'+lang]['Search By Number'];
-		goText = window['menu_'+lang]['Search'];
-	  }
+		var titleText = "Title";
+		var pageText = "Page";
+		var searchText = "Search";
+		var searchByNumText = "Search By Number";
+		var goText = "Go"
+		var title = null;
+		
+		if(window['menu_'+lang]){
+			title = window['title_'+lang];
+			titleText = window['menu_'+lang]['Title']; 
+			pageText = window['menu_'+lang]['Page'];
+			searchText = window['menu_'+lang]['Search By Title'];
+			searchByNumText = window['menu_'+lang]['Search By Number'];
+			goText = window['menu_'+lang]['Search'];
+		}
 
-	  if(title){
+		if(title){
 
-	  	$("#searchByNum").html(searchByNumText);
-	  	$(".goBtn").val(goText);
-	    
-	      $("#hymnSelect").html("");
-	      var $toc = $(document.createElement("table"));
-	          $toc.attr("id", "toc");
+			$("#searchByNum").html(searchByNumText);
+			$(".goBtn").val(goText);
+			
+			$("#hymnSelect").html("");
+			var $toc = $(document.createElement("table"));
+				$toc.attr("id", "toc");
 
-	          $toc.append("<thead><tr><th>" + titleText + "</th><th>" + pageText + "</th></tr></thead>");
+				$toc.append("<thead><tr><th>" + titleText + "</th><th>" + pageText + "</th></tr></thead>");
 				var $tbody = $(document.createElement("tbody"));
 				for(var i=0; i<title.length; i++){
 					var num = i+1;
 					if(num<100){
-					num = "0"+num;
+						num = "0"+num;
 					}
 					if(num<10){
-					num = "0"+num;
+						num = "0"+num;
 					}
 					var $option = $(document.createElement("option"));
 					$option.attr("value", num);
@@ -4518,31 +4507,27 @@ var app = {
 					$lastCell = $(document.createElement("td"));
 					$lastCell.html(num);
 					$row.append($firstCell, $lastCell);
-					//$row.append("<td>"+num+"</td>");
+
 					$tbody.append($row);
 				}
 				$toc.append($tbody);
 
-	      $("#tocWrap").append($toc);
-	      $('#toc').dataTable().fnDestroy();
-	      $("#toc").dataTable({
-	        'iDisplayLength': 300,
-	        language: {
-	          searchPlaceholder: searchText
-	         },
-	         "dom": '<"filter"f>t<"clear">'
-	      });
+			$("#tocWrap").append($toc);
+			$('#toc').dataTable().fnDestroy();
+			$("#toc").dataTable({
+				'iDisplayLength': 300,
+				language: {
+				searchPlaceholder: searchText
+				},
+				"dom": '<"filter"f>t<"clear">'
+			});
 
-	      if(hymn==0) {
-	        app.startRandom();
-	      } else {
-	        $("#hymnSelect").val(hymn).change();
-	      }
-	    
-	  } else {
-	    // false
+			if(hymn==0) {
+				app.startRandom();
+			} else {
+				$("#hymnSelect").val(hymn).change();
+			}
 	  }
-
 	},
 	startRandom: function(){
 	  if(typeof start=="undefined"){
