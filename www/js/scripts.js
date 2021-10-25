@@ -3990,16 +3990,6 @@ var aslXML = {};
 var path = config.path;
 var vocal_path = config.vocal_path;
 
-var languageMap = {
-	"en":"English",
-	"fr": "Français",
-	"de": "Deutsch",
-	"es": "Español",
-	"pg": "Português",
-	"asl": "ASL English",
-	"nl": "Nederlands"
-};
-
 var browserLang = navigator.language;
 var langOverride = "";
 if(browserLang.indexOf("en")>-1){
@@ -4043,15 +4033,11 @@ var app = {
 	getTitle: function(){
 		var currentLang = app.lang;
 		var currentTitle = "Hymnal";
-		switch(currentLang){
-			case "en": currentTitle = "Hymnal"; break;
-			case "fr": currentTitle = "Cantiques"; break;
-			case "pg": currentTitle = "Hinário"; break;
-			case "de": currentTitle = "Gesangbuch"; break;
-			case "es": currentTitle = "Himnario"; break;
-			case "nl": currentTitle = "Gezangboek"; break;
-			default: currentTitle = "Hymnal"; break;
+		let langObj = 'menu_' + currentLang;
+		if(window[langObj]){
+			currentTitle = window[langObj].Hymnal;
 		}
+		
 		$("#brand").html(currentTitle)
 	},
 	getConfig: function(){
@@ -4563,74 +4549,15 @@ var app = {
       var searchByNumText = "Search By Number";
       var goText = "Go"
       var title = null;
-
-	  switch(lang){
-	    case 'en': 
-	    	title = title_en;
-	    	titleText = "Title"; 
-	    	pageText = "Page";
-	    	searchText = "Search";
-	    	searchByNumText = "Search By Number";
-	    	goText = "Go";
-	 		break;
-	    case 'es':  
-	    	title = title_es; 
-	    	titleText = "Título"; 
-	    	pageText = "#";
-	    	searchText = "Buscar himnos";
-	    	searchByNumText = "Buscar por número";
-	    	goText = "Buscar";
-	    	break;
-	    case 'pg': 
-	    	title = title_pg; 
-	    	titleText = "Título"; 
-	    	pageText = "Página";
-	    	searchText = "Pesquisar arquivo";
-	    	searchByNumText = "Pesquisar por número";
-	    	goText = "OK";
-	    	break;
-	    case 'fr': 
-	    	title = title_fr; 
-	    	titleText = "Titre"; 
-	    	pageText = "Page";
-	    	searchText ="Rechercher par titre";
-	    	searchByNumText = "Rechercher par numéro";
-	    	goText = "Recherche";
-	    	break;
-	    case 'de': 
-	    	title = title_de; 
-	    	titleText = "Titel"; 
-	    	pageText = "Seite";
-	    	searchText = "Suche nach Titel";
-	    	searchByNumText = "Suche nach Liednummer";
-	    	goText = "Suche";
-	    	break;
-		case 'nl': 
-	    	title = title_nl; 
-	    	titleText = "Titel"; 
-	    	pageText = "Pagina";
-	    	searchText = "Zoek Op Titel";
-	    	searchByNumText = "Zoek Op Nummer";
-	    	goText = "Suche";
-	    	break;
-	    case 'asl': 
-	    	title = title_asl; 
-	    	titleText = "Title"; 
-	    	pageText = "Page";
-	    	searchText = "Search";
-	    	searchByNumText = "Search By Number";
-	    	goText = "Go";
-	    	break;
-	    default: 
-	    	title = title_en; 
-	    	titleText = "Title"; 
-	    	pageText = "Page";
-	    	searchText  = "Search";
-	    	searchByNumText = "Search By Number";
-	    	goText = "Go";
-	    	break;
+	
+	  if(window['menu_'+lang]){
+		title = window['title_'+lang];
+		titleText = window['menu_'+lang]['Title']; 
+		pageText = window['menu_'+lang]['Page'];
+		searchText = window['menu_'+lang]['Search By Title'];
+		searchByNumText = window['menu_'+lang]['Search By Number'];
+		goText = window['menu_'+lang]['Search'];
 	  }
-	  
 
 	  if(title){
 
@@ -4642,40 +4569,40 @@ var app = {
 	          $toc.attr("id", "toc");
 
 	          $toc.append("<thead><tr><th>" + titleText + "</th><th>" + pageText + "</th></tr></thead>");
-	      var $tbody = $(document.createElement("tbody"));
-	      for(var i=0; i<title.length; i++){
-	        var num = i+1;
-	        if(num<100){
-	          num = "0"+num;
-	        }
-	        if(num<10){
-	          num = "0"+num;
-	        }
-	        var $option = $(document.createElement("option"));
-	        $option.attr("value", num);
-	        $option.html(title[i]); 
-	        $("#hymnSelect").append($option);
+				var $tbody = $(document.createElement("tbody"));
+				for(var i=0; i<title.length; i++){
+					var num = i+1;
+					if(num<100){
+					num = "0"+num;
+					}
+					if(num<10){
+					num = "0"+num;
+					}
+					var $option = $(document.createElement("option"));
+					$option.attr("value", num);
+					$option.html(title[i]); 
+					$("#hymnSelect").append($option);
 
-	        var $row = $(document.createElement("tr"));
-	        var name = title[i];
-	        name = name.substring(name.indexOf(")")+2,name.length);
-	        $firstCell = $(document.createElement("td"));
-	        $link = $(document.createElement("a"));
-	        $link.attr("href", "javascript:app.loadSearch('"+num+"');").html(name).addClass("searchLink");
-	        $firstCell.append($link);
+					var $row = $(document.createElement("tr"));
+					var name = title[i];
+					name = name.substring(name.indexOf(")")+2,name.length);
+					$firstCell = $(document.createElement("td"));
+					$link = $(document.createElement("a"));
+					$link.attr("href", "javascript:app.loadSearch('"+num+"');").html(name).addClass("searchLink");
+					$firstCell.append($link);
 
-	        $lastCell = $(document.createElement("td"));
-	        $lastCell.html(num);
-	        $row.append($firstCell, $lastCell);
-	        //$row.append("<td>"+num+"</td>");
-	        $tbody.append($row);
-	      }
-	      $toc.append($tbody);
+					$lastCell = $(document.createElement("td"));
+					$lastCell.html(num);
+					$row.append($firstCell, $lastCell);
+					//$row.append("<td>"+num+"</td>");
+					$tbody.append($row);
+				}
+				$toc.append($tbody);
 
 	      $("#tocWrap").append($toc);
 	      $('#toc').dataTable().fnDestroy();
 	      $("#toc").dataTable({
-	        'iDisplayLength': 195,
+	        'iDisplayLength': 300,
 	        language: {
 	          searchPlaceholder: searchText
 	         },
@@ -4743,7 +4670,6 @@ var app = {
 	  });
 	},
 	makeLanguageDropdown: function(){
-		//console.log(app.languages);
 		if(app.languages.length==1){
 			// only english
 			// hide dropdown
@@ -4753,11 +4679,15 @@ var app = {
 			$target.html("");
 			for(var i=0;i<app.languages.length; i++){
 				var thisLang = app.languages[i];
-				//console.log(app.languages[i]);
+
 				var $li = $(document.createElement("li"));
 				var $a = $(document.createElement("a"));
 				$a.attr("rel", thisLang);
-				$a.html(languageMap[thisLang]);
+				let languageDisplay = "Hymnal";
+				if(window['menu_'+ thisLang]){
+					languageDisplay = window['menu_'+ thisLang]["Language"]
+				} 
+				$a.html(languageDisplay);
 
 				$li.append($a);
 				$target.append($li);
