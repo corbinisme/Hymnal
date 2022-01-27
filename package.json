@@ -1,29 +1,27 @@
 {
-  "name": "gulp-test",
+  "name": "hymnal",
   "version": "1.0.0",
-  "description": "testing out the gulp sass workflow",
+  "description": "build tools for files",
   "main": "index.js",
   "scripts": {
-    "test": "run"
+    "sass-dev": "sass --watch --update --style=expanded src/sass:www/css",
+    "sass-prod": "sass --no-source-map --style=compressed src/sass:www/css",
+    "minifyJS": "uglifyjs-folder src/js -o www/js/scripts.min.js",
+    "minifylang": "uglifyjs-folder src/lang -o www/js/lang.min.js"
   },
-  "dependencies": {
-    "graceful-fs": {
-      "version": "4.2.2"
-    },
-    "gulp-uglifycss": "^1.1.0"
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/corbinisme/Hymnal.git"
   },
   "author": "Corbin Rose",
   "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/corbinisme/Hymnal/issues"
+  },
+  "homepage": "https://github.com/corbinisme/Hymnal#readme",
   "devDependencies": {
-    "gulp": "^4.0.2",
-    "gulp-clean-css": "^4.3.0",
-    "gulp-concat": "^2.6.1",
-    "gulp-livereload": "^4.0.0",
-    "gulp-minify": "^3.1.0",
-    "gulp-minify-css": "^1.2.4",
-    "gulp-rename": "^2.0.0",
-    "gulp-sass": "^4.0.2",
-    "gulp-uglify": "^3.0.2",
-    "tiny-lr": "^1.1.1"
+    "sass": "^1.49.0",
+    "uglify-js": "^3.15.0",
+    "uglifyjs-folder": "^3.0.0"
   }
 }
