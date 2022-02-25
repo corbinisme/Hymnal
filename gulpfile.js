@@ -3,8 +3,7 @@ var gulp = require('gulp');
 var concat = require('gulp-concat');
 var rename = require('gulp-rename');
 var uglify = require('gulp-uglify');
-var sass = require('gulp-sass');
-sass.compiler = require('node-sass');
+var sass = require('gulp-sass')(require('sass'));
 var uglifycss = require('gulp-uglifycss');
 
 
@@ -35,7 +34,7 @@ function javascript(cb) {
     // body omitted
     watch('src/lang/**/*.js', { ignoreInitial: false }, function(cb) {
         // body omitted
-        gulp.src('./src/widgets/*.js')
+        gulp.src('./src/lang/*.js')
         .pipe(concat('lang.js'))
           .pipe(uglify())
           .pipe(rename({suffix: '.min'}))
@@ -77,6 +76,15 @@ gulp.task('minify-scripts', function() {
         .pipe(rename('scripts.min.js'))
         .pipe(uglify())
         .pipe(gulp.dest("www/js"));
+});
+
+gulp.task('minify-lang', function() {
+  return gulp.src("src/lang/**/*.js")
+      .pipe(concat('lang.js'))
+      .pipe(gulp.dest("www/js"))
+      .pipe(rename('lang.min.js'))
+      .pipe(uglify())
+      .pipe(gulp.dest("www/js"));
 });
 
 

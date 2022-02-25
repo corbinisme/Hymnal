@@ -509,6 +509,9 @@ var app = {
 				$toc.append("<thead><tr><th>" + titleText + "</th><th>" + pageText + "</th></tr></thead>");
 				var $tbody = $(document.createElement("tbody"));
 				for(var i=0; i<title.length; i++){
+
+					// need to get actual number, not just index
+					
 					var num = i+1;
 					if(num<100){
 						num = "0"+num;

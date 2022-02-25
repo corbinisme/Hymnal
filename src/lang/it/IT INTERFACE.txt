@@ -1,0 +1,8 @@
+Italian;Italiano
+Hymnal;Innario
+Search By Number;Cerca Per Numero
+Search By Title;Cerca Per Titolo
+Search;Cerca
+Select Hymn;Seleziona Un Inno
+Title;Titolo
+Page;Pagina

@@ -20,7 +20,13 @@
   },
   "homepage": "https://github.com/corbinisme/Hymnal#readme",
   "devDependencies": {
-    "sass": "^1.49.0",
+    "gulp": "^4.0.2",
+    "gulp-concat": "^2.6.1",
+    "gulp-rename": "^2.0.0",
+    "gulp-sass": "^5.1.0",
+    "gulp-uglify": "^3.0.2",
+    "gulp-uglifycss": "^1.1.0",
+    "sass": "^1.49.9",
     "uglify-js": "^3.15.0",
     "uglifyjs-folder": "^3.0.0"
   }

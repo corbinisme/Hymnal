@@ -1,0 +1,8 @@
+Dutch;Nederlands
+Hymnal;Gezangboek
+Search By Number;Zoek Op Nummer
+Search By Title;Zoek Op Titel
+Search;Zoek
+Select Hymn;Selecteer Een Gezang
+Title;Titel
+Page;Bladzijde
