@@ -4012,22 +4012,22 @@ var app = {
 			currentTitle = window[langObj].Hymnal;
 		}
 		
-		$("#brand").html(currentTitle)
+		document.getElementById("brand").innerHTML = currentTitle;
 	},
 	getConfig: function(){
 		app.brand = config.brand;
-	  	$("#brand em").text(app.brand);
-	  	$("title").html(app.brand + " hymnal");
+	  	document.querySelector("#brand em").innerText = app.brand;
+	  	document.querySelector("head title").innerHTML = app.brand + " hymnal";
 
 	  	var langs = config.langs;
 	  	app.storage = window.localStorage;
 		var langKey = "lang";
-		var langValue = app.storage.getItem(langKey); // Pass a key name to get its value.
-		//var value =app.lang;
+		var langValue = app.storage.getItem(langKey); 
+		
 
 		var browserLang = navigator.language;
 		var langOverride = "";
-		console.log(config.langs);
+
 		let allLangs = config.langs.split(",");
 		allLangs.forEach(function(la){
 			if(browserLang.indexOf(la)>-1){
@@ -4052,7 +4052,7 @@ var app = {
 			app.storage.setItem(fontKey, fontSize)
 		}
 		app.size = fontSize;
-		$("#fontSlider").val(app.size)
+		document.getElementById("fontSlider").value = app.size;
 		$(".main.ui-content, #copyrightPage").css("font-size", app.size + "px");
 
 		var contrastKey = "contrast";
@@ -4088,7 +4088,7 @@ var app = {
 
 		$(document).on("click", ".tabs li a", function(){
 			var id = $(this).attr("id");
-			console.log("id?", typeof id)
+
 			if(typeof id=="undefined"){
 				id = $(this).attr("data-id");
 				$(".tabContents>div").removeClass("current");
@@ -4154,7 +4154,7 @@ var app = {
 	        $("#search .overlay").css("height", $(window).height());
 	      } else if($(this).attr("id")=="information") {
 	      	// show copyright
-	         //console.log("copyright");
+
 	         $("#copyrightPage").show().css("height", "100vh");
 	         $("#copyrightPage .wrapForm")
 	         .removeClass()
@@ -4205,6 +4205,7 @@ var app = {
 			        hymn = pathTemplate + "001" + ".mp3";
 			        //alert("no hymn selected");
 			    }
+				console.log("selecting hymn ", hymn)
 
 			     $('#jquery_jplayer_1').jPlayer('setMedia', {
 			        mp3: hymn
@@ -4484,6 +4485,13 @@ var app = {
 				$toc.append("<thead><tr><th>" + titleText + "</th><th>" + pageText + "</th></tr></thead>");
 				var $tbody = $(document.createElement("tbody"));
 				for(var i=0; i<title.length; i++){
+
+					// need to get actual number, not just index
+					
+					let titleSub = title[i];
+					titleSub = titleSub.substring(0, titleSub.indexOf(")"));
+					console.log(titleSub);
+
 					var num = i+1;
 					if(num<100){
 						num = "0"+num;
@@ -4492,7 +4500,7 @@ var app = {
 						num = "0"+num;
 					}
 					var $option = $(document.createElement("option"));
-					$option.attr("value", num);
+					$option.attr("value", parseInt(titleSub));
 					$option.html(title[i]); 
 					$("#hymnSelect").append($option);
 
@@ -4530,6 +4538,7 @@ var app = {
 	  }
 	},
 	startRandom: function(){
+		// get actual list of values for the current lang
 	  if(typeof start=="undefined"){
 		  var startVal;
 		  var random;
