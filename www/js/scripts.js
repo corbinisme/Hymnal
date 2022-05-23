@@ -4490,9 +4490,20 @@ var app = {
 					
 					let titleSub = title[i];
 					titleSub = titleSub.substring(0, titleSub.indexOf(")"));
-					console.log(titleSub);
+					//console.log(titleSub);
+					let titleInt = parseInt(titleSub);
+					titleSub = titleInt.toString();
+					if(titleInt<100){
+						titleSub = "0"+titleSub;
+					}
+					if(titleInt<10){
+						titleSub = "0"+titleSub;
+					}
+					
 
+					//console.log("titleSub", titleSub)
 					var num = i+1;
+
 					if(num<100){
 						num = "0"+num;
 					}
@@ -4500,7 +4511,7 @@ var app = {
 						num = "0"+num;
 					}
 					var $option = $(document.createElement("option"));
-					$option.attr("value", parseInt(titleSub));
+					$option.attr("value", titleSub);
 					$option.html(title[i]); 
 					$("#hymnSelect").append($option);
 
@@ -4539,14 +4550,23 @@ var app = {
 	},
 	startRandom: function(){
 		// get actual list of values for the current lang
+	let titles = window["title_" + app.lang];
+	console.log(titles);
 	  if(typeof start=="undefined"){
+		  
 		  var startVal;
 		  var random;
 		  var min=1;
-		  var max = 191;
+		  var max = titles.length;
 		  random = Math.floor(Math.random() * (max - min +1)) + min;
-		  startVal = random;
+
+		  let title = titles[random];
+		  title = parseInt(title.substring(0, title.indexOf(")")));
+
+		  startVal = title;
+		
 	  } else {
+		console.log("start is?", start)
 	  	var startVal = start;
 	  }
 
@@ -4560,9 +4580,10 @@ var app = {
 	  }
 	  startVal = pre + "" +startVal;
 
+
 	  //startVal=1;
 	  $("#hymnSelect").val(startVal).change();
-	  //console.log("start "+startVal);
+	  console.log("start ", startVal);
 	},
 	initJplayer: function(){
 		var player = $("#jquery_jplayer_1").jPlayer({
