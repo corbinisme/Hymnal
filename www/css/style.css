@@ -1,24 +1,93 @@
+:root {
+  --bg-footer-start: rgba(255,255,255,0.46);
+  --bg-footer-stop: rgba(255,255,255,0.91);
+  --bg-header: #0d6efd;
+  --bg-body: #fff;
+  --text-color: #222;
+}
+
+html.dim {
+  --bg-footer-start: rgba(000,000,000,0.46);
+  --bg-footer-stop: rgba(000,000,000,0.91);
+  --bg-header: #333;
+  --bg-body: #111;
+  --text-color: #eee;
+}
+
 body {
   display: inherit;
+  overflow: hidden;
+  background-color: var(--bg-body);
+  color: var(--text-color);
+}
+body .form-control {
+  background-color: var(--bg-body);
+  color: var(--text-color);
+}
+body .table {
+  color: var(--text-color);
+}
+body .main {
+  overflow: hidden;
+  height: 100vh;
+  width: 100vw;
 }
 body .mainContent {
   display: flex;
   flex-wrap: nowrap;
+  transform: translateX(0vw);
+  transition: all ease 0.3s;
 }
-body .mainContent .wrapper {
+body .mainContent[data-page-show=search] {
+  transform: translateX(-100vw);
+}
+body .mainContent .page {
   flex: 1 100%;
-  position: static !important;
-  width: 100vw !important;
-  min-width: 100vw;
+  position: relative;
   height: 100vh;
   overflow: auto;
+  min-width: 100vw;
 }
-body .mainContent .wrapper#numSearch {
-  padding-top: 3em;
-}
-body .mainContent .wrapper#search {
-  padding-top: 1em;
+body .mainContent .page.active {
   display: block;
 }
-
-/*# sourceMappingURL=style.css.map */
+body .mainContent .page header {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+}
+body .mainContent .page header .headerFormControl {
+  background-color: var(--bg-header);
+}
+body .mainContent .page header #navigationActions {
+  list-style: none;
+  display: flex;
+  flex-direction: row;
+}
+body .mainContent .page header #navigationActions li a {
+  display: block;
+  padding: 0 0.5em;
+}
+body .mainContent .page .contentInner {
+  margin-top: 110px;
+}
+body .mainContent .page footer {
+  overflow: hidden;
+}
+body .mainContent .page footer.hymnFooter {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  left: 0;
+  background: -moz-linear-gradient(top, var(--bg-footer-start) 0%, var(--bg-footer-stop) 60%, var(--bg-footer-stop) 97%);
+  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, var(--bg-footer-start)), color-stop(60%, var(--bg-footer-stop)), color-stop(97%, var(--bg-footer-stop)));
+  background: -webkit-linear-gradient(top, var(--bg-footer-start) 0%, var(--bg-footer-stop) 60%, var(--bg-footer-stop) 97%);
+  background: -o-linear-gradient(top, var(--bg-footer-start) 0%, var(--bg-footer-stop) 60%, var(--bg-footer-stop) 97%);
+  background: -ms-linear-gradient(top, var(--bg-footer-start) 0%, var(--bg-footer-stop) 60%, var(--bg-footer-stop) 97%);
+  background: linear-gradient(to bottom, var(--bg-footer-start) 0%, var(--bg-footer-stop) 60%, var(--bg-footer-stop) 97%);
+  color: var(--text-color);
+}
+body .mainContent .page footer.hymnFooter a {
+  color: var(--text-color);
+}

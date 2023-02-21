@@ -24,6 +24,7 @@ function redirectToSystemBrowser(url) {
           app.getConfig();
           app.eventBindings();
           app.makeHymnList();
+          app.makeSearchContent();
           //app.makeDropdown();
           /*
           
@@ -59,7 +60,7 @@ function redirectToSystemBrowser(url) {
         let file = "hymn" + app.currentHymn;
         if(window['lyrics_' + app.lang]){
             result = window['lyrics_' + app.lang][file];
-            console.log(app.currentHymn, result);
+
             target.innerHTML = result;
         }
       },
@@ -78,10 +79,10 @@ function redirectToSystemBrowser(url) {
          
 
           
-        console.log("app.brand", app.brand)
+  
         let current = document.querySelector("#brand").innerHTML;
             
-        console.log("current",current)
+     
         document.querySelector("head title").innerHTML = app.brand + " hymnal";
         
     
@@ -133,7 +134,7 @@ function redirectToSystemBrowser(url) {
         }
         app.contrast = contrastVal;
         if(app.contrast=="true"){
-            document.querySelector("body").classList.add("dim");
+            document.querySelector("html").classList.add("dim");
         }
 
         if(config.icon!=""){
@@ -167,7 +168,7 @@ function redirectToSystemBrowser(url) {
 
             item.addEventListener("click", function(e){
                 e.preventDefault();
-                console.log(e.target);
+               
                 let page ="";
                 if(e.target.getAttribute("data-page")){
                     page = e.target.getAttribute("data-page");
@@ -190,8 +191,11 @@ function redirectToSystemBrowser(url) {
 
         
 
-        //searchBar
-        //app.updateSearchFilter(this)
+        document.getElementById("filterSearch").addEventListener("keyup", function(e){
+            let val = e.target.value;
+            app.updateSearchFilter(e.target)
+        })
+     
 
         
 
@@ -464,58 +468,119 @@ function redirectToSystemBrowser(url) {
       currentSearchFilter: "",
       currentTitles: [],
       loadSearch: function(num){
-          console.log("load search", num)
-        $("#loader2 .shareClose").click();
-        $("#hymnSelect").val(num).change();
+
+        document.getElementById("hymnSelect").value = num;
+        app.currentHymn = num;
+        app.getHymnText();
+        app.changePage("hymns");
       },
       updateSearchFilter: function(node){
           let value = node.value;
           app.currentSearchFilter = value;
-          console.log("filter", value)
-          //app.makeSearchContent();
+          app.makeSearchContent();
       },
-      makeSearchContent: function(title, filter){
+      makeSearchContent: function(){
+
+        if(window['title_'+app.lang]){
+            title = window['title_'+app.lang];
+        
           let content = '';
+          console.log("test filter: ", app.currentSearchFilter)
           for(var i=0; i<title.length; i++){
   
   
-              let titleSub = title[i];
-              titleSub = titleSub.substring(0, titleSub.indexOf(")"));
-              //console.log(titleSub);
-              let titleInt = parseInt(titleSub);
-              titleSub = titleInt.toString();
-              if(titleInt<100){
-                  titleSub = "0"+titleSub;
-              }
-              if(titleInt<10){
-                  titleSub = "0"+titleSub;
-              }
-              
-              var num = i+1;
+            let addThis = false;
+            
+            let titleSub = title[i];
+            titleSub = titleSub.substring(0, titleSub.indexOf(")"));
+            //console.log(titleSub);
+            let titleInt = parseInt(titleSub);
+            titleSub = titleInt.toString();
+            let origTitle = titleSub;
+            if(titleInt<100){
+                titleSub = "0"+titleSub;
+            }
+            if(titleInt<10){
+                titleSub = "0"+titleSub;
+            }
+            
+            var num = i+1;
+
+            if(num<100){
+                num = "0"+num;
+            }
+            if(num<10){
+                num = "0"+num;
+            }
   
-              if(num<100){
-                  num = "0"+num;
-              }
-              if(num<10){
-                  num = "0"+num;
-              }
-  
-              var name = title[i];
-              name = name.substring(name.indexOf(")")+2,name.length);
-              content += `
+            var name = title[i];
+            name = name.substring(name.indexOf(")")+2,name.length);
+
+            let lowerFilter = app.currentSearchFilter.toLowerCase();
+            let theseLyrics = window['lyrics_' + app.lang]["hymn" + num];
+
+            theseLyrics = theseLyrics.substring(theseLyrics.indexOf("</h1>")+5);
+            var dom = new DOMParser().parseFromString(theseLyrics, 'text/html');
+            let theseSearchLyrics = dom.body.textContent;
+            let showLyrics = false;
+            let highlightedSearchLyrics = null;
+
+            if(lowerFilter==""){
+                addThis = true;
+            } else {
+                // lots of search logic
+                if(name.toLowerCase().indexOf(lowerFilter)>-1){
+                    addThis = true;
+                    //name = name.replaceAll(filterText, "<mark>" + filterText + "</mark>");
+                    name = name.toLowerCase().replaceAll(lowerFilter, "<mark>" + lowerFilter + "</mark>");
+                    name = name.toUpperCase();
+                    
+                }
+                if(origTitle == lowerFilter){
+                    addThis = true;
+                }
+                if(theseSearchLyrics.indexOf(lowerFilter) >-1){
+                    addThis = true;
+                    showLyrics = true;
+
+                    
+                    highlightedSearchLyrics = theseSearchLyrics;
+                    let searchSplits = lowerFilter.split(" ");
+                    let filterText = app.currentSearchFilter;
+                    highlightedSearchLyrics = highlightedSearchLyrics.replaceAll(";", " ");
+                    highlightedSearchLyrics = highlightedSearchLyrics.replaceAll(".", " ");
+                    highlightedSearchLyrics = highlightedSearchLyrics.replaceAll(",", " ");
+                    highlightedSearchLyrics = highlightedSearchLyrics.replaceAll(":", " ");
+                    highlightedSearchLyrics = highlightedSearchLyrics.replaceAll("Chorus", " ");
+                   
+
+                    if(theseSearchLyrics.toLowerCase().indexOf(filterText)>-1){
+                        highlightedSearchLyrics = highlightedSearchLyrics.replaceAll(filterText, "<mark>" + filterText + "</mark>");
+
+                    }
+                }
+            }
+            
+
+            if(addThis==true){
+                content += `
               
-              <tr>
-                  <td>${num}</td>
-                  <td>
-                      <a href="javascript:app.loadSearch('${num}');" class="searchLink">
-                          <span class="badge bg-info">${name}</span>
-                      </a>
-                  </td>
-              </tr>
-              `
+                <tr>
+                    <td>${origTitle}</td>
+                    <td>
+                        <a href="javascript:app.loadSearch('${num}');" class="searchLink">
+                            <span class="badge bg-info">${name}</span>
+                            
+                        </a>
+                        ${(showLyrics? "<br />" + highlightedSearchLyrics: "")}
+                    </td>
+                </tr>
+                 `
+            }
   
           }
-          $("#tocBody").html(content)
+          document.getElementById("tocBody").innerHTML=content;
+        }
       },
       makeHymnList: function(){
         let lang = app.lang;
