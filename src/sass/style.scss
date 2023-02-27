@@ -4,22 +4,30 @@
     --bg-header: #0d6efd;
     --bg-body: #fff;
     --text-color: #222;
+    --fontSize: 14px;
 }
 
 
 
-html.dim {
+html{
+
+    &[lang="en"]{
+
+    }
+    &.dim {
     --bg-footer-start: rgba(000,000,000,0.46);
     --bg-footer-stop: rgba(000,000,000,0.91);
     --bg-header: #333;
     --bg-body: #111;
     --text-color: #eee;
 }
+}
 body {
     display: inherit;
     overflow: hidden;
     background-color: var(--bg-body);
     color: var(--text-color);
+
 
     .form-control {
         background-color: var(--bg-body);
@@ -44,16 +52,89 @@ body {
         &[data-page-show="search"]{
             transform: translateX(-100vw);
         }
+        &[data-page-show="number"]{
+            transform: translateX(-200vw);
+        }
         
+        .contentMain {
+            line-height: 1.3em;
+            font-size: var(--fontSize);
+
+            ol {
+                margin-left: 1em;
+                margin-top: 1em;
+                li {
+                    margin-bottom: 1em;
+                }
+            }
+        }
         .page {
             flex: 1 100%;
             position: relative;
             height: 100vh;
-            overflow: auto;
+            overflow: hidden;
             min-width: 100vw;
 
-           
+           &#copyright {
+                .contentMain {
+                    height: calc(100vh - 57px);
+                    overflow: auto;
+                    margin-top: 57px;
+                    
+                }
 
+                .tabs {
+                    display: flex;
+                    list-style: none;
+                    margin: 0;
+                    li {
+                        flex: 1 auto;
+                    }
+                }
+            }
+
+            &#hymns {
+                >header {
+                    position: static;
+
+                }
+                .contentMain {
+                    height: calc(100vh - 115px);
+                    overflow: auto;
+
+                    .contentInner {
+                        margin-top: 0;
+                    }
+                }
+                .hymnFooter {
+                    width: calc(100vw - 17px);
+                }
+                #fontSizer {
+                    position: absolute;
+                    bottom:0;
+                    width: 90%;
+                    left: 5%;
+                    transform: translateY(120vh);
+                    transition: all ease 0.3s;
+                    z-index: 7;
+                }
+                &.showFontSizer {
+                    #fontSizer {
+                        transform: translateY(0);
+                    }
+                }
+            }
+            &#copyright {
+                position: absolute;
+                left: 0;
+                transform: translateX(-100vw);
+                transition: all ease .3s;
+                z-index: 9;
+                background-color:var(--bg-body);
+                &.active {
+                    transform: translateX(0);
+                }
+            }
             &.active {
                 display: block;
             }

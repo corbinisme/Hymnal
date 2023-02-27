@@ -1,0 +1,23 @@
+body {
+    display: inherit;
+  }
+  body .mainContent {
+    display: flex;
+    flex-wrap: nowrap;
+  }
+  body .mainContent .wrapper {
+    flex: 1 100%;
+    position: static !important;
+    width: 100vw !important;
+    min-width: 100vw;
+    height: 100vh;
+    overflow: auto;
+  }
+  body .mainContent .wrapper#numSearch {
+    padding-top: 3em;
+  }
+  body .mainContent .wrapper#search {
+    padding-top: 1em;
+    display: block;
+  }
+  

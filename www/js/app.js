@@ -16,6 +16,7 @@ function redirectToSystemBrowser(url) {
       size: 16,
       contrast: "false",
       currentHymn: 1,
+      fontKey: "size",
       languages: null,
       hymn: 1,
       novocal: [100,115,121,124,127,129,133,136,147,171,183,186],
@@ -74,29 +75,27 @@ function redirectToSystemBrowser(url) {
         }
 
       },
+      setFontSize: function(size){
+        app.size = size;
+        app.storage.setItem(app.fontKey, size);
+        document.documentElement.style.setProperty('--fontSize', size + "px");
+        document.querySelector("body").setAttribute("data-font-size", size);
+        document.getElementById("fontSlider").value=size;
+        //set font slider
+      },
       getConfig: function(){
         app.brand = config.brand;
-         
-
-          
-  
         let current = document.querySelector("#brand").innerHTML;
-            
-     
         document.querySelector("head title").innerHTML = app.brand + " hymnal";
         
-    
         let langs = config.langs;
         app.storage = window.localStorage;
         let langKey = "lang";
         let langValue = app.storage.getItem(langKey); 
         
-
         let browserLang = navigator.language;
         let langOverride = "";
 
-        
-  
         let allLangs = config.langs.split(",");
         allLangs.forEach(function(la){
             if(browserLang.indexOf(la)>-1){
@@ -114,18 +113,14 @@ function redirectToSystemBrowser(url) {
         }
         app.lang = langValue;
          
-
         app.getTitle();
         var fontKey = "size";
         var fontSize = app.storage.getItem(fontKey);
         if(fontSize==null){
             fontSize = "24";
-            app.storage.setItem(fontKey, fontSize)
         }
-        app.size = fontSize;
-        //document.getElementById("fontSlider").value = app.size;
-        //$(".main.ui-content, #copyrightPage").css("font-size", app.size + "px");
-
+        app.setFontSize(fontSize);
+       
         var contrastKey = "contrast";
         var contrastVal = app.storage.getItem(contrastKey);
         if(contrastVal==null){
@@ -150,19 +145,47 @@ function redirectToSystemBrowser(url) {
         app.makeLanguageDropdown();
         //$("#footerBot").addClass(app.lang)
       },
+      toggleHamburger: function(){
+        let button = document.querySelector(".navbar-toggler")
+        let menu = document.getElementById("navbarSupportedContent");
+        if(button.classList.contains("collapsed")){
+            button.classList.remove("collapsed");
+            menu.classList.remove("show")
+        } else {
+            button.classList.add("collapsed")
+            menu.classList.add("show")
+        }
+      },
+      makeCopyrightTabs: function(){
+        document.querySelectorAll("#copyright .tabs li a").addEventListener("click", function(e){
+            console.log("show tab", e.target)
+        });
+      },
       eventBindings: function(){
         
         document.querySelector(".navbar-toggler").addEventListener("click", function(e){
             let button = e.target;
-            let menu = document.getElementById("navbarSupportedContent");
-            if(button.classList.contains("collapsed")){
-                button.classList.remove("collapsed");
-                menu.classList.remove("show")
-            } else {
-                button.classList.add("collapsed")
-                menu.classList.add("show")
+            app.toggleHamburger();
+        })
+
+        document.querySelector("#copyrightBtn").addEventListener("click", function(e){
+            e.preventDefault();
+            app.toggleHamburger();
+            app.changePage("copyright");
+            if(!document.getElementById("copyright").classList.contains("loaded")){
+                //load it in!
+                fetch("about.html")
+                .then(resp=>resp.text())
+                .then(data=>{
+                    console.log("about data", data);
+                    document.getElementById("loadCopyright").innerHTML = data;
+                    app.makeCopyrightTabs();
+                    document.getElementById("copyright").classList.add("laoded")
+
+                })
             }
         })
+        
 
         document.querySelectorAll(".changePageButton").forEach(function(item){
 
@@ -189,280 +212,35 @@ function redirectToSystemBrowser(url) {
             
         })
 
+        document.getElementById("searchByNumberBtn").addEventListener("click", function(e){
+            e.preventDefault();
+            app.currentHymn = document.getElementById("searchByNumber").value;
+            app.changePage("hymns");
+            app.getHymnText();
+            
+        })
+
+
+        document.querySelector(".fontSizer").addEventListener("click", function(e){
+            let tar = document.querySelector("#hymns");
+            if(tar.classList.contains("showFontSizer")){
+                tar.classList.remove("showFontSizer")
+            } else {
+                tar.classList.add("showFontSizer")
+            }
+        })
+        
+        
+        document.querySelector("#fontSlider").addEventListener("change", function(e){
+            app.setFontSize(e.target.value)
+        });
         
 
         document.getElementById("filterSearch").addEventListener("keyup", function(e){
             let val = e.target.value;
             app.updateSearchFilter(e.target)
         })
-     
-
-        
-
-
-        return;
-
-          // contrast icon
-          $(".contrastIcon").on("click", function(){
-            $("body").toggleClass("dim");
-            contrastValue = false;
-            if($("body").hasClass("dim")){
-                contrastValue = true;
-            }
-            app.storage.setItem("contrast", contrastValue);
-          });
-  
-
-  
-          $("#music").on("click", function(){
-              $("#musicPlayer").toggleClass("active");
-              $("#musicVocal").removeClass("active");
-              $(this).toggleClass("active");
-              if(!$(this).hasClass("active")) {
-  
-                      $("#musicPlayer").hide();
-                      $('#jquery_jplayer_1').jPlayer("stop")
-  
-                } else {
-                    $('#jquery_jplayer_1').jPlayer("stop")
-                  $("#musicPlayer").show();
-  
-                  var hymnNum = $("#hymnSelect").val();
-                  var title = $("#hymnSelect option[value="+hymnNum+"]").html();
-                  title = title.substring(title.indexOf(")")+1, title.length);
-                  var songname = hymnNum;
-                  
-                  // get new source files for cogwa!
-                  pathTemplate = path;
-                  if(hymnNum){
-                      hymn = pathTemplate + hymnNum + ".mp3";
-                  } else {
-                      hymn = pathTemplate + "001" + ".mp3";
-                      //alert("no hymn selected");
-                  }
-                  console.log("selecting hymn ", hymn)
-  
-                   $('#jquery_jplayer_1').jPlayer('setMedia', {
-                      mp3: hymn
-                   }).jPlayer("play");
-  
-              }
-          });
-  
-          $("#musicVocal").on("click", function(){
-              $("#musicPlayer").toggleClass("active");
-              $("#music").removeClass("active");
-              $(this).toggleClass("active");
-  
-              var hymnNum = $("#hymnSelect").val();
-              var isValid = true;
-              for(var j=0; j<app.novocal.length; j++){
-                  
-                  if(app.novocal[j].toString() == hymnNum){
-                      isValid=false;
-                  }
-              }
-                  if(!$(this).hasClass("active")) {
-  
-                      $("#musicPlayer").hide();
-                      $('#jquery_jplayer_1').jPlayer("stop")
-  
-                  } else {
-                      
-                      if(isValid){
-                          $('#jquery_jplayer_1').jPlayer("stop")
-                          $("#musicPlayer").show();
-  
-                          var title = $("#hymnSelect option[value="+hymnNum+"]").html();
-                          title = title.substring(title.indexOf(")")+1, title.length);
-                          var songname = hymnNum;
-                          
-                          // get new source files for cogwa!
-                          pathTemplate = vocal_path;
-                          if(hymnNum){
-                              hymn = pathTemplate + hymnNum + ".mp3";
-                          } else {
-                              hymn = pathTemplate + "001" + ".mp3";
-                              //alert("no hymn selected");
-                          }
-  
-                              $('#jquery_jplayer_1').jPlayer('setMedia', {
-                              mp3: hymn
-                              }).jPlayer("play");
-                          } else {
-                          alert("Vocal version of this song not included due to copyright");
-                          $(this).removeClass("active");
-                          }
-  
-                  }
-          });
-  
-          // dropdown hymn selector
-          $(".mainPage #hymnSelect").change(function(){
-              var id = $(this).val();
-              var file = "hymn"+id;
-              $("#copyrightPage").hide();
-              $("#sharePage").hide();
-              $(".musicIcon").removeClass("active");
-              $('#jquery_jplayer_1').jPlayer("stop")
-              // get language support
-              var result = null;
-  
-              if(window['lyrics_' + app.lang]){
-                  result = window['lyrics_' + app.lang][file];
-                  $(".mainPage #loader").html(result);
-              } else {
-                  $(".mainPage #loader").html("Select a Hymn!");
-              }
-  
-              $("#home").show();
-              $("#musicPlayer").hide();
-  
-              var share = '<div class="actions"><a href="javascript:;"><i class="fa fa-share-square-o"></i>Share</a><a href="javascript:;"><i class="fa fa-music"></i>Music</a></div>';
-          });
-
-          $(".tabs li a").on("click", function(){
-              $par = $(this).parent();
-              $(".tabs li").removeClass("current");
-              $par.addClass("current");
-              var which = $(this).attr("id");
-              which= which.substring(0, which.length-3);
-              $(".tabContent").removeClass("active");
-              $("#"+which).addClass("active");
-              if(which == "copyright") {
-                  $("#copyright").load("copyright.html");
-              } else {
-                  $("#aboutText").load("about.html");
-              }
-  
-          });
-  
-  
-          $('#formByNum').on("submit", function (evt) {
-  
-          evt.preventDefault();
-          var variable = $("#nums").val();
-          $("#musicPlayer").hide();
-          //alert(variable);
-          variable = parseInt(variable,10);
-          var prepend="";
-          let maxHymn = 192;
-          if(window["title_" + app.lang]){
-              maxHymn = window["title_" + app.lang].length+1;
-          }
-          if(variable<maxHymn&&variable>0) {
-              if(variable<100) {
-                  prepend="0";
-              }
-              if(variable<10) {
-                  prepend="00";
-              }
-              variable = prepend + variable;
-              $("#hymnSelect").val(variable).change();
-              $("#numSearch").hide();
-              $(".custom-btns a").removeClass("current");
-              $("#nums").blur();
-              $("#home").show();
-              $(".hymnalSelection").show();
-          } else {
-              //alert("try again");
-              $("#nums").val("").focus();
-          }
-          return false;
-      });
-    
-   
-      $(".hamburger").on("click", function(){
-          $(this).toggleClass("highlight");
-          $(".dropdown").toggle();
-  
-          $("#byNumber, #searcher").removeClass("current");
-              $("#numSearch").hide();
-              $("#search").hide();
-              $(".hymnalSelection").show();
-  
-      });
-  
-      $(".dropdown li a").on("click", function(){
-  
-          $(".dropdown").removeClass("open").hide();
-  
-          $(".dropdown li a").removeClass("active");
-          $(this).addClass("active");
-          $("#musicPlayer").hide();
-          
-          app.lang = $(this).attr("rel");
-          app.storage.setItem("lang", app.lang);
-          $("#footerBot").removeClass().addClass(app.lang)
-          $("html").attr("lang", app.lang);
-          app.getTitle();
-          var returnHymn = $("#hymnSelect").val();
-          $("#copyrightPage").hide();
-          app.makeDropdown(app.lang, returnHymn);
-  
-          $("#hymnSelect").val(returnHymn).change();
-  
-      });
       
-  
-    
-  
-      $("footer a.textSize").on("click", function(){
-          var $context = $(".ui-content");
-          var size = $context.css("font-size");
-          if(typeof size=="string"){
-              size = size.substring(0, size.length-2);
-              size = parseInt(size,10);
-          } else {
-              size = app.size;
-          }
-          
-          if($(this).hasClass("smallerText"))  {
-              size -=1;
-          } else if($(this).hasClass("biggerText")) {
-              size+=1;
-          } else {
-              size = 16;
-          }
-  
-          if(size<8){
-              size = 8;
-          }
-          if(size>70){
-              size = 70;
-          }
-          app.size = size;
-          app.storage.setItem("size", app.size);
-          $context.css("fontSize", size+"px");
-      });
-  
-     $( "#searchField" ).autocomplete({
-        source: searchArray,
-        select: function(event, ui){
-          var match = ui.item.value;
-          var value=0;
-          var numVal = match.substring(match.indexOf("(")+1, match.length-1);
-          var variable = parseInt(numVal, 10);
-        
-  
-          var prepend="";
-          if(variable<100) {
-            prepend="0";
-          }
-          if(variable<10) {
-            prepend="00";
-          }
-          variable = prepend + variable;
-  
-          $("#hymnSelect").val(variable).change();
-          $("#searchField").blur();
-          $("#home").show();
-          $("#search").hide();
-          $(".custom-btns a").removeClass("current");
-          $( "body, html" ).scrollTop( 0 );
-        }
-      });
-  
   
       },
       currentSearchFilter: "",
@@ -620,7 +398,7 @@ function redirectToSystemBrowser(url) {
             }
 
             app.startRandom();
-            app.getHymnText();
+            
         }
 
       },
@@ -650,10 +428,9 @@ function redirectToSystemBrowser(url) {
                   for(var i=0; i<title.length; i++){
   
                       // need to get actual number, not just index
-                      
                       let titleSub = title[i];
                       titleSub = titleSub.substring(0, titleSub.indexOf(")"));
-                      //console.log(titleSub);
+
                       let titleInt = parseInt(titleSub);
                       titleSub = titleInt.toString();
                       if(titleInt<100){
@@ -663,8 +440,6 @@ function redirectToSystemBrowser(url) {
                           titleSub = "0"+titleSub;
                       }
                       
-  
-                      //console.log("titleSub", titleSub)
                       var num = i+1;
   
                       if(num<100){
@@ -684,17 +459,7 @@ function redirectToSystemBrowser(url) {
   
               $("#tocWrap").append($toc);
               app.makeSearchContent(title);
-              /*
-              $('#toc').dataTable().fnDestroy();
-              $("#toc").dataTable({
-                  'iDisplayLength': 300,
-                  language: {
-                  searchPlaceholder: searchText
-                  },
-                  "dom": '<"filter"f>t<"clear">'
-              });
-              */
-  
+              
               if(hymn==0) {
                   app.startRandom();
               } else {
@@ -702,13 +467,31 @@ function redirectToSystemBrowser(url) {
               }
         }
       },
-      startRandom: function(){
-          // get actual list of values for the current lang
-        let titles = window["title_" + app.lang];
+      setHymn: function(number){
+        
+        let startVal = number;
+        let pre = "";
+        if(startVal<100) {
+            pre="0";
+        }
+        if(startVal<10){
+            pre="00";
+        }
+        startVal = pre + "" +startVal;
 
+        app.currentHymn = startVal;
+        let hymnSelector = document.getElementById("hymnSelect");
+            hymnSelector.value = startVal;
+        app.getHymnText();
+      }, 
+      startRandom: function(){
+        // get actual list of values for the current lang
+        let titles = window["title_" + app.lang];
+        let startVal = "";
+
+         // start is a variable set from the url
             if(typeof start=="undefined"){
-                
-                var startVal;
+               
                 var random;
                 var min=1;
                 var max = titles.length;
@@ -720,27 +503,14 @@ function redirectToSystemBrowser(url) {
                 startVal = title;
             
             } else {
-            console.log("start is?", start)
-                var startVal = start;
+                 // if we hardcode the hymn in the url, load it
+                startVal = start;
             }
     
     
-            var pre = "";
-            if(startVal<100) {
-            pre="0";
-            }
-            if(startVal<10){
-            pre="00";
-            }
-            startVal = pre + "" +startVal;
+            
     
-    
-            //startVal=1;
-            let hymnSelector = document.getElementById("hymnSelect");
-            hymnSelector.value = startVal;
-            //hymnSelector.change();
-            app.currentHymn = startVal;
-            console.log("start ", startVal);
+            app.setHymn(startVal)
       },
       initJplayer: function(){
           var player = $("#jquery_jplayer_1").jPlayer({
@@ -795,7 +565,7 @@ function redirectToSystemBrowser(url) {
               
               let infoLi = document.createElement("li");
               infoLi.classList.add("nav-item");
-              infoLi.innerHTML = `<a href="#" class="nav-link"><i class="fa fa-info-circle"></i> Copyright Information</a>`
+              infoLi.innerHTML = `<a href="#" id='copyrightBtn' class="nav-link"><i class="fa fa-info-circle"></i> Copyright Information</a>`
               target.appendChild(infoLi)
           }
       },
