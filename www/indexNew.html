@@ -156,7 +156,7 @@
           <input type="text" class="searchBar form-control" id="filterSearch" placeholder="Search by title or text" />
         </div>
       </header>
-      <div class="contentMain">
+      <div class="contentMain searchPage">
         <div class="contentInner">
           <table class="table table-border">
             <thead>
@@ -195,16 +195,13 @@
 
       <div class="contentMain">
         <div class="contentInner p-3">
-            <div class="row">
-              <div class="col">
-                <input class="form-control searchByNumber" id="searchByNumber" type="number" />
-              </div>
-              <div class="col">
-                <a class="btn btn-outline-secondary" href="#" id="searchByNumberBtn">Go</a>
-              </div>
-              
-              
-            </div>
+
+          <form id="formByNum" name="formByNum" id="formByNum" action="">
+            <input class="form-control searchByNumber" id="searchByNumber" type="number" />
+            <input type="submit" class="btn btn-outline-secondary" value="Go" id="searchByNumberBtn" />
+          </form>
+           
+          
         </div>
       </div>
 
