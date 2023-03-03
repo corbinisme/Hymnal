@@ -248,6 +248,17 @@ body {
                     a {
                         color: var(--text-color);
                     }
+
+                    .musicPlayer {
+                        position: fixed;
+                        z-index: 9;
+                        .vjs-text-track-display {
+                            display: block;
+                        }
+                        .video-js {
+                            background-color: transparent;
+                        }
+                    }
                 }
             }
 

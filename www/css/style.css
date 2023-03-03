@@ -4,6 +4,7 @@
   --bg-header: #0d6efd;
   --bg-body: #fff;
   --text-color: #222;
+  --fontSize: 14px;
 }
 
 html.dim {
@@ -41,12 +42,75 @@ body .mainContent {
 body .mainContent[data-page-show=search] {
   transform: translateX(-100vw);
 }
+body .mainContent[data-page-show=number] {
+  transform: translateX(-200vw);
+}
+body .mainContent .contentMain {
+  line-height: 1.3em;
+  font-size: var(--fontSize);
+}
+body .mainContent .contentMain ol {
+  margin-left: 1em;
+  margin-top: 1em;
+}
+body .mainContent .contentMain ol li {
+  margin-bottom: 1em;
+}
 body .mainContent .page {
   flex: 1 100%;
   position: relative;
   height: 100vh;
-  overflow: auto;
+  overflow: hidden;
   min-width: 100vw;
+}
+body .mainContent .page#copyright .contentMain {
+  height: calc(100vh - 57px);
+  overflow: auto;
+  margin-top: 57px;
+}
+body .mainContent .page#copyright .tabs {
+  display: flex;
+  list-style: none;
+  margin: 0;
+}
+body .mainContent .page#copyright .tabs li {
+  flex: 1 auto;
+}
+body .mainContent .page#hymns > header {
+  position: static;
+}
+body .mainContent .page#hymns .contentMain {
+  height: calc(100vh - 115px);
+  overflow: auto;
+}
+body .mainContent .page#hymns .contentMain .contentInner {
+  margin-top: 0;
+}
+body .mainContent .page#hymns .hymnFooter {
+  width: calc(100vw - 17px);
+}
+body .mainContent .page#hymns #fontSizer {
+  position: absolute;
+  bottom: 0;
+  width: 90%;
+  left: 5%;
+  transform: translateY(120vh);
+  transition: all ease 0.3s;
+  z-index: 7;
+}
+body .mainContent .page#hymns.showFontSizer #fontSizer {
+  transform: translateY(0);
+}
+body .mainContent .page#copyright {
+  position: absolute;
+  left: 0;
+  transform: translateX(-100vw);
+  transition: all ease 0.3s;
+  z-index: 9;
+  background-color: var(--bg-body);
+}
+body .mainContent .page#copyright.active {
+  transform: translateX(0);
 }
 body .mainContent .page.active {
   display: block;
@@ -90,4 +154,14 @@ body .mainContent .page footer.hymnFooter {
 }
 body .mainContent .page footer.hymnFooter a {
   color: var(--text-color);
+}
+body .mainContent .page footer.hymnFooter .musicPlayer {
+  position: fixed;
+  z-index: 9;
+}
+body .mainContent .page footer.hymnFooter .musicPlayer .vjs-text-track-display {
+  display: block;
+}
+body .mainContent .page footer.hymnFooter .musicPlayer .video-js {
+  background-color: transparent;
 }
