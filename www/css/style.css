@@ -122,9 +122,6 @@ body .mainContent .page#hymns .contentMain {
 body .mainContent .page#hymns .contentMain .contentInner {
   margin-top: 0;
 }
-body .mainContent .page#hymns .hymnFooter {
-  width: calc(100vw - 17px);
-}
 body .mainContent .page#hymns a.fontSizer .smallerA {
   font-size: 13px;
 }
@@ -179,10 +176,12 @@ body .mainContent .page footer {
   overflow: hidden;
 }
 body .mainContent .page footer.hymnFooter {
-  position: absolute;
-  bottom: 0;
+  position: fixed;
+  bottom: 35px;
   width: 100%;
   left: 0;
+  width: calc(100% - 17px);
+  z-index: 78;
   background: -moz-linear-gradient(top, var(--bg-footer-start) 0%, var(--bg-footer-stop) 60%, var(--bg-footer-stop) 97%);
   background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, var(--bg-footer-start)), color-stop(60%, var(--bg-footer-stop)), color-stop(97%, var(--bg-footer-stop)));
   background: -webkit-linear-gradient(top, var(--bg-footer-start) 0%, var(--bg-footer-stop) 60%, var(--bg-footer-stop) 97%);
@@ -191,21 +190,36 @@ body .mainContent .page footer.hymnFooter {
   background: linear-gradient(to bottom, var(--bg-footer-start) 0%, var(--bg-footer-stop) 60%, var(--bg-footer-stop) 97%);
   color: var(--text-color);
 }
+body .mainContent .page footer.hymnFooter .row {
+  flex-wrap: nowrap;
+}
+body .mainContent .page footer.hymnFooter .row .col {
+  white-space: nowrap;
+}
 body .mainContent .page footer.hymnFooter a {
   color: var(--text-color);
 }
+body .mainContent .page footer.hymnFooter .col.actions {
+  flex: 1 99%;
+}
 body .mainContent .page footer.hymnFooter .musicPlayer {
-  position: fixed;
+  position: relative;
+  width: 100%;
   z-index: 9;
+}
+body .mainContent .page footer.hymnFooter .musicPlayer audio#audio_player {
+  position: absolute;
+  top: 999em;
 }
 body .mainContent .page footer.hymnFooter .musicPlayer .video-js {
   background-color: transparent;
+  width: 100%;
 }
 body .mainContent .page footer.hymnFooter .musicPlayer .video-js .vjs-volume-panel {
   display: none;
 }
 body .mainContent .page footer.hymnFooter .musicPlayer .video-js .vjs-text-track-display {
-  display: block;
+  display: none;
 }
 body .mainContent .page footer.hymnFooter .musicPlayer .video-js .vjs-menu-button-popup .vjs-menu .vjs-menu-content {
   max-height: 30em;

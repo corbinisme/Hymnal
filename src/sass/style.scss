@@ -162,9 +162,7 @@ body {
                         margin-top: 0;
                     }
                 }
-                .hymnFooter {
-                    width: calc(100vw - 17px);
-                }
+            
 
                 a.fontSizer {
                     .smallerA {
@@ -232,10 +230,12 @@ body {
             footer {
                 overflow: hidden;
                 &.hymnFooter {
-                    position: absolute;
-                    bottom: 0;
+                    position: fixed;
+                    bottom: 35px;
                     width: 100%;
                     left: 0;
+                    width: calc(100% - 17px);
+                    z-index: 78;
 
                     background: -moz-linear-gradient(top, var(--bg-footer-start) 0%, var(--bg-footer-stop) 60%, var(--bg-footer-stop) 97%);
                     background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,var(--bg-footer-start)), color-stop(60%,var(--bg-footer-stop)), color-stop(97%,var(--bg-footer-stop)));
@@ -245,22 +245,40 @@ body {
                     background: linear-gradient(to bottom, var(--bg-footer-start) 0%,var(--bg-footer-stop) 60%,var(--bg-footer-stop) 97%);
                     color: var(--text-color);
 
+                    .row {
+                        flex-wrap: nowrap;
+
+                        .col {
+                            white-space: nowrap;
+                        }
+                    }
                     a {
                         color: var(--text-color);
                     }
 
+                    .col.actions {
+                        flex: 1 99%;
+                    }
+
                     .musicPlayer {
-                        position: fixed;
+                        position: relative;
+                        width: 100%;
                         z-index: 9;
+
+                        audio#audio_player {
+                            position: absolute;
+                            top: 999em;
+                        }
                         
                         .video-js {
                             background-color: transparent;
+                            width: 100%;
 
                             .vjs-volume-panel {
                                 display: none;
                             }
                             .vjs-text-track-display {
-                                display: block;
+                                display: none;
                             }
 
                             .vjs-menu-button-popup .vjs-menu .vjs-menu-content {
