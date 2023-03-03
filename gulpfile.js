@@ -1,5 +1,6 @@
 const { series, parallel, watch } = require('gulp');
 var gulp = require('gulp');
+const babel = require('gulp-babel');
 var concat = require('gulp-concat');
 var rename = require('gulp-rename');
 var uglify = require('gulp-uglify');

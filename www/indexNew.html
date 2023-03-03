@@ -125,22 +125,27 @@
       <footer class="hymnFooter">
         <div class="row">
           <div class="col">
-            <a href="#" class="shareIcon contrastIcon btn btn-outline-secondary" id="contrast">
-              <span class="fa fa-lightbulb-o"></span>
+           
+            <a href="#" class="btn btn-outline-secondary" id="vocalIcon">
+              <span class="fa fa-users"></span>
             </a>
+            <a href="#" class="btn btn-outline-secondary" id="pianoIcon">
+              <span class="fa fa-music"></span>
+            </a>
+            
           </div>
 
           <div class="col actions">
             <div class="musicPlayer">
 
               <audio
-                id="audio_example"
+                id="audio_player"
                 class="video-js vjs-default-skin"
                 controls
                 preload="auto"
                 width="600"
                 height="44"
-                data-setup='{"playbackRates": [0.5, 1, 1.5, 2]}'
+                
               >
               <source src="https://ucgweb.s3.amazonaws.com/files/ucg-hymnal-app-v2/mp3/001.mp3" type="audio/mp3" />
             </audio>
@@ -148,6 +153,9 @@
           </div>
           
           <div class="col text-end">
+            <a href="#" class="shareIcon contrastIcon btn btn-outline-secondary" id="contrast">
+              <span class="fa fa-lightbulb-o"></span>
+            </a>
             <a href="#" class="fontSizer btn btn-outline-secondary">
               <span class="smallerA">A</span>
               <span class="biggerA">A</span>

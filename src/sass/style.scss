@@ -252,12 +252,27 @@ body {
                     .musicPlayer {
                         position: fixed;
                         z-index: 9;
-                        .vjs-text-track-display {
-                            display: block;
-                        }
+                        
                         .video-js {
                             background-color: transparent;
+
+                            .vjs-volume-panel {
+                                display: none;
+                            }
+                            .vjs-text-track-display {
+                                display: block;
+                            }
+
+                            .vjs-menu-button-popup .vjs-menu .vjs-menu-content {
+                                max-height: 30em;
+                            }
+                            .vjs-fullscreen-control {
+                                display: none;
+                            }
                         }
+
+
+                        
                     }
                 }
             }

@@ -7,6 +7,18 @@
   --fontSize: 14px;
 }
 
+html[lang=en] #copyright .contentSection, html[lang=de] #copyright .contentSection, html[lang=pg] #copyright .contentSection, html[lang=nl] #copyright .contentSection, html[lang=it] #copyright .contentSection {
+  display: none;
+}
+html[lang=en] #copyright .contentSection.en, html[lang=de] #copyright .contentSection.en, html[lang=pg] #copyright .contentSection.en, html[lang=nl] #copyright .contentSection.en, html[lang=it] #copyright .contentSection.en {
+  display: block;
+}
+html[lang=fr] #copyright .contentSection {
+  display: none;
+}
+html[lang=fr] #copyright .contentSection.fr {
+  display: block;
+}
 html.dim {
   --bg-footer-start: rgba(000,000,000,0.46);
   --bg-footer-stop: rgba(000,000,000,0.91);
@@ -47,11 +59,15 @@ body .mainContent[data-page-show=number] {
 }
 body .mainContent .contentMain {
   line-height: 1.3em;
+}
+body .mainContent .contentMain:not(.searchPage) {
   font-size: var(--fontSize);
 }
+body .mainContent .contentMain h1 {
+  text-align: center;
+}
 body .mainContent .contentMain ol {
-  margin-left: 1em;
-  margin-top: 1em;
+  margin: 1em;
 }
 body .mainContent .contentMain ol li {
   margin-bottom: 1em;
@@ -76,6 +92,26 @@ body .mainContent .page#copyright .tabs {
 body .mainContent .page#copyright .tabs li {
   flex: 1 auto;
 }
+body .mainContent .page#copyright .closeCopyright {
+  display: none;
+}
+body .mainContent .page#copyright .tabContents .tab-pane {
+  display: none;
+}
+body .mainContent .page#copyright .tabContents .tab-pane.active {
+  display: block;
+  padding: 1em;
+}
+body .mainContent .page#search > header {
+  position: static;
+}
+body .mainContent .page#search .contentMain {
+  height: calc(100vh - 115px);
+  overflow: auto;
+}
+body .mainContent .page#search .contentMain .contentInner {
+  margin-top: 0;
+}
 body .mainContent .page#hymns > header {
   position: static;
 }
@@ -88,6 +124,9 @@ body .mainContent .page#hymns .contentMain .contentInner {
 }
 body .mainContent .page#hymns .hymnFooter {
   width: calc(100vw - 17px);
+}
+body .mainContent .page#hymns a.fontSizer .smallerA {
+  font-size: 13px;
 }
 body .mainContent .page#hymns #fontSizer {
   position: absolute;
@@ -159,9 +198,18 @@ body .mainContent .page footer.hymnFooter .musicPlayer {
   position: fixed;
   z-index: 9;
 }
-body .mainContent .page footer.hymnFooter .musicPlayer .vjs-text-track-display {
-  display: block;
-}
 body .mainContent .page footer.hymnFooter .musicPlayer .video-js {
   background-color: transparent;
+}
+body .mainContent .page footer.hymnFooter .musicPlayer .video-js .vjs-volume-panel {
+  display: none;
+}
+body .mainContent .page footer.hymnFooter .musicPlayer .video-js .vjs-text-track-display {
+  display: block;
+}
+body .mainContent .page footer.hymnFooter .musicPlayer .video-js .vjs-menu-button-popup .vjs-menu .vjs-menu-content {
+  max-height: 30em;
+}
+body .mainContent .page footer.hymnFooter .musicPlayer .video-js .vjs-fullscreen-control {
+  display: none;
 }

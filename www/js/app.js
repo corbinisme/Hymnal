@@ -217,6 +217,19 @@ function redirectToSystemBrowser(url) {
             app.toggleHamburger();
         })
 
+        document.querySelector("#pianoIcon").addEventListener("click", function(e){
+
+            e.preventDefault();
+            app.makeMusic("piano");
+            
+        })
+        document.querySelector("#vocalIcon").addEventListener("click", function(e){
+
+            e.preventDefault();
+            app.makeMusic("vocal");
+            
+        })
+
 
         document.querySelectorAll(".changePageButton").forEach(function(item){
 
@@ -466,28 +479,33 @@ function redirectToSystemBrowser(url) {
             app.currentHymn = startVal;
             
       },
-      initJplayer: function(){
-          var player = $("#jquery_jplayer_1").jPlayer({
-          /*
-          ready: function () {
-            $(this).jPlayer("setMedia", {
-              title: "Hymn",
-              mp3: hymn
-            });
-            
-          },
-          */
-          swfPath: "dist/jplayer",
-          supplied: "mp3",
-          wmode: "window",
-          useStateClassSkin: true,
-          autoBlur: false,
-          smoothPlayBar: true,
-          autoPlay: true,
-          keyEnabled: true,
-          remainingDuration: true,
-          toggleDuration: true
+
+      makeMusic:function(type){
+        document.querySelector(".musicPlayer").classList.add("active");
+        let audio = document.querySelector(".video-js");
+        let source = audio.querySelector("source");
+        let sourcePath = app.getHymnWithZeros(app.currentHymn) + ".mp3";
+        if(type=="vocal"){
+            sourcePath = vocal_path + sourcePath
+        } else if(type=="piano"){
+            sourcePath = path + sourcePath
+        } else {
+            sourcePath = path + sourcePath
+        }
+
+        source.setAttribute("src", sourcePath);
+        let myPlayer = videojs('audio_player', {
+            "playbackRates": [0.6, 0.7, 0.8, 0.9, 1, 1.2, 1.3, 1.4, 1.5, 2],
+            controls: true,
+            autoplay: false,
+            preload: 'auto'
         });
+
+        myPlayer.src({type: 'audio/mp3', src: sourcePath});
+        myPlayer.ready(function() {
+            myPlayer.play();
+        });
+
       },
       makeLanguageDropdown: function(){
           if(app.languages.length==1){
