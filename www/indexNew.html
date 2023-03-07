@@ -121,7 +121,22 @@
       </div>
       <div class="modalsm" id="fontSizer">
         <input type="range" class="form-control" id="fontSlider" value="16" min="10" max="70" />
-    </div>
+    
+      </div>
+      <div class="musicPlayer">
+        <audio
+        id="audio_player"
+        class="video-js vjs-default-skin"
+        controls
+        preload="auto"
+        width="600"
+        height="44"
+        
+      >
+      <source src="https://ucgweb.s3.amazonaws.com/files/ucg-hymnal-app-v2/mp3/001.mp3" type="audio/mp3" />
+    </audio>
+       
+      </div>
       <footer class="hymnFooter">
         <div class="row">
           <div class="col">
@@ -136,20 +151,7 @@
           </div>
 
           <div class="col actions">
-            <div class="musicPlayer">
-
-              <audio
-                id="audio_player"
-                class="video-js vjs-default-skin"
-                controls
-                preload="auto"
-                width="600"
-                height="44"
-                
-              >
-              <source src="https://ucgweb.s3.amazonaws.com/files/ucg-hymnal-app-v2/mp3/001.mp3" type="audio/mp3" />
-            </audio>
-            </div>
+           
           </div>
           
           <div class="col text-end">
@@ -211,20 +213,20 @@
             </a>
           </div>
         </nav>
-        <!--
-          <div class="p-2 headerFormControl">
-          <input type="text" class="searchBar form-control" id="filterSearch" placeholder="Search by title or text" />
+      
+        <div class="p-2 headerFormControl">
+          <form id="formByNum" name="formByNum" class="d-flex" id="formByNum" action="">
+            <input class="form-control searchByNumber" id="searchByNumber" type="number" />
+            <input type="submit" class="btn btn-outline-secondary" value="Go" id="searchByNumberBtn" />
+          </form>
         </div>
-        -->
+     
       </header>
 
       <div class="contentMain">
         <div class="contentInner p-3">
 
-          <form id="formByNum" name="formByNum" id="formByNum" action="">
-            <input class="form-control searchByNumber" id="searchByNumber" type="number" />
-            <input type="submit" class="btn btn-outline-secondary" value="Go" id="searchByNumberBtn" />
-          </form>
+          
            
           
         </div>

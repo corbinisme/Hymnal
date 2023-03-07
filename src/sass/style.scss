@@ -45,7 +45,7 @@ html{
 }
 body {
     display: inherit;
-    overflow: hidden;
+    overflow: auto;
     background-color: var(--bg-body);
     color: var(--text-color);
 
@@ -59,8 +59,7 @@ body {
     }
 
     .main {
-        overflow: hidden;
-        height: 100vh;
+        overflow-x: hidden;
         width: 100vw;
     }
     .mainContent {
@@ -98,14 +97,12 @@ body {
             flex: 1 100%;
             position: relative;
             height: 100vh;
-            overflow: hidden;
+            overflow-x: hidden;
             min-width: 100vw;
 
            &#copyright {
                 .contentMain {
-                    height: calc(100vh - 57px);
-                    overflow: auto;
-                    margin-top: 57px;
+                   display: block;
                     
                 }
 
@@ -136,13 +133,9 @@ body {
             }
 
             &#search {
-                >header {
-                    position: static;
-
-                }
+               
                 .contentMain {
-                    height: calc(100vh - 115px);
-                    overflow: auto;
+                    
 
                     .contentInner {
                         margin-top: 0;
@@ -150,16 +143,16 @@ body {
                 }
             }
             &#hymns {
-                >header {
-                    position: static;
 
-                }
+                
                 .contentMain {
-                    height: calc(100vh - 115px);
-                    overflow: auto;
+                   
 
                     .contentInner {
-                        margin-top: 0;
+                        margin-top: 0em;
+                        h1 {
+                            visibility: hidden;
+                        }
                     }
                 }
             
@@ -171,18 +164,91 @@ body {
                 }
                 #fontSizer {
                     position: absolute;
-                    bottom:0;
-                    width: 90%;
-                    left: 5%;
-                    transform: translateY(120vh);
+                    bottom:50px;
+                    width: calc(100% - 1em);
+                    left: 0;
+                    display: none;
                     transition: all ease 0.3s;
                     z-index: 7;
                 }
                 &.showFontSizer {
                     #fontSizer {
-                        transform: translateY(0);
+                        display: block;
                     }
                 }
+
+                audio#audio_player {
+                    position: absolute;
+                    top: 999em;
+                }
+
+                .musicPlayer {
+                    width: 100%;
+                    width: calc(100vw - 217px);
+                    left: 100px;
+                    position: fixed;
+                    visibility: hidden;
+                    bottom: 0;
+                    z-index: 98;
+                    &.active {
+                        visibility: visible;
+                    }
+
+                    .video-js {
+                        
+                        background-color: transparent;
+                        width: 100%;
+                        z-index: 80;
+
+                        >.vjs-control-bar {
+                            background-color: transparent;
+                            height: 38px;
+                        }
+
+                        .vjs-control {
+                            &.vjs-button {
+                               border: 1px solid;
+                               border-radius: 5px;
+                               font-size: 12px;
+                               margin-right: 5px;
+                            }
+                        }
+    
+                        .vjs-volume-panel {
+                            display: none;
+                        }
+                        .vjs-text-track-display {
+                            display: none;
+                        }
+                        .vjs-remaining-time {
+                            display: none;
+                        }
+
+                        .vjs-progress-control {
+                            position: fixed;
+                            top: 110px;
+                            z-index: 99;
+                            height: 6px;
+                            left: 0;
+                            width: calc(100vw - 17px);
+
+                            .vjs-progress-holder {
+                                margin: 0;
+                                height: 6px;
+                            }
+                        }
+    
+                        .vjs-menu-button-popup .vjs-menu .vjs-menu-content {
+                            max-height: 30em;
+                        }
+                        .vjs-fullscreen-control {
+                            display: none;
+                        }
+                    }
+    
+                }
+                
+                
             }
             &#copyright {
                 position: absolute;
@@ -200,10 +266,11 @@ body {
             }
 
             header {
-                position: absolute;
+                position: sticky;
                 top: 0;
                 left: 0;
                 width: 100%;
+                height: 110px;
 
                 .headerFormControl {
                     background-color: var(--bg-header);
@@ -223,18 +290,18 @@ body {
             }
 
             .contentInner {
-                margin-top: 110px;
+                margin-top: 0px;
             }
             
 
             footer {
                 overflow: hidden;
                 &.hymnFooter {
-                    position: fixed;
-                    bottom: 35px;
+                    position: sticky;
+                    bottom: 0;
                     width: 100%;
                     left: 0;
-                    width: calc(100% - 17px);
+                    width: 100%;
                     z-index: 78;
 
                     background: -moz-linear-gradient(top, var(--bg-footer-start) 0%, var(--bg-footer-stop) 60%, var(--bg-footer-stop) 97%);
@@ -265,29 +332,7 @@ body {
                         width: 100%;
                         z-index: 9;
 
-                        audio#audio_player {
-                            position: absolute;
-                            top: 999em;
-                        }
-                        
-                        .video-js {
-                            background-color: transparent;
-                            width: 100%;
-
-                            .vjs-volume-panel {
-                                display: none;
-                            }
-                            .vjs-text-track-display {
-                                display: none;
-                            }
-
-                            .vjs-menu-button-popup .vjs-menu .vjs-menu-content {
-                                max-height: 30em;
-                            }
-                            .vjs-fullscreen-control {
-                                display: none;
-                            }
-                        }
+                       
 
 
                         
