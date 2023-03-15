@@ -82,6 +82,7 @@ function redirectToSystemBrowser(url) {
         return newnum;
       },
       getHymnText: function(){
+        let result;
         let target = document.getElementById("loader");
         let file = "hymn" + app.getHymnWithZeros(app.currentHymn);
         if(window['lyrics_' + app.lang]){
@@ -223,6 +224,12 @@ function redirectToSystemBrowser(url) {
             app.makeMusic("piano");
             
         })
+        document.querySelector("#midiIcon").addEventListener("click", function(e){
+
+            e.preventDefault();
+            app.makeMusic("midi");
+            
+        })
         document.querySelector("#vocalIcon").addEventListener("click", function(e){
 
             e.preventDefault();
@@ -303,6 +310,7 @@ function redirectToSystemBrowser(url) {
       },
       makeSearchContent: function(){
 
+        let title;
         if(window['title_'+app.lang]){
             title = window['title_'+app.lang];
         
@@ -481,30 +489,39 @@ function redirectToSystemBrowser(url) {
       },
 
       makeMusic:function(type){
-        document.querySelector(".musicPlayer").classList.add("active");
+        
         let audio = document.querySelector(".video-js");
         let source = audio.querySelector("source");
         let sourcePath = app.getHymnWithZeros(app.currentHymn) + ".mp3";
-        if(type=="vocal"){
-            sourcePath = vocal_path + sourcePath
-        } else if(type=="piano"){
-            sourcePath = path + sourcePath
+        if(type=="piano" || type=="vocal"){
+            if(type=="vocal"){
+                sourcePath = vocal_path + sourcePath
+            } else if(type=="piano"){
+                sourcePath = path + sourcePath
+            } 
+
+            document.querySelector(".musicPlayer").classList.add("active");
+
+            source.setAttribute("src", sourcePath);
+            let myPlayer = videojs('audio_player', {
+                "playbackRates": [0.6, 0.7, 0.8, 0.9, 1, 1.2, 1.3, 1.4, 1.5, 2],
+                controls: true,
+                autoplay: false,
+                preload: 'auto'
+            });
+
+            myPlayer.src({type: 'audio/mp3', src: sourcePath});
+            myPlayer.ready(function() {
+                myPlayer.play();
+            });
         } else {
-            sourcePath = path + sourcePath
+            // midi
+
+            document.getElementById("midi").innerHTML="Playing " + app.getHymnWithZeros(app.currentHymn);
+            //window['playMidi'](app.getHymnWithZeros(app.currentHymn));
+            MIDIjs.play('./hinematov.mid')
+            
         }
-
-        source.setAttribute("src", sourcePath);
-        let myPlayer = videojs('audio_player', {
-            "playbackRates": [0.6, 0.7, 0.8, 0.9, 1, 1.2, 1.3, 1.4, 1.5, 2],
-            controls: true,
-            autoplay: false,
-            preload: 'auto'
-        });
-
-        myPlayer.src({type: 'audio/mp3', src: sourcePath});
-        myPlayer.ready(function() {
-            myPlayer.play();
-        });
 
       },
       makeLanguageDropdown: function(){

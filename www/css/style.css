@@ -7,6 +7,9 @@
   --fontSize: 14px;
 }
 
+html {
+  height: 100%;
+}
 html[lang=en] #copyright .contentSection, html[lang=de] #copyright .contentSection, html[lang=pg] #copyright .contentSection, html[lang=nl] #copyright .contentSection, html[lang=it] #copyright .contentSection {
   display: none;
 }
@@ -32,6 +35,7 @@ body {
   overflow: auto;
   background-color: var(--bg-body);
   color: var(--text-color);
+  height: 100%;
 }
 body .form-control {
   background-color: var(--bg-body);
@@ -42,13 +46,14 @@ body .table {
 }
 body .main {
   overflow-x: hidden;
-  width: 100vw;
+  height: 100%;
 }
 body .mainContent {
   display: flex;
   flex-wrap: nowrap;
   transform: translateX(0vw);
   transition: all ease 0.3s;
+  height: 100%;
 }
 body .mainContent[data-page-show=search] {
   transform: translateX(-100vw);
@@ -74,7 +79,7 @@ body .mainContent .contentMain ol li {
 body .mainContent .page {
   flex: 1 100%;
   position: relative;
-  height: 100vh;
+  height: 100%;
   overflow-x: hidden;
   min-width: 100vw;
 }
@@ -132,12 +137,12 @@ body .mainContent .page#hymns .musicPlayer {
   width: calc(100vw - 217px);
   left: 100px;
   position: fixed;
-  visibility: hidden;
   bottom: 0;
   z-index: 98;
+  display: none;
 }
 body .mainContent .page#hymns .musicPlayer.active {
-  visibility: visible;
+  display: block;
 }
 body .mainContent .page#hymns .musicPlayer .video-js {
   background-color: transparent;
@@ -221,7 +226,7 @@ body .mainContent .page footer {
   overflow: hidden;
 }
 body .mainContent .page footer.hymnFooter {
-  position: sticky;
+  position: fixed;
   bottom: 0;
   width: 100%;
   left: 0;
