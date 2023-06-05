@@ -18,20 +18,24 @@ html{
     &[lang="nl"],
     &[lang="it"]{
         #copyright {
-            .contentSection {
-                display: none;
-                &.en {
-                    display: block;
+            .contentMain {
+                #loadCopyright >div{
+                    display: none;
+                    &.en {
+                        display: block;
+                    }
                 }
             }
         }
     }
     &[lang="fr"]{
         #copyright {
-            .contentSection {
-                display: none;
-                &.fr {
-                    display: block;
+            .contentMain {
+                #loadCopyright >div{
+                    display: none;
+                    &.fr {
+                        display: block;
+                    }
                 }
             }
         }
@@ -58,6 +62,9 @@ body {
     }
     .table {
         color: var(--text-color);
+    }
+    .hidden {
+        display: none!important;
     }
 
     .main {
@@ -124,15 +131,42 @@ body {
                 .closeCopyright {
                     display: none;
                 }
-                .tabContents {
-                    .tab-pane {
-                        display: none;
-                        &.active {
-                            display: block;
-                            padding: 1em;
+                #loadCopyright {
+                    .tabs {
+                        position: sticky;
+                        top: 52px;
+                        margin-top: -52px;
+                        background:var(--bg-header);
+                        margin-left: 0;
+                        padding: 0;
+                         li{
+                            margin: 0;
+                            padding: 0;
+                            a {
+                                display: block;
+                                text-align: center;
+                                color: var(--text-color);
+    
+                                &.active {
+                                    background: var(--bg-body);
+                                }
+                            }
+                         }
+
+                       
+                        
+                    }
+                    .tabContents {
+                        >div {
+                            display: none;
+                            &.active {
+                                display: block;
+                                padding: 1em;
+                            }
                         }
                     }
                 }
+                
 
                
             }
@@ -163,18 +197,20 @@ body {
             
 
                 a.fontSizer {
-                    .smallerA {
+                    &.smallerA {
                         font-size: 13px;
                     }
                 }
                 #fontSizer {
-                    position: absolute;
-                    bottom:50px;
-                    width: calc(100% - 1em);
+                    position: fixed;
+                    bottom:0px;
+                    width: 100%;
                     left: 0;
                     display: none;
+                    background-color: var(--bg-body);
                     transition: all ease 0.3s;
-                    z-index: 7;
+                    z-index: 793;
+                    padding: 0.2em;
                 }
                 &.showFontSizer {
                     #fontSizer {

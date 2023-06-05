@@ -10,16 +10,16 @@
 html {
   height: 100%;
 }
-html[lang=en] #copyright .contentSection, html[lang=de] #copyright .contentSection, html[lang=pg] #copyright .contentSection, html[lang=nl] #copyright .contentSection, html[lang=it] #copyright .contentSection {
+html[lang=en] #copyright .contentMain #loadCopyright > div, html[lang=de] #copyright .contentMain #loadCopyright > div, html[lang=pg] #copyright .contentMain #loadCopyright > div, html[lang=nl] #copyright .contentMain #loadCopyright > div, html[lang=it] #copyright .contentMain #loadCopyright > div {
   display: none;
 }
-html[lang=en] #copyright .contentSection.en, html[lang=de] #copyright .contentSection.en, html[lang=pg] #copyright .contentSection.en, html[lang=nl] #copyright .contentSection.en, html[lang=it] #copyright .contentSection.en {
+html[lang=en] #copyright .contentMain #loadCopyright > div.en, html[lang=de] #copyright .contentMain #loadCopyright > div.en, html[lang=pg] #copyright .contentMain #loadCopyright > div.en, html[lang=nl] #copyright .contentMain #loadCopyright > div.en, html[lang=it] #copyright .contentMain #loadCopyright > div.en {
   display: block;
 }
-html[lang=fr] #copyright .contentSection {
+html[lang=fr] #copyright .contentMain #loadCopyright > div {
   display: none;
 }
-html[lang=fr] #copyright .contentSection.fr {
+html[lang=fr] #copyright .contentMain #loadCopyright > div.fr {
   display: block;
 }
 html.dim {
@@ -43,6 +43,9 @@ body .form-control {
 }
 body .table {
   color: var(--text-color);
+}
+body .hidden {
+  display: none !important;
 }
 body .main {
   overflow-x: hidden;
@@ -97,10 +100,30 @@ body .mainContent .page#copyright .tabs li {
 body .mainContent .page#copyright .closeCopyright {
   display: none;
 }
-body .mainContent .page#copyright .tabContents .tab-pane {
+body .mainContent .page#copyright #loadCopyright .tabs {
+  position: sticky;
+  top: 52px;
+  margin-top: -52px;
+  background: var(--bg-header);
+  margin-left: 0;
+  padding: 0;
+}
+body .mainContent .page#copyright #loadCopyright .tabs li {
+  margin: 0;
+  padding: 0;
+}
+body .mainContent .page#copyright #loadCopyright .tabs li a {
+  display: block;
+  text-align: center;
+  color: var(--text-color);
+}
+body .mainContent .page#copyright #loadCopyright .tabs li a.active {
+  background: var(--bg-body);
+}
+body .mainContent .page#copyright #loadCopyright .tabContents > div {
   display: none;
 }
-body .mainContent .page#copyright .tabContents .tab-pane.active {
+body .mainContent .page#copyright #loadCopyright .tabContents > div.active {
   display: block;
   padding: 1em;
 }
@@ -113,17 +136,19 @@ body .mainContent .page#hymns .contentMain .contentInner {
 body .mainContent .page#hymns .contentMain .contentInner h1 {
   visibility: hidden;
 }
-body .mainContent .page#hymns a.fontSizer .smallerA {
+body .mainContent .page#hymns a.fontSizer.smallerA {
   font-size: 13px;
 }
 body .mainContent .page#hymns #fontSizer {
-  position: absolute;
-  bottom: 50px;
-  width: calc(100% - 1em);
+  position: fixed;
+  bottom: 0px;
+  width: 100%;
   left: 0;
   display: none;
+  background-color: var(--bg-body);
   transition: all ease 0.3s;
-  z-index: 7;
+  z-index: 793;
+  padding: 0.2em;
 }
 body .mainContent .page#hymns.showFontSizer #fontSizer {
   display: block;
@@ -257,3 +282,5 @@ body .mainContent .page footer.hymnFooter .musicPlayer {
   width: 100%;
   z-index: 9;
 }
+
+/*# sourceMappingURL=style.css.map */

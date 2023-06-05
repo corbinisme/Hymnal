@@ -11872,7 +11872,7 @@ function redirectToSystemBrowser(url) {
 var hymn = 1;
 var brand = "";
 var path = config.path;
-var vocal_path = config.vocal_path;
+var vocal_path = config.vocal_path ? config.vocal_path : null;
 
 var app = {
     brand: "",
@@ -11960,6 +11960,7 @@ var app = {
             app.contrast = "true";
             document.querySelector("html").classList.add("dim");
         }
+        app.storage.setItem("contrast", app.contrast);
     },
     setFontSize: function setFontSize(size) {
         app.size = size;
@@ -12009,6 +12010,7 @@ var app = {
 
         var contrastKey = "contrast";
         var contrastVal = app.storage.getItem(contrastKey);
+
         if (contrastVal == null) {
             contrastVal = "true";
             app.storage.setItem(contrastKey, contrastVal);
@@ -12016,6 +12018,8 @@ var app = {
         app.contrast = contrastVal;
         if (app.contrast == "true") {
             document.querySelector("html").classList.add("dim");
+        } else {
+            document.querySelector("html").classList.remove("dim");
         }
 
         if (config.icon != "") {
@@ -12025,6 +12029,11 @@ var app = {
             link.rel = 'shortcut icon';
             link.href = icon;
             document.getElementsByTagName('head')[0].appendChild(link);
+        }
+
+        // check for music types
+        if (config.vocal_path) {
+            document.getElementById("vocalIcon").classList.remove("hidden");
         }
 
         app.languages = langs.split(",");
@@ -12057,10 +12066,10 @@ var app = {
                 });
                 e.target.classList.add("active");
                 var tarId = e.target.getAttribute("data-id");
-                document.querySelectorAll('.tab-pane').forEach(function (element) {
+                document.querySelectorAll('.tabContents>div').forEach(function (element) {
                     element.classList.remove("active");
                 });
-                document.querySelectorAll('.tab-pane.' + tarId).forEach(function (element) {
+                document.querySelectorAll('.tabContents>div.' + tarId).forEach(function (element) {
                     element.classList.add("active");
                 });
             });
@@ -12083,6 +12092,7 @@ var app = {
             e.preventDefault();
             app.makeMusic("midi");
         });
+
         document.querySelector("#vocalIcon").addEventListener("click", function (e) {
 
             e.preventDefault();
@@ -12110,6 +12120,7 @@ var app = {
         });
 
         document.getElementById("contrast").addEventListener("click", function (e) {
+            e.preventDefault();
             app.toggleTheme();
         });
 
@@ -12120,13 +12131,30 @@ var app = {
             app.setHymn(app.currentHymn);
         });
 
-        document.querySelector(".fontSizer").addEventListener("click", function (e) {
-            var tar = document.querySelector("#hymns");
-            if (tar.classList.contains("showFontSizer")) {
-                tar.classList.remove("showFontSizer");
-            } else {
-                tar.classList.add("showFontSizer");
-            }
+        document.querySelectorAll(".fontSizer").forEach(function (el) {
+            el.addEventListener("click", function (e) {
+                e.preventDefault();
+
+                var tar = document.querySelector("#hymns");
+                if (tar.classList.contains("showFontSizer")) {
+                    tar.classList.remove("showFontSizer");
+                } else {
+                    tar.classList.add("showFontSizer");
+                }
+
+                /*
+                let val = e.target.getAttribute("data-value");
+                let newSize = app.size;
+                     console.log(newSize, val)
+                     if(val=="plus"){
+                    newSize += 2;
+                } else if(val=="minus"){
+                    newSize -= 2;
+                } 
+                     console.log(newSize, val)
+                app.setFontSize(newSize);
+                */
+            });
         });
 
         document.querySelector("#fontSlider").addEventListener("change", function (e) {

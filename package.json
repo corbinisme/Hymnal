@@ -10,7 +10,7 @@
     "minifylang": "uglifyjs-folder src/lang -o www/js/lang.min.js",
     "js": "babel src/nodeSyntax.js  --watch --out-file www/js/transpiled.js",
     "build": "browserify src/nodeSyntax.js  -o www/js/transpiled.js",
-    "watch": "watchify src/nodeSyntax.js  -o www/js/transpiled.js -v && gulp build"
+    "watch": "watchify src/nodeSyntax.js  -o www/js/transpiled.js -v && sass-dev"
   },
   "repository": {
     "type": "git",

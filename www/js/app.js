@@ -8,7 +8,7 @@ function redirectToSystemBrowser(url) {
   var hymn = 1;
   var brand = "";
   var path = config.path;
-  var vocal_path = config.vocal_path;
+  var vocal_path = (config.vocal_path? config.vocal_path:null);
   
   var app = {
       brand: "",
@@ -100,6 +100,7 @@ function redirectToSystemBrowser(url) {
             app.contrast = "true";
             document.querySelector("html").classList.add("dim")
         }
+        app.storage.setItem("contrast", app.contrast)
 
       },
       setFontSize: function(size){
@@ -151,13 +152,17 @@ function redirectToSystemBrowser(url) {
        
         var contrastKey = "contrast";
         var contrastVal = app.storage.getItem(contrastKey);
+
         if(contrastVal==null){
             contrastVal = "true";
-            app.storage.setItem(contrastKey, contrastVal)
+            app.storage.setItem(contrastKey, contrastVal);
+            
         }
         app.contrast = contrastVal;
         if(app.contrast=="true"){
             document.querySelector("html").classList.add("dim");
+        } else {
+            document.querySelector("html").classList.remove("dim");
         }
 
         if(config.icon!=""){
@@ -167,6 +172,11 @@ function redirectToSystemBrowser(url) {
             link.rel = 'shortcut icon';
             link.href = icon;
             document.getElementsByTagName('head')[0].appendChild(link);
+        }
+
+        // check for music types
+        if(config.vocal_path){
+           document.getElementById("vocalIcon").classList.remove("hidden"); 
         }
 
         app.languages = langs.split(",");
@@ -200,10 +210,10 @@ function redirectToSystemBrowser(url) {
                 })
                 e.target.classList.add("active");
                 let tarId = e.target.getAttribute("data-id");
-                document.querySelectorAll(`.tab-pane`).forEach(element=>{
+                document.querySelectorAll(`.tabContents>div`).forEach(element=>{
                     element.classList.remove("active");
                 })
-                document.querySelectorAll(`.tab-pane.${tarId}`).forEach(element=>{
+                document.querySelectorAll(`.tabContents>div.${tarId}`).forEach(element=>{
                     element.classList.add("active");
 
                 })
@@ -230,6 +240,7 @@ function redirectToSystemBrowser(url) {
             app.makeMusic("midi");
             
         })
+        
         document.querySelector("#vocalIcon").addEventListener("click", function(e){
 
             e.preventDefault();
@@ -259,6 +270,7 @@ function redirectToSystemBrowser(url) {
         })
 
         document.getElementById("contrast").addEventListener("click", function(e){
+            e.preventDefault();
             app.toggleTheme();
             
         })
@@ -272,13 +284,33 @@ function redirectToSystemBrowser(url) {
         })
 
 
-        document.querySelector(".fontSizer").addEventListener("click", function(e){
-            let tar = document.querySelector("#hymns");
-            if(tar.classList.contains("showFontSizer")){
-                tar.classList.remove("showFontSizer")
-            } else {
-                tar.classList.add("showFontSizer")
-            }
+        document.querySelectorAll(".fontSizer").forEach(function(el){
+            el.addEventListener("click", function(e){
+                e.preventDefault();
+                
+                let tar = document.querySelector("#hymns");
+                if(tar.classList.contains("showFontSizer")){
+                    tar.classList.remove("showFontSizer")
+                } else {
+                    tar.classList.add("showFontSizer")
+                }
+            
+                /*
+               let val = e.target.getAttribute("data-value");
+               let newSize = app.size;
+    
+               console.log(newSize, val)
+    
+               if(val=="plus"){
+                    newSize += 2;
+               } else if(val=="minus"){
+                    newSize -= 2;
+               } 
+    
+               console.log(newSize, val)
+               app.setFontSize(newSize);
+               */
+            })
         })
         
         
