@@ -146,7 +146,8 @@ body {
                                 display: block;
                                 text-align: center;
                                 color: var(--text-color);
-    
+                                font-size: 16px;
+                                line-height: 50px;
                                 &.active {
                                     background: var(--bg-body);
                                 }
@@ -157,6 +158,10 @@ body {
                         
                     }
                     .tabContents {
+                        width: 100vw;
+                        overflow: auto;
+                        font-size: 22px;
+                        line-height: 32px;
                         >div {
                             display: none;
                             &.active {
@@ -190,7 +195,7 @@ body {
                     .contentInner {
                         margin-top: 0em;
                         h1 {
-                            visibility: hidden;
+                            display: none;
                         }
                     }
                 }
@@ -207,10 +212,11 @@ body {
                     width: 100%;
                     left: 0;
                     display: none;
+                    padding: .75em;
                     background-color: var(--bg-body);
                     transition: all ease 0.3s;
                     z-index: 793;
-                    padding: 0.2em;
+
                 }
                 &.showFontSizer {
                     #fontSizer {
@@ -301,6 +307,7 @@ body {
                 background-color:var(--bg-body);
                 &.active {
                     transform: translateX(0);
+                    z-index: 90;
                 }
             }
             &.active {
@@ -340,18 +347,15 @@ body {
                 overflow: hidden;
                 &.hymnFooter {
                     position: fixed;
+                    padding: .75em;
                     bottom: 0;
                     width: 100%;
                     left: 0;
                     width: 100%;
                     z-index: 78;
 
-                    background: -moz-linear-gradient(top, var(--bg-footer-start) 0%, var(--bg-footer-stop) 60%, var(--bg-footer-stop) 97%);
-                    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,var(--bg-footer-start)), color-stop(60%,var(--bg-footer-stop)), color-stop(97%,var(--bg-footer-stop)));
-                    background: -webkit-linear-gradient(top, var(--bg-footer-start) 0%,var(--bg-footer-stop) 60%,var(--bg-footer-stop) 97%);
-                    background: -o-linear-gradient(top, var(--bg-footer-start) 0%,var(--bg-footer-stop) 60%,var(--bg-footer-stop) 97%);
-                    background: -ms-linear-gradient(top, var(--bg-footer-start) 0%,var(--bg-footer-stop) 60%,var(--bg-footer-stop) 97%);
-                    background: linear-gradient(to bottom, var(--bg-footer-start) 0%,var(--bg-footer-stop) 60%,var(--bg-footer-stop) 97%);
+                    
+                    background: linear-gradient(0deg, var(--bg-footer-stop), transparent);
                     color: var(--text-color);
 
                     .row {
@@ -367,6 +371,9 @@ body {
 
                     .col.actions {
                         flex: 1 99%;
+                    }
+                    .btn {
+                        background-color: var(--bg-body);
                     }
 
                     .musicPlayer {

@@ -19,6 +19,7 @@ function redirectToSystemBrowser(url) {
       fontKey: "size",
       langKey:"lang",
       languages: null,
+      searchTitleOnly: false,
       hymn: 1,
       novocal: [100,115,121,124,127,129,133,136,147,171,183,186],
       storage: null,
@@ -53,10 +54,23 @@ function redirectToSystemBrowser(url) {
         document.querySelectorAll(".page.wrapper").forEach(function(page){
             page.classList.remove("active");
         })
-        console.log("change page", id)
+
         document.querySelector("#" + id).classList.add("active");
         // more logic
         document.querySelector(".mainContent").setAttribute("data-page-show", id)
+        
+
+
+        if(id=="number"){
+            window.setTimeout(function(){
+                document.getElementById("searchByNumber").focus();
+            }, 400);
+        }
+        else if(id=="search"){
+            window.setTimeout(function(){
+                document.getElementById("filterSearch").focus();
+            }, 400);
+        }
       },
       changeStorage:function(key,val){
           app.storage.setItem(key, val);
@@ -202,9 +216,10 @@ function redirectToSystemBrowser(url) {
       },
       makeCopyrightTabs: function(){
        
+        
         document.querySelectorAll("#loadCopyright .tabs li a").forEach(elem=>{
             elem.addEventListener("click", function(e){
-                console.log("show tab", e.target);
+
                 e.target.closest("ul").querySelectorAll("li a").forEach(element=>{
                     element.classList.remove("active")
                 })
@@ -219,13 +234,55 @@ function redirectToSystemBrowser(url) {
                 })
             });
         })
+        document.querySelector("#loadCopyright .tabs>li:nth-child(1) a").click()
         
+        // now make dropdown
+        let select= document.createElement("select");
+        select.classList.add("form-control");
+        select.classList.add("tab-alt");
+        document.querySelectorAll(`#loadCopyright .${app.lang} .tabs li a`).forEach(function(tab){
+            let id = tab.getAttribute("data-id");
+            let text = tab.innerHTML;
+            let option = document.createElement("option");
+            option.value=id;
+            option.innerHTML = text;
+            select.append(option);
+        });
+        let div = document.createElement("div");
+        div.append(select)
+
+        console.log("here")
+        document.querySelector(`#loadCopyright .${app.lang} .tabs`).classList.add("p-2")
+        
+        document.querySelector(`#loadCopyright .${app.lang} .tabs`).innerHTML = div.innerHTML;
+        document.querySelector(`#loadCopyright .${app.lang} .tabs .form-control`).addEventListener("change", function(e){
+            
+            let tarId = e.target.value;
+            document.querySelectorAll(`.tabContents>div`).forEach(element=>{
+                element.classList.remove("active");
+            })
+            document.querySelectorAll(`.tabContents>div.${tarId}`).forEach(element=>{
+                element.classList.add("active");
+
+            })
+        })
+
+
       },
       eventBindings: function(){
         
         document.querySelector(".navbar-toggler").addEventListener("click", function(e){
             let button = e.target;
             app.toggleHamburger();
+        })
+
+        document.querySelector(".titleCheckbox input").addEventListener("change",function(el){
+            if(el.target.checked){
+                app.searchTitleOnly = true;
+                app.makeSearchContent();
+                
+            }
+            document.getElementById("filterSearch").focus()
         })
 
         document.querySelector("#pianoIcon").addEventListener("click", function(e){
@@ -260,6 +317,8 @@ function redirectToSystemBrowser(url) {
                 } else {
                     page = e.target.closest("a").getAttribute("data-page");
                 }
+
+                
                 app.changePage(page)
             })
         });
@@ -347,7 +406,7 @@ function redirectToSystemBrowser(url) {
             title = window['title_'+app.lang];
         
           let content = '';
-          console.log("test filter: ", app.currentSearchFilter)
+          console.log("title only?", app.searchTitleOnly, "test filter: ",  app.currentSearchFilter)
           for(var i=0; i<title.length; i++){
   
             // see if this makes the cut using the current search filter
@@ -595,9 +654,9 @@ function redirectToSystemBrowser(url) {
                 element.addEventListener("click", function(el){
                     el.preventDefault();
 
-                    console.log("getting buttons", element)
+
                     let id = el.target.id;
-                    console.log("id", id)
+
                     if(id!="copyrightBtn"){
                         let lang = el.target.getAttribute("data-lang");
 
@@ -607,15 +666,16 @@ function redirectToSystemBrowser(url) {
                     } else {
                         app.toggleHamburger();
                         app.changePage("copyright");
-                        if(!document.getElementById("copyright").classList.contains("loaded")){
+                        if(true){
                             //load it in!
                             fetch("about.html?about=true")
                             .then(resp=>resp.text())
                             .then(data=>{
-                                console.log("about data", data);
+
                                 document.getElementById("loadCopyright").innerHTML = data;
                                 app.makeCopyrightTabs();
-                                document.getElementById("copyright").classList.add("loaded")
+                                document.getElementById("copyright").classList.add("loaded");
+
                             })
                         }
                     }

@@ -180,7 +180,12 @@
       <header class="headerTop mainPage" >
         <nav class="navbar  navbar-dark bg-dark">
           <div class="container-fluid">
-            <span>&nbsp;</span>
+            <span class="titleCheckbox">
+              <label>
+                <input type="checkbox" value="0" />
+                <span>Title only</span>
+              </label>
+            </span>
             <a class="navbar-brand" href="#">Search</a>
             <a href="#" class="btn btn-outline-secondary changePageButton" data-page="hymns" id="backToHymns">
               <i class="fa fa-arrow-left"></i>
@@ -223,7 +228,7 @@
         </nav>
       
         <div class="p-2 headerFormControl">
-          <form id="formByNum" name="formByNum" class="d-flex" id="formByNum" action="">
+          <form id="formByNum" name="formByNum" class="d-flex input-group" id="formByNum" action="">
             <input class="form-control searchByNumber" id="searchByNumber" type="number" />
             <input type="submit" class="btn btn-outline-secondary" value="Go" id="searchByNumberBtn" />
           </form>
