@@ -21,7 +21,6 @@ function redirectToSystemBrowser(url) {
       languages: null,
       searchTitleOnly: false,
       hymn: 1,
-      novocal: [100,115,121,124,127,129,133,136,147,171,183,186],
       storage: null,
       currentSearchFilter: "",
       currentTitles: [],
@@ -102,8 +101,13 @@ function redirectToSystemBrowser(url) {
         if(window['lyrics_' + app.lang]){
             result = window['lyrics_' + app.lang][file];
 
+            if(result==null || typeof result == "undefined"){
+
+                result = `<p>Cannot find hymn # ${app.currentHymn}</p>`;
+            } 
             target.innerHTML = result;
             document.querySelector(".page#hymns .contentMain").scrollTo(0,0)
+            
         }
       },
       toggleTheme: function(){
@@ -269,6 +273,13 @@ function redirectToSystemBrowser(url) {
 
 
       },
+      setCurrentMusicState: function(type){
+        //app.storage.setItem("music", type);
+        document.querySelectorAll(".musicType").forEach(function(elem){
+            elem.classList.remove("active")
+        })
+        document.querySelector(`#${type}Icon`).classList.add("active");
+      },
       eventBindings: function(){
         
         document.querySelector(".navbar-toggler").addEventListener("click", function(e){
@@ -289,19 +300,24 @@ function redirectToSystemBrowser(url) {
 
             e.preventDefault();
             app.makeMusic("piano");
+            app.setCurrentMusicState("piano")
             
         })
-        document.querySelector("#midiIcon").addEventListener("click", function(e){
+        if(document.querySelector("#midiIcon")){
+            document.querySelector("#midiIcon").addEventListener("click", function(e){
 
-            e.preventDefault();
-            app.makeMusic("midi");
-            
-        })
+                e.preventDefault();
+                app.makeMusic("midi");
+                app.setCurrentMusicState("midi")
+                
+            })
+        }
         
         document.querySelector("#vocalIcon").addEventListener("click", function(e){
 
             e.preventDefault();
             app.makeMusic("vocal");
+            app.setCurrentMusicState("vocal")
             
         })
 
@@ -477,7 +493,7 @@ function redirectToSystemBrowser(url) {
                     <td>${origTitle}</td>
                     <td>
                         <a href="javascript:app.loadSearch('${num}');" class="searchLink">
-                            <span class="badge bg-info">${name}</span>
+                            <span class="btn btn-outline-secondary">${name}</span>
                             
                         </a>
                         ${(showLyrics? "<br />" + highlightedSearchLyrics: "")}
@@ -586,25 +602,30 @@ function redirectToSystemBrowser(url) {
         let sourcePath = app.getHymnWithZeros(app.currentHymn) + ".mp3";
         if(type=="piano" || type=="vocal"){
             if(type=="vocal"){
-                sourcePath = vocal_path + sourcePath
+                sourcePath = vocal_path + sourcePath;
+                if(config.novocal.includes(app.currentHymn)){
+                    sourcePath = null;
+                }
             } else if(type=="piano"){
                 sourcePath = path + sourcePath
             } 
 
-            document.querySelector(".musicPlayer").classList.add("active");
+            if(sourcePath!=null){
+                document.querySelector(".musicPlayer").classList.add("active");
 
-            source.setAttribute("src", sourcePath);
-            let myPlayer = videojs('audio_player', {
-                "playbackRates": [0.6, 0.7, 0.8, 0.9, 1, 1.2, 1.3, 1.4, 1.5, 2],
-                controls: true,
-                autoplay: false,
-                preload: 'auto'
-            });
+                source.setAttribute("src", sourcePath);
+                let myPlayer = videojs('audio_player', {
+                    "playbackRates": [0.6, 0.7, 0.8, 0.9, 1, 1.2, 1.3, 1.4, 1.5, 2],
+                    controls: true,
+                    autoplay: false,
+                    preload: 'auto'
+                });
 
-            myPlayer.src({type: 'audio/mp3', src: sourcePath});
-            myPlayer.ready(function() {
-                myPlayer.play();
-            });
+                myPlayer.src({type: 'audio/mp3', src: sourcePath});
+                myPlayer.ready(function() {
+                    myPlayer.play();
+                });
+            }
         } else {
             // midi
 
@@ -631,6 +652,7 @@ function redirectToSystemBrowser(url) {
                   var a = document.createElement("a");
                   a.setAttribute("data-lang", thisLang);
                   a.classList.add("nav-link")
+                  a.setAttribute("href", "#");
                   
                   let languageDisplay = "Hymnal";
                   if(window['menu_'+ thisLang]){
