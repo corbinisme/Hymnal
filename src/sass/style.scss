@@ -135,7 +135,8 @@ body {
            &#copyright {
                 .contentMain {
                    display: block;
-                    
+                    position: relative;
+                    z-index: 99;
                 }
 
                 .tabs {

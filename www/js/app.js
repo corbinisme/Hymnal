@@ -100,7 +100,7 @@ function redirectToSystemBrowser(url) {
           let currentLang = app.lang;
           let currentTitle = "Hymnal";
           let searchTitle = "Search";
-          let hymnTitle = "Hymn Number";
+          let hymnTitle = "Hcopyrightymn Number";
           let langObj = 'menu_' + currentLang;
           if(window[langObj]){
               currentTitle = window[langObj].Hymnal;
@@ -795,14 +795,23 @@ function redirectToSystemBrowser(url) {
                         if(true){
                             //load it in!
                             fetch("about.html?about=true")
-                            .then(resp=>resp.text())
+                            .then(resp=>{
+                                if (!resp.ok) {
+                                    throw new Error('Network response was not ok');
+                                    alert("ahh!")
+                                }
+                                return resp.text()
+                            })
                             .then(data=>{
 
                                 document.getElementById("loadCopyright").innerHTML = data;
                                 app.makeCopyrightTabs();
                                 document.getElementById("copyright").classList.add("loaded");
 
-                            })
+                            }).catch(error => {
+                                // Handle the error here
+                                console.warn('Fetch error wee:', error);
+                              });
                         }
                     }
                 })
