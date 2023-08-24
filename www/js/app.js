@@ -28,13 +28,10 @@ function redirectToSystemBrowser(url) {
           app.getConfig();
           app.eventBindings();
           app.loadCurrentLang(true);
-          //app.makeDropdown();
-          /*
-          
-          app.initJplayer();
-          
-          app.startRandom();
-          */
+          app.getPageSizing();
+            window.addEventListener("resize", function(){
+                app.getPageSizing();
+            })
       },
       loadCurrentLang: function(random){
         app.makeLanguageDropdown();
@@ -48,6 +45,27 @@ function redirectToSystemBrowser(url) {
         
        
 
+      },
+      getPageSizing: function(){
+        // detect if there is a vertical scrollbar
+
+        let isMobile = false;
+        if (/Mobi/.test(navigator.userAgent)) {
+            // The user is on a mobile device
+            console.log("mobile")
+            isMobile = true;
+        } else {
+            // The user is not on a mobile device
+            console.log("not mobile")
+        }
+
+        let hasScrollbar = document.getElementById("hymns").scrollHeight > window.innerHeight;
+        if(hasScrollbar && !isMobile){
+
+            document.querySelector("body").classList.add("scrollbar");
+        } else {
+            document.querySelector("body").classList.remove("scrollbar");
+        }
       },
       changePage: function(id){
         document.querySelectorAll(".page.wrapper").forEach(function(page){
@@ -69,20 +87,30 @@ function redirectToSystemBrowser(url) {
             window.setTimeout(function(){
                 document.getElementById("filterSearch").focus();
             }, 400);
+        } else {
+            document.getElementById("searchByNumber").blur();
+            document.getElementById("filterSearch").blur();
         }
+
       },
       changeStorage:function(key,val){
           app.storage.setItem(key, val);
       },
       getTitle: function(){
-          var currentLang = app.lang;
-          var currentTitle = "Hymnal";
+          let currentLang = app.lang;
+          let currentTitle = "Hymnal";
+          let searchTitle = "Search";
+          let hymnTitle = "Hymn Number";
           let langObj = 'menu_' + currentLang;
           if(window[langObj]){
               currentTitle = window[langObj].Hymnal;
+              searchTitle = window[langObj]["Search By Title"];
+              hymnTitle = window[langObj]["Search By Number"];
           }
           
           document.getElementById("brand").innerHTML = currentTitle;
+          document.getElementById("searchTitle").innerHTML = searchTitle;
+          document.getElementById("byNumberTitle").innerHTML = hymnTitle;
       },
       getHymnWithZeros:function(num){
         let newnum = num;
@@ -128,6 +156,7 @@ function redirectToSystemBrowser(url) {
         document.querySelector("body").setAttribute("data-font-size", size);
         document.getElementById("fontSlider").value=size;
         //set font slider
+        app.getPageSizing()
       },
       getConfig: function(){
         app.brand = config.brand;
@@ -287,11 +316,14 @@ function redirectToSystemBrowser(url) {
             app.toggleHamburger();
         })
 
-        document.querySelector(".titleCheckbox input").addEventListener("change",function(el){
+        document.querySelector(".titleCheckbox input").addEventListener("click",function(el){
             if(el.target.checked){
                 app.searchTitleOnly = true;
                 app.makeSearchContent();
                 
+            } else {
+                app.searchTitleOnly = false;
+                app.makeSearchContent();
             }
             document.getElementById("filterSearch").focus()
         })
@@ -415,12 +447,74 @@ function redirectToSystemBrowser(url) {
           app.currentSearchFilter = value;
           app.makeSearchContent();
       },
+      highlightMatches: function(text, filterText) {
+        // Use a regular expression with 'gi' flags for case-insensitive global matching
+        const regex = new RegExp(filterText, 'gi');
+        
+        // Replace matched substrings with <mark> tags
+        return text.replace(regex, match => `<mark>${match}</mark>`);
+      },
+      filterAndHighlightData: function(data, filterText) {
+        const filteredData = [];
+    
+        data.forEach(item => {
+            const { title } = item;
+    
+            // Case-insensitive search for the filter text in title and lyrics
+            const titleMatched = title.toLowerCase().includes(filterText.toLowerCase());
+            //const lyricsMatched = lyrics.toLowerCase().includes(filterText.toLowerCase());
+    
+            if (titleMatched) {
+                // Create a new object with highlighted matches
+                const highlightedItem = {
+                    title: titleMatched ? highlightMatches(title, filterText) : null,
+                    lyrics: lyricsMatched ? highlightMatches(lyrics, filterText) : lyrics,
+                };
+    
+                filteredData.push(highlightedItem);
+            }
+        });
+    
+        return filteredData;
+      },
+      sortTable: function(column) {
+        const table = document.getElementById("tocBody");
+        const rows = Array.from(table.querySelectorAll('tr'));
+    
+        rows.sort((a, b) => {
+            const numA = parseFloat(a.cells[0].textContent);
+            const numB = parseFloat(b.cells[0].textContent);
+            const alphaA = a.cells[1].textContent.toLowerCase();
+            const alphaB = b.cells[1].textContent.toLowerCase();
+    
+            if(column === 0){
+                return numA - numB;
+            } else if(column === 1){
+                return alphaA.localeCompare(alphaB);
+            } else {
+                return 0;
+            }
+            
+        });
+        
+    
+        // Remove existing rows from the table
+        while (table.firstChild) {
+            table.removeChild(table.firstChild);
+        }
+    
+        // Append sorted rows back to the table
+        rows.forEach(row => {
+            table.appendChild(row);
+        });
+    },
+    
       makeSearchContent: function(){
 
         let title;
         if(window['title_'+app.lang]){
             title = window['title_'+app.lang];
-        
+
           let content = '';
           console.log("title only?", app.searchTitleOnly, "test filter: ",  app.currentSearchFilter)
           for(var i=0; i<title.length; i++){
@@ -456,14 +550,19 @@ function redirectToSystemBrowser(url) {
                 if(name.toLowerCase().indexOf(lowerFilter)>-1){
                     addThis = true;
                     //name = name.replaceAll(filterText, "<mark>" + filterText + "</mark>");
-                    name = name.toLowerCase().replaceAll(lowerFilter, "<mark>" + lowerFilter + "</mark>");
-                    name = name.toUpperCase();
+                     // change the below function to use regex
+                    //name = name.toLowerCase().replaceAll(lowerFilter, "<mark>" + lowerFilter + "</mark>");
+                    // create a regex function to replace all instances of the filter text with the same text wrapped in a mark tag
+                    let regex = new RegExp(lowerFilter, "g");
+                    //name = name.replace(regex, "<mark>" + lowerFilter + "</mark>");
+                    name = app.highlightMatches(name, lowerFilter)
+                    
                     
                 }
                 if(origTitle == lowerFilter){
                     addThis = true;
                 }
-                if(theseSearchLyrics.indexOf(lowerFilter) >-1){
+                if(app.searchTitleOnly==false && theseSearchLyrics.indexOf(lowerFilter) >-1){
                     addThis = true;
                     showLyrics = true;
 
@@ -471,16 +570,20 @@ function redirectToSystemBrowser(url) {
                     highlightedSearchLyrics = theseSearchLyrics;
                     let searchSplits = lowerFilter.split(" ");
                     let filterText = app.currentSearchFilter;
-                    highlightedSearchLyrics = highlightedSearchLyrics.replaceAll(";", " ");
-                    highlightedSearchLyrics = highlightedSearchLyrics.replaceAll(".", " ");
-                    highlightedSearchLyrics = highlightedSearchLyrics.replaceAll(",", " ");
-                    highlightedSearchLyrics = highlightedSearchLyrics.replaceAll(":", " ");
-                    highlightedSearchLyrics = highlightedSearchLyrics.replaceAll("Chorus", " ");
-                   
+
+                    highlightedSearchLyrics = highlightedSearchLyrics.replace(/;/g, ' ');
+                    highlightedSearchLyrics = highlightedSearchLyrics.replace(/\./g, ' ');
+                    highlightedSearchLyrics = highlightedSearchLyrics.replace(/,/g, " ");
+                    highlightedSearchLyrics = highlightedSearchLyrics.replace(/:/g, " ");
+                    highlightedSearchLyrics = highlightedSearchLyrics.replace(/Chorus/g, " ");
+                    // replace the above replaceAll functions with a regex function
+                    
+                    //
+                    
 
                     if(theseSearchLyrics.toLowerCase().indexOf(filterText)>-1){
-                        highlightedSearchLyrics = highlightedSearchLyrics.replaceAll(filterText, "<mark>" + filterText + "</mark>");
-
+                        //highlightedSearchLyrics = highlightedSearchLyrics.replaceAll(filterText, "<mark>" + filterText + "</mark>");
+                        highlightedSearchLyrics = app.highlightMatches(highlightedSearchLyrics, filterText);
                     }
                 }
             }
@@ -506,6 +609,7 @@ function redirectToSystemBrowser(url) {
           document.getElementById("tocBody").innerHTML=content;
         }
       },
+      
       makeHymnList: function(){
         let lang = app.lang;
         let hymn = app.hymn;

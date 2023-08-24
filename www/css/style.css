@@ -39,6 +39,12 @@ body {
   color: var(--text-color);
   height: 100%;
 }
+body.scrollbar .mainContent .page footer.hymnFooter {
+  width: calc(100vw - 17px);
+}
+body.scrollbar .mainContent .page#hymns .musicPlayer .video-js .vjs-progress-control {
+  width: calc(100vw - 17px);
+}
 body .form-control {
   background-color: var(--bg-body);
   color: var(--text-color);
@@ -48,6 +54,9 @@ body .table {
 }
 body .hidden {
   display: none !important;
+}
+body .invisible {
+  visibility: hidden !important;
 }
 body .main {
   overflow-x: hidden;
@@ -87,6 +96,7 @@ body .mainContent .page {
   height: 100%;
   overflow-x: hidden;
   min-width: 100vw;
+  z-index: 1;
 }
 body .mainContent .page#copyright .contentMain {
   display: block;
