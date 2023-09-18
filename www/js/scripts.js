@@ -3981,6 +3981,7 @@ function redirectToSystemBrowser(url) {
 }
 
 var hymn = 1;
+
 var brand = "";
 var path = config.path;
 var vocal_path = config.vocal_path;
@@ -4118,6 +4119,10 @@ var app = {
 	    	$(".fontOptions").toggle()
 
 	    });
+		$(".fontConfirm").on("click", function(){
+	    	$(".fontOptions").toggle()
+	    });
+		
 
 	    $("#fontSlider").on("change", function(){
 	    	var current = $(this).val();
@@ -4329,9 +4334,9 @@ var app = {
 		//alert(variable);
 		variable = parseInt(variable,10);
 		var prepend="";
-		let maxHymn = 191;
+		let maxHymn = 192;
 		if(window["title_" + app.lang]){
-			maxHymn = window["title_" + app.lang].length;
+			maxHymn = window["title_" + app.lang].length+1;
 		}
 		if(variable<maxHymn&&variable>0) {
 			if(variable<100) {
@@ -4449,6 +4454,7 @@ var app = {
 
 	},
 	loadSearch: function(num){
+		console.log("load search", num)
 	  $("#loader2 .shareClose").click();
 	  $("#hymnSelect").val(num).change();
 	},

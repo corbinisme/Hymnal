@@ -6,6 +6,7 @@ function redirectToSystemBrowser(url) {
 }
 
 var hymn = 1;
+
 var brand = "";
 var path = config.path;
 var vocal_path = config.vocal_path;
@@ -143,6 +144,10 @@ var app = {
 	    	$(".fontOptions").toggle()
 
 	    });
+		$(".fontConfirm").on("click", function(){
+	    	$(".fontOptions").toggle()
+	    });
+		
 
 	    $("#fontSlider").on("change", function(){
 	    	var current = $(this).val();
@@ -191,7 +196,7 @@ var app = {
 	         		$("#copyrightPage .wrapForm").html(htm)
 	         	},
 	         	error: function(e){
-	         		console.log("about text fail", englishCopyright)
+	         		//console.log("about text fail", englishCopyright)
 	         		$("#copyrightPage .wrapForm").html(englishCopyright);
 	         	}
 	         });
@@ -230,7 +235,7 @@ var app = {
 			        hymn = pathTemplate + "001" + ".mp3";
 			        //alert("no hymn selected");
 			    }
-				console.log("selecting hymn ", hymn)
+				//console.log("selecting hymn ", hymn)
 
 			     $('#jquery_jplayer_1').jPlayer('setMedia', {
 			        mp3: hymn
@@ -301,11 +306,16 @@ var app = {
 			if(window['lyrics_' + app.lang]){
 				result = window['lyrics_' + app.lang][file];
 				$(".mainPage #loader").html(result);
+
 			} else {
 				$(".mainPage #loader").html("Select a Hymn!");
 			}
 
+			//scroll to the top of the page
+			
 			$("#home").show();
+			$("#home").scrollTop(0)
+
 			$("#musicPlayer").hide();
 
 			var share = '<div class="actions"><a href="javascript:;"><i class="fa fa-share-square-o"></i>Share</a><a href="javascript:;"><i class="fa fa-music"></i>Music</a></div>';
@@ -474,7 +484,7 @@ var app = {
 
 	},
 	loadSearch: function(num){
-		console.log("load search", num)
+		//console.log("load search", num)
 	  $("#loader2 .shareClose").click();
 	  $("#hymnSelect").val(num).change();
 	},
@@ -577,7 +587,7 @@ var app = {
 	startRandom: function(){
 		// get actual list of values for the current lang
 	let titles = window["title_" + app.lang];
-	console.log(titles);
+	//console.log(titles);
 	  if(typeof start=="undefined"){
 		  
 		  var startVal;
@@ -592,7 +602,7 @@ var app = {
 		  startVal = title;
 		
 	  } else {
-		console.log("start is?", start)
+		//console.log("start is?", start)
 	  	var startVal = start;
 	  }
 
@@ -609,7 +619,7 @@ var app = {
 
 	  //startVal=1;
 	  $("#hymnSelect").val(startVal).change();
-	  console.log("start ", startVal);
+	  //console.log("start ", startVal);
 	},
 	initJplayer: function(){
 		var player = $("#jquery_jplayer_1").jPlayer({

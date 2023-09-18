@@ -25,17 +25,11 @@
 
 .ui-bar-b {
   border: 1px solid #456f9a;
-	background: #5e87b0;
+	background: #1973B6;
 	color: #fff;
 	clear: both;
 	font-weight: 700;
 	text-shadow: 0 1px 0 #3e6790;
-	background-image: -webkit-gradient(linear,left top,left bottom,from(#6facd5),to(#497bae));
-	background-image: -webkit-linear-gradient(#6facd5,#497bae);
-	background-image: -moz-linear-gradient(#6facd5,#497bae);
-	background-image: -ms-linear-gradient(#6facd5,#497bae);
-	background-image: -o-linear-gradient(#6facd5,#497bae);
-	background-image: linear-gradient(#6facd5,#497bae);
 }
 
 .ui-helper-hidden-accessible {
@@ -2287,7 +2281,7 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', end
   #numSearch .wrapForm, #search .searchWrap {
     z-index:21;
     margin: auto;
-    padding: 1em;
+    padding: 1em 0;
     background: #fff;
     border: 1px solid #333;
     box-shadow: 2px 2px 20px #000;
@@ -3386,11 +3380,27 @@ ul.tabs {
   bottom: 60px;
   width: 100%;
   right: 0;
-  padding: 2em;
-  background: rgba(255,255,255,0.8);
+
+  border: 1px solid #333;
 
 }
-.dim .fontOptions {
+.fontOptionWrapper {
+  display: flex;
+}
+.fontOptions .fontOptionWrapper > div {
+  flex: 1 99%;
+  padding: 1em;
+  background: rgba(255,255,255,0.8);
+}
+.fontConfirm {
+  width: 44px;
+  border: 0;
+  border-left: 1px solid;
+}
+.fontConfirm .fa {
+  font-size: 1.5em;
+}
+.dim .fontOptions .fontOptionWrapper>div {
   background: rgba(0,0,0,0.8);
   border: 1px solid #333;
 }
