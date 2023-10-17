@@ -10,6 +10,13 @@ $scrollbar-width: 17px;
     --button-border: #6c757d;
 }
 
+@font-face {
+    font-family: 'Noto-sans';
+    src: url('../font/notosans-regular.ttf') format('truetype'),
+         url('../font/notosans-regular-webfont.woff') format('woff'),
+         url('../font/notosans-regular-webfont.woff2') format('woff2');
+
+}
 
 
 html{
@@ -59,6 +66,7 @@ body {
     background-color: var(--bg-body);
     color: var(--text-color);
     height: 100%;
+    font-family: 'Noto-sans', sans-serif;
 
     &.scrollbar {
         .mainContent {

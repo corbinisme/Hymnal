@@ -8,6 +8,10 @@
   --button-border: #6c757d;
 }
 
+@font-face {
+  font-family: "Noto-sans";
+  src: url("../font/notosans-regular.ttf") format("truetype"), url("../font/notosans-regular-webfont.woff") format("woff"), url("../font/notosans-regular-webfont.woff2") format("woff2");
+}
 html {
   height: 100%;
 }
@@ -38,6 +42,7 @@ body {
   background-color: var(--bg-body);
   color: var(--text-color);
   height: 100%;
+  font-family: "Noto-sans", sans-serif;
 }
 body.scrollbar .mainContent .page footer.hymnFooter {
   width: calc(100vw - 17px);
