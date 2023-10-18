@@ -77,8 +77,20 @@ body .mainContent {
 body .mainContent[data-page-show=search] {
   transform: translateX(-100vw);
 }
+body .mainContent[data-page-show=copyright] {
+  transform: translateX(-100vw);
+}
+body .mainContent[data-page-show=copyright] .page#copyright {
+  margin-left: -200vw;
+}
 body .mainContent[data-page-show=number] {
-  transform: translateX(-200vw);
+  transform: translateX(-100vw);
+}
+body .mainContent[data-page-show=number] .page#number {
+  margin-left: -100vw;
+}
+body .mainContent[data-page-show=number] .page#search {
+  visibility: hidden;
 }
 body .mainContent .contentMain {
   line-height: 1.3em;
@@ -103,6 +115,23 @@ body .mainContent .page {
   min-width: 100vw;
   z-index: 1;
 }
+body .mainContent .page#number .contentMain {
+  overflow: hidden;
+  background: var(--body-bg);
+}
+body .mainContent .page#number .contentMain .contentInner {
+  background: var(--body-bg);
+}
+body .mainContent .page#number #searchByNumberBtn {
+  border-color: #fff;
+  color: #fff;
+}
+body .mainContent .page#number #searchByNumberBtn:hover {
+  background-color: var(--bg-header);
+}
+body .mainContent .page#copyright {
+  overflow: hidden;
+}
 body .mainContent .page#copyright .contentMain {
   display: block;
   position: relative;
@@ -122,7 +151,7 @@ body .mainContent .page#copyright .closeCopyright {
 body .mainContent .page#copyright #loadCopyright .tabs {
   position: sticky;
   top: 52px;
-  margin-top: -52px;
+  margin-top: -54px;
   background: var(--bg-header);
   margin-left: 0;
   padding: 0;
@@ -143,9 +172,10 @@ body .mainContent .page#copyright #loadCopyright .tabs li a.active {
 }
 body .mainContent .page#copyright #loadCopyright .tabContents {
   width: 100vw;
-  overflow: auto;
+  height: calc(100vh - 5em);
   font-size: 22px;
   line-height: 32px;
+  overflow: auto;
 }
 body .mainContent .page#copyright #loadCopyright .tabContents > div {
   display: none;
@@ -262,9 +292,7 @@ body .mainContent .page#hymns .musicPlayer .video-js .vjs-fullscreen-control {
   display: none;
 }
 body .mainContent .page#copyright {
-  position: absolute;
-  left: 0;
-  transform: translateX(-100vw);
+  transform: translateX(100vw);
   transition: all ease 0.3s;
   z-index: 9;
   background-color: var(--bg-body);
@@ -307,6 +335,7 @@ body .mainContent .page header #navigationActions {
   list-style: none;
   display: flex;
   flex-direction: row;
+  gap: 0.25em;
 }
 body .mainContent .page header #navigationActions li a {
   display: block;

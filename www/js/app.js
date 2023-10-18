@@ -596,7 +596,7 @@ function redirectToSystemBrowser(url) {
                     <td>${origTitle}</td>
                     <td>
                         <a href="javascript:app.loadSearch('${num}');" class="searchLink">
-                            <span class="btn btn-outline-secondary">${name}</span>
+                            <span class="text-link d-block">${name}</span>
                             
                         </a>
                         ${(showLyrics? "<br />" + highlightedSearchLyrics: "")}

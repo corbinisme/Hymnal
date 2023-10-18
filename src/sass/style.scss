@@ -29,7 +29,7 @@ html{
     &[lang="it"]{
         #copyright {
             .contentMain {
-                #loadCopyright >div{
+                #loadCopyright  >div{
                     display: none;
                     &.en {
                         display: block;
@@ -110,9 +110,25 @@ body {
 
         &[data-page-show="search"]{
             transform: translateX(-100vw);
+
+        }
+        &[data-page-show="copyright"]{
+            transform: translateX(-100vw);
+
+            .page#copyright {
+                margin-left: -200vw;
+            }
+
         }
         &[data-page-show="number"]{
-            transform: translateX(-200vw);
+            transform: translateX(-100vw);
+
+            .page#number {
+                margin-left: -100vw;
+            }
+            .page#search {
+                visibility: hidden;
+            }
         }
         
         .contentMain {
@@ -140,7 +156,27 @@ body {
             min-width: 100vw;
             z-index: 1;
 
+            &#number {
+                .contentMain {
+                    overflow: hidden;
+                    background: var(--body-bg);
+                    .contentInner {
+                        
+                        background: var(--body-bg);
+                    }
+                   
+                    
+                }
+                #searchByNumberBtn {
+                    border-color: #fff;
+                    color: #fff;
+                    &:hover {
+                        background-color: var(--bg-header);
+                    }
+                }
+            }
            &#copyright {
+            overflow: hidden;
                 .contentMain {
                    display: block;
                     position: relative;
@@ -161,10 +197,12 @@ body {
                     display: none;
                 }
                 #loadCopyright {
+
+                    
                     .tabs {
                         position: sticky;
                         top: 52px;
-                        margin-top: -52px;
+                        margin-top: -54px;
                         background:var(--bg-header);
                         margin-left: 0;
                         padding: 0;
@@ -188,9 +226,10 @@ body {
                     }
                     .tabContents {
                         width: 100vw;
-                        overflow: auto;
+                        height: calc(100vh - 5em);
                         font-size: 22px;
                         line-height: 32px;
+                        overflow: auto;
                         >div {
                             display: none;
                             &.active {
@@ -356,9 +395,8 @@ body {
                 
             }
             &#copyright {
-                position: absolute;
-                left: 0;
-                transform: translateX(-100vw);
+                
+                transform: translateX(100vw);
                 transition: all ease .3s;
                 z-index: 9;
                 background-color:var(--bg-body);
@@ -405,7 +443,7 @@ body {
                     list-style: none;
                     display: flex;
                     flex-direction: row;
-
+                    gap: .25em;
                     li {
                         a {
                             display: block;
