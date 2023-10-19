@@ -194,6 +194,13 @@ body .mainContent .page#hymns .contentMain .contentInner {
 body .mainContent .page#hymns .contentMain .contentInner h1 {
   display: none;
 }
+body .mainContent .page#hymns .contentMain #toggleType {
+  font-size: 16px;
+  line-height: 26px;
+}
+body .mainContent .page#hymns .contentMain #pdfloader {
+  height: calc(100vh - 5em);
+}
 body .mainContent .page#hymns a.fontSizer {
   position: relative;
 }

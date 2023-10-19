@@ -115,8 +115,16 @@
       </header>
       <div class="contentMain">
         <div class="contentInner">
-          <div id="loader"><i class="fa fa-spinner fa-spin"></i></div>
+          <div class="toggleType d-flex align-items-center justify-content-center hidden" id="toggleType">
           
+              <div class="form-check form-switch">
+                <input class="form-check-input" type="checkbox" role="switch" id="sheetMusicToggle">
+                <label class="form-check-label" for="sheetMusicToggle">Sheet Music</label>
+              </div>
+            
+          </div>
+          <div id="loader" class="active musicContent"><i class="fa fa-spinner fa-spin"></i></div>
+          <div id="pdfloader" class="hidden musicContent">PDF</div>
         </div>
       </div>
       <div class="modalsm" id="fontSizer">

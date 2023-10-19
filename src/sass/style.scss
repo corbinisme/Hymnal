@@ -267,6 +267,14 @@ body {
                             display: none;
                         }
                     }
+
+                    #toggleType {
+                        font-size: 16px;
+                        line-height: 26px;
+                    }
+                    #pdfloader {
+                        height: calc(100vh - 5em);
+                    }
                 }
             
 

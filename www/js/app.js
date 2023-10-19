@@ -22,6 +22,8 @@ function redirectToSystemBrowser(url) {
       searchTitleOnly: false,
       hymn: 1,
       storage: null,
+      sheetMusicEnabled: false,
+      sheetMusicActive: false,
       currentSearchFilter: "",
       currentTitles: [],
       init: function(){
@@ -125,6 +127,22 @@ function redirectToSystemBrowser(url) {
       getHymnText: function(){
         let result;
         let target = document.getElementById("loader");
+        let pdfTarget = document.getElementById("pdfloader");
+       
+        if(app.sheetMusicActive){
+           // make a shell for pdf viewing
+           const pdfurl = config.pdfpath + app.getHymnWithZeros(app.currentHymn) + " Guitar.pdf";
+              let pdfIframe = document.createElement("iframe");
+                pdfIframe.setAttribute("src", pdfurl);
+                pdfIframe.setAttribute("frameborder", "0");
+                pdfIframe.setAttribute("width", "100%");
+                pdfIframe.setAttribute("height", "100%");
+                pdfIframe.setAttribute("scrolling", "yes");
+                pdfIframe.setAttribute("allowfullscreen", "true");
+                pdfIframe.setAttribute("class", "pdfIframe");
+                pdfTarget.innerHTML = pdfIframe.outerHTML;
+        } 
+        
         let file = "hymn" + app.getHymnWithZeros(app.currentHymn);
         if(window['lyrics_' + app.lang]){
             result = window['lyrics_' + app.lang][file];
@@ -134,7 +152,8 @@ function redirectToSystemBrowser(url) {
                 result = `<p>Cannot find hymn # ${app.currentHymn}</p>`;
             } 
             target.innerHTML = result;
-            document.querySelector(".page#hymns .contentMain").scrollTo(0,0)
+            document.querySelector(".page#hymns .contentMain").scrollTo(0,0);
+
             
         }
       },
@@ -227,14 +246,18 @@ function redirectToSystemBrowser(url) {
         }
 
         app.languages = langs.split(",");
-        
-        //$("#footerBot").addClass(app.lang)
+        const sheetMusicOption = (config.pdf? config.pdf:false);
+        app.sheetMusicEnabled = sheetMusicOption;
+        if(app.sheetMusicEnabled){
+            document.getElementById("toggleType").classList.remove("hidden");
+            document.getElementById("pdfloader").classList.remove("hidden");
+        }
       },
       setLang: function(langValue){
         app.lang = langValue;
         app.storage.setItem(app.langKey, langValue)
         document.querySelector("html").setAttribute("lang", langValue);
-
+        app.getTitle();
       },
       toggleHamburger: function(){
         let button = document.querySelector(".navbar-toggler")
@@ -314,7 +337,28 @@ function redirectToSystemBrowser(url) {
         document.querySelector(".navbar-toggler").addEventListener("click", function(e){
             let button = e.target;
             app.toggleHamburger();
-        })
+        });
+
+        document.getElementById("sheetMusicToggle").addEventListener("change", function(e){
+            let val = e.target.checked;
+            console.log("music active", val)
+            app.sheetMusicActive = val;
+            if(val==true){
+                document.getElementById("pdfloader").classList.add("active");
+                document.getElementById("pdfloader").classList.remove("hidden");
+                document.getElementById("loader").classList.add("hidden");
+                document.getElementById("loader").classList.remove("active");
+                //check if pdf has loaded yet
+                if(!document.querySelector(".pdfIframe")){
+                    app.getHymnText();
+                }
+            } else {
+                document.getElementById("pdfloader").classList.remove("active");
+                document.getElementById("pdfloader").classList.add("hidden");
+                document.getElementById("loader").classList.add("active");
+                document.getElementById("loader").classList.remove("hidden");
+            }
+        });
 
         document.querySelector(".titleCheckbox input").addEventListener("click",function(el){
             if(el.target.checked){
