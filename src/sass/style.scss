@@ -156,6 +156,20 @@ body {
             min-width: 100vw;
             z-index: 1;
 
+
+            #pdfloader {
+                position: relative;
+                .pdfToolbar {
+                    position: absolute;
+                    top: 0;
+                    left: 0;
+                    width:100%;
+                    font-size: 16px;
+                    justify-content: space-between; 
+
+                }
+            }
+
             &#number {
                 .contentMain {
                     overflow: hidden;

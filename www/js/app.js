@@ -10,6 +10,123 @@ function redirectToSystemBrowser(url) {
   var path = config.path;
   var vocal_path = (config.vocal_path? config.vocal_path:null);
   
+  var pdf = {
+    url: "pdf/001%20Guitar.pdf",
+    pageNum:1,
+    pageRendering:false,
+    pageNumPending:null,
+    scale:0.8,
+    canvas:document.getElementById('thecanvas'),
+    ctx: null,
+    init: function(){
+      pdf.ctx = pdf.canvas.getContext('2d');
+      pdf.binding();
+      pdfjsLib.getDocument({
+            url:pdf.url,
+            withCredentials: true
+        }).promise.then(function(pdfDoc_) {
+        pdfDoc = pdfDoc_;
+        document.getElementById('page_count').textContent = pdfDoc.numPages;
+        document.getElementById('pdfPlus').addEventListener('click', 
+          function(){
+            pdf.zoomPdf('plus')
+          });
+        document.getElementById('pdfMinus').addEventListener('click', 
+          function(){
+            pdf.zoomPdf('minus')
+          });
+
+        // Initial/first page rendering
+        pdf.renderPage();
+      });
+    },
+    
+    binding: function(){
+
+      document.getElementById('prev').addEventListener('click', pdf.onPrevPage);
+      document.getElementById('next').addEventListener('click', pdf.onNextPage);
+      
+
+      // Listen for document to be loaded
+      document.addEventListener('pagesinit', function () {
+        // Create the measurement div.
+        var div = document.createElement('div');
+        div.id = 'page-measure';
+        document.body.appendChild(div);
+      });
+
+      // Listen for document to be unloaded
+      document.addEventListener('pageunload', function () {
+        // Remove the measurement div.
+        var div = document.getElementById('page-measure');
+        if (div) {
+          document.body.removeChild(div);
+        }
+      });
+    },
+    renderPage: function(){
+      pdf.pageRendering = true;
+      console.log("render page", pdfDoc)
+      pdfDoc.getPage(pdf.pageNum).then(function(page) {
+        var viewport = page.getViewport({scale: pdf.scale});
+        pdf.canvas.height = viewport.height;
+        pdf.canvas.width = viewport.width;
+
+        // Render PDF page into canvas context
+        var renderContext = {
+          canvasContext: pdf.ctx,
+          viewport: viewport
+        };
+        var renderTask = page.render(renderContext);
+
+        // Wait for rendering to finish
+        renderTask.promise.then(function() {
+          pdf.pageRendering = false;
+          if (pdf.pageNumPending !== null) {
+            // New page rendering is pending
+            pdf.renderPage(pdf.pageNumPending);
+            pdf.pageNumPending = null;
+          }
+        });
+      });
+
+      // Update page counters
+      document.getElementById('page_num').textContent = pdf.pageNum;
+    },
+    queueRenderPage: function(num) {
+      if (pdf.pageRendering) {
+        pdf.pageNumPending = num;
+      } else {
+        pdf.renderPage(num);
+      }
+    },
+    onPrevPage: function() {
+      if (pdf.pageNum <= 1) {
+        return;
+      }
+      pdf.pageNum--;
+      pdf.queueRenderPage(pdf.pageNum);
+    },
+    onNextPage: function() {
+      if (pdf.pageNum >= pdfDoc.numPages) {
+        return;
+      }
+      pdf.pageNum++;
+      pdf.queueRenderPage(pdf.pageNum);
+    },
+    zoomPdf: function(dir){
+      //pdf.pageRendering = true;
+      console.log("zoomies", dir)
+      if(dir == "plus"){
+        pdf.scale += 0.1;
+      }else{
+        pdf.scale -= 0.1;
+      }
+      pdf.renderPage();
+    }
+
+
+  }
   var app = {
       brand: "",
       lang: "en",
@@ -124,6 +241,23 @@ function redirectToSystemBrowser(url) {
         }
         return newnum;
       },
+      showPdfViewer: function(val){
+        if(val==true){
+
+            document.getElementById("pdfloader").classList.add("active");
+            document.getElementById("pdfloader").classList.remove("hidden");
+            document.getElementById("loader").classList.add("hidden");
+            document.getElementById("loader").classList.remove("active");
+            //check if pdf has loaded yet
+            
+        } else {
+
+            document.getElementById("pdfloader").classList.remove("active");
+            document.getElementById("pdfloader").classList.add("hidden");
+            document.getElementById("loader").classList.add("active");
+            document.getElementById("loader").classList.remove("hidden");
+        }
+      },
       getHymnText: function(){
         let result;
         let target = document.getElementById("loader");
@@ -131,17 +265,18 @@ function redirectToSystemBrowser(url) {
        
         if(app.sheetMusicActive){
            // make a shell for pdf viewing
-           const pdfurl = config.pdfpath + app.getHymnWithZeros(app.currentHymn) + " Guitar.pdf";
-              let pdfIframe = document.createElement("iframe");
-                pdfIframe.setAttribute("src", pdfurl);
-                pdfIframe.setAttribute("frameborder", "0");
-                pdfIframe.setAttribute("width", "100%");
-                pdfIframe.setAttribute("height", "100%");
-                pdfIframe.setAttribute("scrolling", "yes");
-                pdfIframe.setAttribute("allowfullscreen", "true");
-                pdfIframe.setAttribute("class", "pdfIframe");
-                pdfTarget.innerHTML = pdfIframe.outerHTML;
-        } 
+           // show pdf div
+           app.showPdfViewer(true);
+           let hymnNumber =app.getHymnWithZeros(app.currentHymn);
+           
+           const pdfurl = config.pdfpath + hymnNumber + " Guitar.pdf";
+           console.log("pdf url", pdfurl)
+
+            pdf.url = pdfurl;
+            pdf.init();
+        } else {
+            app.showPdfViewer(false);
+        }
         
         let file = "hymn" + app.getHymnWithZeros(app.currentHymn);
         if(window['lyrics_' + app.lang]){
@@ -207,8 +342,9 @@ function redirectToSystemBrowser(url) {
         }
         
         app.setLang(langValue);
-         
         app.getTitle();
+
+        
         var fontKey = "size";
         var fontSize = app.storage.getItem(fontKey);
         if(fontSize==null){
@@ -249,9 +385,19 @@ function redirectToSystemBrowser(url) {
         const sheetMusicOption = (config.pdf? config.pdf:false);
         app.sheetMusicEnabled = sheetMusicOption;
         if(app.sheetMusicEnabled){
-            document.getElementById("toggleType").classList.remove("hidden");
-            document.getElementById("pdfloader").classList.remove("hidden");
-        }
+            const sheetMusicToggleWrapperNode = document.getElementById("toggleType");
+            sheetMusicToggleWrapperNode.classList.remove("hidden");
+            const sheetMusicToggleNode = document.getElementById("sheetMusicToggle");
+            let sheetMusicActiveInit = (app.storage.getItem("sheetMusicActive")? app.storage.getItem("sheetMusicActive"): false);
+            console.log("sheetMusicActive", sheetMusicActiveInit)
+            app.sheetMusicActive =  (sheetMusicActiveInit=="true"? true:false);
+            if(app.sheetMusicActive){
+                app.sheetMusicEnabled = true;
+                // get the sheetMusicToggleNode node and set it to checked
+                sheetMusicToggleNode.checked=true;
+            }
+            console.log("setting", app.sheetMusicActive)
+            }
       },
       setLang: function(langValue){
         app.lang = langValue;
@@ -343,21 +489,16 @@ function redirectToSystemBrowser(url) {
             let val = e.target.checked;
             console.log("music active", val)
             app.sheetMusicActive = val;
+
             if(val==true){
-                document.getElementById("pdfloader").classList.add("active");
-                document.getElementById("pdfloader").classList.remove("hidden");
-                document.getElementById("loader").classList.add("hidden");
-                document.getElementById("loader").classList.remove("active");
-                //check if pdf has loaded yet
-                if(!document.querySelector(".pdfIframe")){
-                    app.getHymnText();
-                }
+                app.showPdfViewer(true);
+               
+                
             } else {
-                document.getElementById("pdfloader").classList.remove("active");
-                document.getElementById("pdfloader").classList.add("hidden");
-                document.getElementById("loader").classList.add("active");
-                document.getElementById("loader").classList.remove("hidden");
+                app.showPdfViewer(false);
+               
             }
+            app.storage.setItem("sheetMusicActive", val);
         });
 
         document.querySelector(".titleCheckbox input").addEventListener("click",function(el){
