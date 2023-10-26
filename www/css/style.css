@@ -1,19 +1,41 @@
-:root {
-  --bg-footer-start: rgba(255,255,255,0.46);
-  --bg-footer-stop: rgba(255,255,255,0.91);
-  --bg-header: #0d6efd;
-  --bg-body: #fff;
-  --text-color: #222;
-  --fontSize: 14px;
-  --button-border: #6c757d;
-}
-
 @font-face {
   font-family: "Noto-sans";
   src: url("../font/notosans-regular.ttf") format("truetype"), url("../font/notosans-regular-webfont.woff") format("woff"), url("../font/notosans-regular-webfont.woff2") format("woff2");
 }
+:root {
+  --charcoal: #3B3B3B;
+  --yellowButton: #ffc742;
+  --darkGold: #AC7A00;
+  --blue: #178CE0;
+  --bg-footer-start: rgba(255,255,255,0.46);
+  --bg-footer-stop: rgba(255,255,255,0.91);
+  --bg-header:var(--blue);
+  --bg-headerBot: rgb(242, 242, 242);
+  --bg-body: #fff;
+  --text-color: var(--charcoal);
+  --fontSize: 14px;
+  --button-border: #6c757d;
+  --linkColor: var(--bg-header);
+  --searchHeader: var(--yellowButton);
+  --searchHeaderText: var(--charcoal);
+  --searchHeaderButtonText: var(--darkGold);
+}
+
 html {
   height: 100%;
+}
+html.dim {
+  --bg-footer-start: rgba(000,000,000,0.46);
+  --bg-footer-stop: rgba(000,000,000,0.91);
+  --bg-header: #333;
+  --bg-body: #111;
+  --text-color: #eee;
+  --button-border: #6c757d;
+  --bg-headerBot: #222;
+  --linkColor: #9ec5ff;
+  --searchHeader: var(--darkGold);
+  --searchHeaderText: var(--text-color);
+  --searchHeaderButtonText: var(--yellowButton);
 }
 html[lang=en] #copyright .contentMain #loadCopyright > div, html[lang=de] #copyright .contentMain #loadCopyright > div, html[lang=pg] #copyright .contentMain #loadCopyright > div, html[lang=nl] #copyright .contentMain #loadCopyright > div, html[lang=it] #copyright .contentMain #loadCopyright > div {
   display: none;
@@ -26,14 +48,6 @@ html[lang=fr] #copyright .contentMain #loadCopyright > div {
 }
 html[lang=fr] #copyright .contentMain #loadCopyright > div.fr {
   display: block;
-}
-html.dim {
-  --bg-footer-start: rgba(000,000,000,0.46);
-  --bg-footer-stop: rgba(000,000,000,0.91);
-  --bg-header: #333;
-  --bg-body: #111;
-  --text-color: #eee;
-  --button-border: #6c757d;
 }
 
 body {
@@ -50,12 +64,38 @@ body.scrollbar .mainContent .page footer.hymnFooter {
 body.scrollbar .mainContent .page#hymns .musicPlayer .video-js .vjs-progress-control {
   width: calc(100vw - 17px);
 }
+body #search .navbar, body #number .navbar {
+  background-color: var(--searchHeader);
+  color: var(--searchHeaderText);
+}
+body #search .navbar .navbar-brand, body #number .navbar .navbar-brand {
+  color: var(--searchHeaderText);
+}
+body #search .navbar .btn, body #number .navbar .btn {
+  color: var(--searchHeaderButtonText);
+}
+body #backToHymns {
+  color: #fff;
+}
 body .form-control {
   background-color: var(--bg-body);
   color: var(--text-color);
 }
 body .table {
   color: var(--text-color);
+}
+body .table #tocBody td a {
+  color: var(--linkColor);
+  font-size: 1.2em;
+  text-decoration: none;
+}
+body mark {
+  background-color: var(--yellowButton);
+  padding: 1px 2px;
+  border-radius: 5px;
+  text-decoration: none;
+  position: relative;
+  display: inline-block;
 }
 body .hidden {
   display: none !important;
@@ -66,6 +106,10 @@ body .invisible {
 body .main {
   overflow-x: hidden;
   height: 100%;
+}
+body .btn-secondary {
+  background-color: var(--yellowButton);
+  color: #000;
 }
 body .mainContent {
   display: flex;
@@ -134,11 +178,7 @@ body .mainContent .page#number .contentMain .contentInner {
   background: var(--body-bg);
 }
 body .mainContent .page#number #searchByNumberBtn {
-  border-color: #fff;
-  color: #fff;
-}
-body .mainContent .page#number #searchByNumberBtn:hover {
-  background-color: var(--bg-header);
+  border-width: 0;
 }
 body .mainContent .page#copyright {
   overflow: hidden;
@@ -163,7 +203,7 @@ body .mainContent .page#copyright #loadCopyright .tabs {
   position: sticky;
   top: 52px;
   margin-top: -54px;
-  background: var(--bg-header);
+  background: var(--bg-headerBot);
   margin-left: 0;
   padding: 0;
 }
@@ -330,8 +370,33 @@ body .mainContent .page header {
   height: 110px;
   z-index: 99;
 }
+body .mainContent .page header .navbar {
+  background: var(--bg-header);
+  color: #fff;
+}
+body .mainContent .page header .navbar > * {
+  color: #fff;
+}
+body .mainContent .page header .navbar .navbar-toggler-override {
+  color: #fff;
+}
+body .mainContent .page header .navbar .navbar-nav li a {
+  color: #fff;
+}
+body .mainContent .page header .navbar .btn {
+  border: 0;
+  color: #fff;
+}
+body .mainContent .page header .navbar .btn#searchButton {
+  background-color: var(--yellowButton);
+  color: #3B3B3B;
+}
+body .mainContent .page header .navbar .btn:active, body .mainContent .page header .navbar .btn:hover, body .mainContent .page header .navbar .btn:focus {
+  background: transparent;
+}
 body .mainContent .page header .navbar-brand {
   margin-right: 0;
+  color: #fff;
 }
 body .mainContent .page header #languageSelector {
   margin-top: 1em;
@@ -344,10 +409,9 @@ body .mainContent .page header #languageSelector::before {
   height: 1px;
   left: 0;
   top: 0;
-  border-top: 1px solid #444;
 }
 body .mainContent .page header .headerFormControl {
-  background-color: var(--bg-header);
+  background-color: var(--bg-headerBot);
 }
 body .mainContent .page header #navigationActions {
   list-style: none;

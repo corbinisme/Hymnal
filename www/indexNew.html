@@ -60,17 +60,17 @@
     <div class="page wrapper active" id="hymns">
 
       <header class="headerTop mainPage" >
-        <nav class="navbar  navbar-dark bg-dark">
+        <nav class="navbar">
           <div class="container-fluid">
            
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-              <span class="navbar-toggler-icon"></span>
+              <span class="navbar-toggler-override fa fa-bars"></span>
             </button>
             <a class="navbar-brand pageTitle" id="brand" href="#">UCG Hymnal</a>
             <div class="d-flex actions">
               <div class="text-white" id="navigationActions">
                 
-                  <a href="#" class="nav-links changePageButton text-white btn btn-outline-secondary" data-page="search" id="searchButton">
+                  <a href="#" class="nav-links changePageButton btn btn-outline-secondary" data-page="search" id="searchButton">
                     <i class="fa fa-search"></i>
                   </a>
                 
@@ -104,7 +104,7 @@
       
        <div class="hymnalSelection headerFormControl">
         <div class="hymnalSelectionWrapper p-2">
-          <select title="hymn selector" name="hymnSelect" id="hymnSelect" class="form-control">
+          <select title="hymn selector" name="hymnSelect" id="hymnSelect" class="form-select form-control">
                 <option value="0">select hymn</option>
           </select>
         </div>
@@ -211,14 +211,9 @@
 
     <div class="page wrapper" id="search">
       <header class="headerTop mainPage" >
-        <nav class="navbar  navbar-dark bg-dark">
+        <nav class="navbar">
           <div class="container-fluid">
-            <span class="titleCheckbox invisible">
-              <label>
-                <input type="checkbox" value="0" />
-                <span>Title only</span>
-              </label>
-            </span>
+            
             <a class="navbar-brand pageTitle" href="#" id="searchTitle">Search</a>
             <a href="#" class="btn btn-outline-secondary changePageButton" data-page="hymns" id="backToHymns">
               <i class="fa fa-arrow-left"></i>
@@ -250,9 +245,9 @@
 
     <div class="page wrapper" id="number">
       <header class="headerTop mainPage" >
-        <nav class="navbar  navbar-dark bg-dark">
+        <nav class="navbar">
           <div class="container-fluid">
-            <span>&nbsp;</span>
+
             <a class="navbar-brand pageTitle" href="#" id="byNumberTitle">Hymn Number</a>
             <a href="#" class="btn btn-outline-secondary changePageButton" data-page="hymns" id="backToHymns">
               <i class="fa fa-arrow-left"></i>
@@ -263,7 +258,7 @@
         <div class="p-2 headerFormControl">
           <form id="formByNum" name="formByNum" class="d-flex input-group" id="formByNum" action="">
             <input class="form-control searchByNumber" id="searchByNumber" type="number" />
-            <input type="submit" class="btn btn-outline-secondary" value="Go" id="searchByNumberBtn" />
+            <input type="submit" class="btn btn-secondary" value="Go" id="searchByNumberBtn" />
           </form>
         </div>
      
@@ -282,7 +277,7 @@
     <div class="page wrapper" id="copyright">
 
       <header class="headerTop mainPage" >
-        <nav class="navbar  navbar-dark bg-dark">
+        <nav class="navbar">
           <div class="container-fluid">
             <span>&nbsp;</span>
             <a class="navbar-brand" href="#">Copyright</a>
@@ -327,7 +322,7 @@
  -->
  <script src="js/pdf.js"></script>
  <script src="js/config.js"></script>
- <script src="js/app.js"></script>
+ <script src="js/app.js?v=3"></script>
 
 
 

@@ -442,6 +442,7 @@ function redirectToSystemBrowser(url) {
         let select= document.createElement("select");
         select.classList.add("form-control");
         select.classList.add("tab-alt");
+        select.classList.add("form-select");
         document.querySelectorAll(`#loadCopyright .${app.lang} .tabs li a`).forEach(function(tab){
             let id = tab.getAttribute("data-id");
             let text = tab.innerHTML;
@@ -501,17 +502,7 @@ function redirectToSystemBrowser(url) {
             app.storage.setItem("sheetMusicActive", val);
         });
 
-        document.querySelector(".titleCheckbox input").addEventListener("click",function(el){
-            if(el.target.checked){
-                app.searchTitleOnly = true;
-                app.makeSearchContent();
-                
-            } else {
-                app.searchTitleOnly = false;
-                app.makeSearchContent();
-            }
-            document.getElementById("filterSearch").focus()
-        })
+        
 
         document.querySelector("#pianoIcon").addEventListener("click", function(e){
 
