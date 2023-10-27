@@ -81,6 +81,14 @@ body .form-control {
   background-color: var(--bg-body);
   color: var(--text-color);
 }
+body .form-control:focus {
+  background-color: var(--bg-body);
+  color: var(--text-color);
+}
+body .form-select {
+  background-color: var(--bg-body);
+  color: var(--text-color);
+}
 body .table {
   color: var(--text-color);
 }

@@ -175,7 +175,7 @@ function redirectToSystemBrowser(url) {
             isMobile = true;
         } else {
             // The user is not on a mobile device
-            console.log("not mobile")
+            console.log("not actual mobile")
         }
 
         let hasScrollbar = document.getElementById("hymns").scrollHeight > window.innerHeight;
@@ -454,9 +454,7 @@ function redirectToSystemBrowser(url) {
         let div = document.createElement("div");
         div.append(select)
 
-        console.log("here")
         document.querySelector(`#loadCopyright .${app.lang} .tabs`).classList.add("p-2")
-        
         document.querySelector(`#loadCopyright .${app.lang} .tabs`).innerHTML = div.innerHTML;
         document.querySelector(`#loadCopyright .${app.lang} .tabs .form-control`).addEventListener("change", function(e){
             
@@ -684,6 +682,30 @@ function redirectToSystemBrowser(url) {
             table.appendChild(row);
         });
     },
+    trimHighlightedMatches: function(text) {
+
+        // trim the text before and after the first occurance of <mark>
+        let firstMark = text.indexOf("<mark>");
+        let lastMark = text.indexOf("</mark>");
+        let newText = text;
+        let startIndex = firstMark - 95;
+        let startPrefix = "...";
+        let endPrefix = "...";
+        if(startIndex<0){
+            startIndex = 0;
+            startPrefix = "";
+        }
+        // get number of characters of the text
+        let totalChars = text.length;
+        let endIndex = lastMark + 95;
+        if(endIndex>totalChars){
+            endIndex = totalChars;
+            endPrefix = "";
+        }
+        newText = startPrefix + newText.substring(startIndex, endIndex) + endPrefix;
+
+        return newText;
+    },
     
       makeSearchContent: function(){
 
@@ -692,7 +714,7 @@ function redirectToSystemBrowser(url) {
             title = window['title_'+app.lang];
 
           let content = '';
-          console.log("title only?", app.searchTitleOnly, "test filter: ",  app.currentSearchFilter)
+          console.log("filter: ",  app.currentSearchFilter);
           for(var i=0; i<title.length; i++){
   
             // see if this makes the cut using the current search filter
@@ -725,20 +747,14 @@ function redirectToSystemBrowser(url) {
                 // lots of search logic
                 if(name.toLowerCase().indexOf(lowerFilter)>-1){
                     addThis = true;
-                    //name = name.replaceAll(filterText, "<mark>" + filterText + "</mark>");
-                     // change the below function to use regex
-                    //name = name.toLowerCase().replaceAll(lowerFilter, "<mark>" + lowerFilter + "</mark>");
-                    // create a regex function to replace all instances of the filter text with the same text wrapped in a mark tag
-                    let regex = new RegExp(lowerFilter, "g");
-                    //name = name.replace(regex, "<mark>" + lowerFilter + "</mark>");
-                    name = app.highlightMatches(name, lowerFilter)
-                    
-                    
+                
+                    name = app.highlightMatches(name, lowerFilter);
+
                 }
                 if(origTitle == lowerFilter){
                     addThis = true;
                 }
-                if(app.searchTitleOnly==false && theseSearchLyrics.indexOf(lowerFilter) >-1){
+                if(theseSearchLyrics.toLowerCase().indexOf(lowerFilter) >-1){
                     addThis = true;
                     showLyrics = true;
 
@@ -752,15 +768,9 @@ function redirectToSystemBrowser(url) {
                     highlightedSearchLyrics = highlightedSearchLyrics.replace(/,/g, " ");
                     highlightedSearchLyrics = highlightedSearchLyrics.replace(/:/g, " ");
                     highlightedSearchLyrics = highlightedSearchLyrics.replace(/Chorus/g, " ");
-                    // replace the above replaceAll functions with a regex function
                     
-                    //
-                    
-
-                    if(theseSearchLyrics.toLowerCase().indexOf(filterText)>-1){
-                        //highlightedSearchLyrics = highlightedSearchLyrics.replaceAll(filterText, "<mark>" + filterText + "</mark>");
-                        highlightedSearchLyrics = app.highlightMatches(highlightedSearchLyrics, filterText);
-                    }
+                    highlightedSearchLyrics = app.highlightMatches(highlightedSearchLyrics, filterText);
+                    highlightedSearchLyrics = app.trimHighlightedMatches(highlightedSearchLyrics);
                 }
             }
             
@@ -768,16 +778,16 @@ function redirectToSystemBrowser(url) {
             if(addThis==true){
                 content += `
               
-                <tr>
-                    <td>${origTitle}</td>
-                    <td>
-                        <a href="javascript:app.loadSearch('${num}');" class="searchLink">
-                            <span class="text-link d-block">${name}</span>
-                            
-                        </a>
-                        ${(showLyrics? "<br />" + highlightedSearchLyrics: "")}
-                    </td>
-                </tr>
+                    <tr>
+                        <td>${origTitle}</td>
+                        <td>
+                            <a href="javascript:app.loadSearch('${num}');" class="searchLink">
+                                <span class="text-link d-block">${name}</span>
+                                
+                            </a>
+                            ${(showLyrics? "<br />" + highlightedSearchLyrics: "")}
+                        </td>
+                    </tr>
                  `
             }
   
@@ -956,16 +966,18 @@ function redirectToSystemBrowser(url) {
                 element.addEventListener("click", function(el){
                     el.preventDefault();
 
-
                     let id = el.target.id;
 
                     if(id!="copyrightBtn"){
+                        
                         let lang = el.target.getAttribute("data-lang");
 
                         app.setLang(lang)
                         app.toggleHamburger();
                         app.loadCurrentLang();
                     } else {
+                        
+                        console.log("copyright")
                         app.toggleHamburger();
                         app.changePage("copyright");
                         if(true){
