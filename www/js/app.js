@@ -702,9 +702,27 @@ function redirectToSystemBrowser(url) {
             endIndex = totalChars;
             endPrefix = "";
         }
+        let splits = newText.split(" ");
+        // find out what entry in the splits array our firstMark is
+        let markIndex = 0;
+        for(var i=0; i<splits.length; i++){
+            let split = splits[i];
+            if(split.indexOf("<mark>")>-1){
+                markIndex = i;
+                break;
+            }
+        }
+
+        let startIndex2 = ((markIndex - 15)>=0? markIndex - 15:0);
+        let endIndex2 = markIndex+15;
+
+        let newString = splits.slice(startIndex2, endIndex2).join(" ");
+
+        console.log("newString", newString)
+
         newText = startPrefix + newText.substring(startIndex, endIndex) + endPrefix;
 
-        return newText;
+        return newText + "<br /><code>" + startPrefix +  newString + endPrefix +  "</code>";
     },
     
       makeSearchContent: function(){
