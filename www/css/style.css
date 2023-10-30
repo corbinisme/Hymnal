@@ -19,6 +19,7 @@
   --searchHeader: var(--yellowButton);
   --searchHeaderText: var(--charcoal);
   --searchHeaderButtonText: var(--darkGold);
+  --form-border: #ced4da;
 }
 
 html {
@@ -29,13 +30,14 @@ html.dim {
   --bg-footer-stop: rgba(000,000,000,0.91);
   --bg-header: #333;
   --bg-body: #111;
-  --text-color: #eee;
+  --text-color: #ccc;
   --button-border: #6c757d;
   --bg-headerBot: #222;
   --linkColor: #9ec5ff;
   --searchHeader: var(--darkGold);
-  --searchHeaderText: var(--text-color);
+  --searchHeaderText: #fff;
   --searchHeaderButtonText: var(--yellowButton);
+  --form-border: #333;
 }
 html[lang=en] #copyright .contentMain #loadCopyright > div, html[lang=de] #copyright .contentMain #loadCopyright > div, html[lang=pg] #copyright .contentMain #loadCopyright > div, html[lang=nl] #copyright .contentMain #loadCopyright > div, html[lang=it] #copyright .contentMain #loadCopyright > div {
   display: none;
@@ -80,6 +82,7 @@ body #backToHymns {
 body .form-control {
   background-color: var(--bg-body);
   color: var(--text-color);
+  border-color: var(--form-border);
 }
 body .form-control:focus {
   background-color: var(--bg-body);
@@ -88,9 +91,17 @@ body .form-control:focus {
 body .form-select {
   background-color: var(--bg-body);
   color: var(--text-color);
+  border-color: var(--form-border);
 }
 body .table {
   color: var(--text-color);
+}
+body .table th {
+  border-color: var(--form-border) !important;
+  border-bottom-width: 3px;
+}
+body .table #tocBody td {
+  border-color: var(--form-border);
 }
 body .table #tocBody td a {
   color: var(--linkColor);

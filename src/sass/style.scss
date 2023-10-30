@@ -25,6 +25,7 @@ $scrollbar-width: 17px;
     --searchHeader: var(--yellowButton);
     --searchHeaderText: var(--charcoal);
     --searchHeaderButtonText: var(--darkGold);
+    --form-border: #ced4da;
 
 }
 html{
@@ -33,13 +34,14 @@ html{
         --bg-footer-stop: rgba(000,000,000,0.91);
         --bg-header: #333;
         --bg-body: #111;
-        --text-color: #eee;
+        --text-color: #ccc;
         --button-border: #6c757d;
         --bg-headerBot: #222;
         --linkColor: #9ec5ff;
         --searchHeader: var(--darkGold);
-        --searchHeaderText: var(--text-color);
+        --searchHeaderText: #fff;
         --searchHeaderButtonText: var(--yellowButton);
+        --form-border: #333;
     }
     height: 100%;
     &[lang="en"],
@@ -111,6 +113,7 @@ body {
     .form-control {
         background-color: var(--bg-body);
         color: var(--text-color);
+        border-color: var(--form-border);
 
         &:focus {
             background-color: var(--bg-body);
@@ -120,12 +123,18 @@ body {
     .form-select {
         background-color: var(--bg-body);
         color: var(--text-color);
+        border-color: var(--form-border);
     }
     .table {
         color: var(--text-color);
 
+        th {
+            border-color: var(--form-border)!important;
+            border-bottom-width: 3px;
+        }
         #tocBody {
             td {
+                border-color: var(--form-border);
                 a {
                     color: var(--linkColor);
                     font-size: 1.2em;

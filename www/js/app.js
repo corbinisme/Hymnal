@@ -713,8 +713,8 @@ function redirectToSystemBrowser(url) {
             }
         }
 
-        let startIndex2 = ((markIndex - 15)>=0? markIndex - 15:0);
-        let endIndex2 = markIndex+15;
+        let startIndex2 = ((markIndex - 17)>=0? markIndex - 17:0);
+        let endIndex2 = markIndex+17;
 
         let newString = splits.slice(startIndex2, endIndex2).join(" ");
 
@@ -722,7 +722,7 @@ function redirectToSystemBrowser(url) {
 
         newText = startPrefix + newText.substring(startIndex, endIndex) + endPrefix;
 
-        return newText + "<br /><code>" + startPrefix +  newString + endPrefix +  "</code>";
+        return  startPrefix +  newString + endPrefix;
     },
     
       makeSearchContent: function(){
