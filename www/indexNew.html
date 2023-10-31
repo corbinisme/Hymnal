@@ -40,9 +40,11 @@
   <meta name="viewport" id="viewport" content="width=device-width,minimum-scale=1.0,maximum-scale=10.0,initial-scale=1.0" /> 
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
         
-  <link href="https://vjs.zencdn.net/8.0.4/video-js.css" rel="stylesheet" />
+  <!--<link href="https://vjs.zencdn.net/8.0.4/video-js.css" rel="stylesheet" />-->
+  <link href="css/video-js.css" rel="stylesheet" />
   <link rel="stylesheet" href="css/font-awesome.min.css" />
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+  <!--<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">-->
+  <link rel="stylesheet" href="css/bootstrap.min.css" />
 
 
    <link rel="stylesheet" href="css/style.css?v=6" />
@@ -161,43 +163,24 @@
         </div>
         
       </div>
-      <div class="musicPlayer">
-        <audio
-        id="audio_player"
-        class="video-js vjs-default-skin"
-        controls
-        preload="auto"
-        width="600"
-        height="44"
-        
-      >
-      <source src="https://ucgweb.s3.amazonaws.com/files/ucg-hymnal-app-v2/mp3/001.mp3" type="audio/mp3" />
-    </audio>
-       
-      </div>
+     
       <footer class="hymnFooter">
         <div class="row">
           <div class="col">
-           <div class="btn-group">
-            <a href="#" class="btn btn-outline-secondary hidden musicType" id="vocalIcon">
-              <span class="fa fa-users"></span>
-            </a>
-            <a href="#" class="btn btn-outline-secondary musicType" id="pianoIcon">
+
+            <a class="btn btn-outline-secondary musicControl" id="musicControl">
               <span class="fa fa-music"></span>
             </a>
-            <!--<a href="#" class="btn btn-outline-secondary hidden musicType" id="midiIcon">
-              <span class="fa fa-th-list"></span>
-            </a>-->
-            </div>
+           
           </div>
 
           <div class="col actions">
-            <div id="midi"></div>
+              
           </div>
           
           <div class="col text-end">
             <a href="#" class="shareIcon contrastIcon btn btn-outline-secondary" id="contrast">
-              <span class="fa fa-lightbulb-o"></span>
+              <span class="fa fa-moon-o"></span>
             </a>
             <a href="#" class="fontSizer btn btn-outline-secondary">
               <span class="smallerA">A</span>
@@ -205,6 +188,57 @@
           </a>
           </div>
         </div>
+
+        <div class="musicPlayer">
+          <div class="musicPlayerWrapper d-flex">
+            <div class="col">
+           
+              <a href="#" class="btn btn-outline-tertiary hidden musicType" id="vocalIcon">
+                <span class="fa fa-user"></span> 
+                <span class="fa fa-microphone"></span> 
+              </a>
+              <a href="#" class="btn btn-outline-tertiary musicType" id="pianoIcon">
+                <span class="icon iconPiano">
+                  <img src="images/piano.png" alt="piano" />
+                </span> 
+              </a>
+
+              <div class="form-check form-switch">
+                <label class="form-check-label" 
+                for="vocal_version"><span>Vocal</span>
+                </label>
+                <input class="form-check-input" 
+                type="checkbox" id="vocal_version">
+                
+            </div>
+              
+         
+          </div>
+          
+            <div class="mediaPlayer col">
+              <audio
+              id="audio_player"
+              class="video-js vjs-default-skin"
+              controls
+              preload="auto"
+              width="600"
+              height="44"
+              
+                >
+                <source src="https://ucgweb.s3.amazonaws.com/files/ucg-hymnal-app-v2/mp3/001.mp3" type="audio/mp3" />
+              </audio>
+         
+            </div>
+  
+            <div class="col text-end">
+              
+              <a class="btn btn-outline-tertiary musicAction" href="#" id="closeMusic">
+                <i class="fa fa-times"></i>
+              </a>
+            </div>
+          </div>
+        </div>
+
       </footer>
       
     </div>
@@ -316,10 +350,10 @@
  <script src="js/lang.min.js"></script>
  <!--
  <script type='text/javascript' src='//www.midijs.net/lib/midi.js'></script>
- -->
  <script src="https://vjs.zencdn.net/8.0.4/video.min.js"></script>
- <!--<script src="js/transpiled.js"></script>
+ 
  -->
+ <script src="js/video.js"></script>
  <script src="js/pdf.js"></script>
  <script src="js/config.js"></script>
  <script src="js/app.js?v=3"></script>

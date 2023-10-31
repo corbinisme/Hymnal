@@ -2,6 +2,10 @@
   font-family: "Noto-sans";
   src: url("../font/notosans-regular.ttf") format("truetype"), url("../font/notosans-regular-webfont.woff") format("woff"), url("../font/notosans-regular-webfont.woff2") format("woff2");
 }
+@font-face {
+  font-family: "Noto-sans-bold";
+  src: url("../font/notosans-bold.ttf") format("truetype"), url("../font/notosans-bold-webfont.woff") format("woff"), url("../font/notosans-bold-webfont.woff2") format("woff2");
+}
 :root {
   --charcoal: #3B3B3B;
   --yellowButton: #ffc742;
@@ -20,6 +24,9 @@
   --searchHeaderText: var(--charcoal);
   --searchHeaderButtonText: var(--darkGold);
   --form-border: #ced4da;
+  --toggleBG: #fff;
+  --toggleBorder: var(--form-border);
+  --toggleCheckedBG: var(--blue);
 }
 
 html {
@@ -32,12 +39,15 @@ html.dim {
   --bg-body: #111;
   --text-color: #ccc;
   --button-border: #6c757d;
-  --bg-headerBot: #222;
+  --bg-headerBot: #454545;
   --linkColor: #9ec5ff;
   --searchHeader: var(--darkGold);
   --searchHeaderText: #fff;
   --searchHeaderButtonText: var(--yellowButton);
   --form-border: #333;
+  --toggleBG: #eee;
+  --toggleBorder: var(--form-border);
+  --toggleCheckedBG: var(--darkGold);
 }
 html[lang=en] #copyright .contentMain #loadCopyright > div, html[lang=de] #copyright .contentMain #loadCopyright > div, html[lang=pg] #copyright .contentMain #loadCopyright > div, html[lang=nl] #copyright .contentMain #loadCopyright > div, html[lang=it] #copyright .contentMain #loadCopyright > div {
   display: none;
@@ -61,6 +71,9 @@ body {
   font-family: "Noto-sans", sans-serif;
 }
 body.scrollbar .mainContent .page footer.hymnFooter {
+  width: calc(100vw - 17px);
+}
+body.scrollbar .mainContent .page#hymns .musicPlayer {
   width: calc(100vw - 17px);
 }
 body.scrollbar .mainContent .page#hymns .musicPlayer .video-js .vjs-progress-control {
@@ -107,6 +120,7 @@ body .table #tocBody td a {
   color: var(--linkColor);
   font-size: 1.2em;
   text-decoration: none;
+  font-family: "Noto-sans-bold", sans-serif;
 }
 body mark {
   background-color: var(--yellowButton);
@@ -271,6 +285,12 @@ body .mainContent .page#hymns .contentMain #toggleType {
 body .mainContent .page#hymns .contentMain #pdfloader {
   height: calc(100vh - 5em);
 }
+body .mainContent .page#hymns #vocalIcon span {
+  position: relative;
+}
+body .mainContent .page#hymns #vocalIcon span.fa-microphone {
+  position: absolute;
+}
 body .mainContent .page#hymns a.fontSizer {
   position: relative;
 }
@@ -303,16 +323,51 @@ body .mainContent .page#hymns audio#audio_player {
 }
 body .mainContent .page#hymns .musicPlayer {
   width: 100%;
-  width: calc(100vw - 200px);
-  left: 100px;
-  position: fixed;
-  height: 3.8em;
-  bottom: 0;
-  z-index: 98;
-  display: none;
+  width: 100%;
+  left: 0px;
+  position: static;
+  height: 4em;
+  overflow: hidden;
+  bottom: 0px;
+  margin-top: 4px;
+  z-index: 989;
+  padding: 0 1em;
+  transform: translateY(10em);
+  box-shadow: -1px -3px 21px -15px var(--text-color);
 }
 body .mainContent .page#hymns .musicPlayer.active {
   display: block;
+  background-color: var(--bg-body);
+  transform: translateY(0em);
+}
+body .mainContent .page#hymns .musicPlayer .form-switch {
+  display: flex;
+  justify-content: space-between;
+  padding-left: 0;
+  align-items: center;
+}
+body .mainContent .page#hymns .musicPlayer .form-switch .form-check-input {
+  position: relative;
+  left: -1.95em;
+  background-color: var(--toggleBG);
+  border-color: var(--toggleBorder);
+}
+body .mainContent .page#hymns .musicPlayer .form-switch .form-check-input:checked {
+  background-color: var(--toggleCheckedBG);
+  border-color: var(--toggleCheckedBG);
+}
+body .mainContent .page#hymns .musicPlayer .musicPlayerWrapper {
+  align-items: center;
+}
+body .mainContent .page#hymns .musicPlayer .musicType {
+  display: none;
+}
+body .mainContent .page#hymns .musicPlayer .musicType.active {
+  border: none;
+}
+body .mainContent .page#hymns .musicPlayer .iconPiano img {
+  width: 22px;
+  height: auto;
 }
 body .mainContent .page#hymns .musicPlayer .video-js {
   background-color: transparent;
@@ -320,13 +375,26 @@ body .mainContent .page#hymns .musicPlayer .video-js {
   z-index: 80;
   margin-top: 0.62em;
 }
+body .mainContent .page#hymns .musicPlayer .video-js .vjs-menu-content {
+  background-color: var(--bg-body);
+  border: 1px solid var(--form-border);
+}
 body .mainContent .page#hymns .musicPlayer .video-js > .vjs-control-bar {
   background-color: transparent;
   height: 38px;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+}
+body .mainContent .page#hymns .musicPlayer .video-js > .vjs-control-bar .playlist-controls .btn {
+  background-color: var(--bg-body);
+  color: var(--text-color);
+  height: 43px;
+  line-height: 31px;
 }
 body .mainContent .page#hymns .musicPlayer .video-js .vjs-control.vjs-button {
   border: 1px solid;
-  border-radius: 3px;
+  border-radius: 50%;
   font-size: 12px;
   margin-right: 5px;
   background: var(--bg-body);
@@ -334,6 +402,12 @@ body .mainContent .page#hymns .musicPlayer .video-js .vjs-control.vjs-button {
   height: 42px;
   width: 42px;
   border-color: var(--button-border);
+}
+body .mainContent .page#hymns .musicPlayer .video-js .vjs-control.vjs-button.vjs-playback-rate {
+  border: none;
+}
+body .mainContent .page#hymns .musicPlayer .video-js .vjs-playback-rate {
+  border: none;
 }
 body .mainContent .page#hymns .musicPlayer .video-js .vjs-playback-rate .vjs-playback-rate-value {
   line-height: 2.4em;
@@ -398,6 +472,9 @@ body .mainContent .page header .navbar {
 body .mainContent .page header .navbar > * {
   color: #fff;
 }
+body .mainContent .page header .navbar .navbar-toggler:focus {
+  box-shadow: 0 0 0 0.25rem rgba(255, 255, 255, 0.2);
+}
 body .mainContent .page header .navbar .navbar-toggler-override {
   color: #fff;
 }
@@ -452,17 +529,23 @@ body .mainContent .page footer {
 }
 body .mainContent .page footer.hymnFooter {
   position: fixed;
-  padding: 0 8px;
+  padding: 0;
   bottom: 0;
   width: 100%;
+  transition: all ease 0.3s;
   left: 0;
   width: 100%;
   z-index: 78;
   line-height: 3.8em;
+  height: 3.8em;
   background: linear-gradient(0deg, var(--bg-footer-stop), transparent);
   color: var(--text-color);
 }
+body .mainContent .page footer.hymnFooter.musicOpen {
+  height: 8em;
+}
 body .mainContent .page footer.hymnFooter .row {
+  margin: 0;
   flex-wrap: nowrap;
 }
 body .mainContent .page footer.hymnFooter .row .col {
@@ -479,4 +562,11 @@ body .mainContent .page footer.hymnFooter .col.actions {
 }
 body .mainContent .page footer.hymnFooter .btn {
   background-color: var(--bg-body);
+}
+body .mainContent .page footer.hymnFooter .btn.active {
+  background-color: var(--bg-headerBot);
+}
+body .mainContent .page footer.hymnFooter #pianoIcon.solo {
+  border-top-left-radius: 3px;
+  border-bottom-left-radius: 3px;
 }

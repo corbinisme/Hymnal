@@ -10,123 +10,7 @@ function redirectToSystemBrowser(url) {
   var path = config.path;
   var vocal_path = (config.vocal_path? config.vocal_path:null);
   
-  var pdf = {
-    url: "pdf/001%20Guitar.pdf",
-    pageNum:1,
-    pageRendering:false,
-    pageNumPending:null,
-    scale:0.8,
-    canvas:document.getElementById('thecanvas'),
-    ctx: null,
-    init: function(){
-      pdf.ctx = pdf.canvas.getContext('2d');
-      pdf.binding();
-      pdfjsLib.getDocument({
-            url:pdf.url,
-            withCredentials: true
-        }).promise.then(function(pdfDoc_) {
-        pdfDoc = pdfDoc_;
-        document.getElementById('page_count').textContent = pdfDoc.numPages;
-        document.getElementById('pdfPlus').addEventListener('click', 
-          function(){
-            pdf.zoomPdf('plus')
-          });
-        document.getElementById('pdfMinus').addEventListener('click', 
-          function(){
-            pdf.zoomPdf('minus')
-          });
 
-        // Initial/first page rendering
-        pdf.renderPage();
-      });
-    },
-    
-    binding: function(){
-
-      document.getElementById('prev').addEventListener('click', pdf.onPrevPage);
-      document.getElementById('next').addEventListener('click', pdf.onNextPage);
-      
-
-      // Listen for document to be loaded
-      document.addEventListener('pagesinit', function () {
-        // Create the measurement div.
-        var div = document.createElement('div');
-        div.id = 'page-measure';
-        document.body.appendChild(div);
-      });
-
-      // Listen for document to be unloaded
-      document.addEventListener('pageunload', function () {
-        // Remove the measurement div.
-        var div = document.getElementById('page-measure');
-        if (div) {
-          document.body.removeChild(div);
-        }
-      });
-    },
-    renderPage: function(){
-      pdf.pageRendering = true;
-      console.log("render page", pdfDoc)
-      pdfDoc.getPage(pdf.pageNum).then(function(page) {
-        var viewport = page.getViewport({scale: pdf.scale});
-        pdf.canvas.height = viewport.height;
-        pdf.canvas.width = viewport.width;
-
-        // Render PDF page into canvas context
-        var renderContext = {
-          canvasContext: pdf.ctx,
-          viewport: viewport
-        };
-        var renderTask = page.render(renderContext);
-
-        // Wait for rendering to finish
-        renderTask.promise.then(function() {
-          pdf.pageRendering = false;
-          if (pdf.pageNumPending !== null) {
-            // New page rendering is pending
-            pdf.renderPage(pdf.pageNumPending);
-            pdf.pageNumPending = null;
-          }
-        });
-      });
-
-      // Update page counters
-      document.getElementById('page_num').textContent = pdf.pageNum;
-    },
-    queueRenderPage: function(num) {
-      if (pdf.pageRendering) {
-        pdf.pageNumPending = num;
-      } else {
-        pdf.renderPage(num);
-      }
-    },
-    onPrevPage: function() {
-      if (pdf.pageNum <= 1) {
-        return;
-      }
-      pdf.pageNum--;
-      pdf.queueRenderPage(pdf.pageNum);
-    },
-    onNextPage: function() {
-      if (pdf.pageNum >= pdfDoc.numPages) {
-        return;
-      }
-      pdf.pageNum++;
-      pdf.queueRenderPage(pdf.pageNum);
-    },
-    zoomPdf: function(dir){
-      //pdf.pageRendering = true;
-      console.log("zoomies", dir)
-      if(dir == "plus"){
-        pdf.scale += 0.1;
-      }else{
-        pdf.scale -= 0.1;
-      }
-      pdf.renderPage();
-    }
-
-
-  }
   var app = {
       brand: "",
       lang: "en",
@@ -137,20 +21,25 @@ function redirectToSystemBrowser(url) {
       langKey:"lang",
       languages: null,
       searchTitleOnly: false,
+      hasVocal: false,
       hymn: 1,
       storage: null,
       sheetMusicEnabled: false,
       sheetMusicActive: false,
       currentSearchFilter: "",
       currentTitles: [],
+      musicPlayer: null,
+      musicOpen: false,
+      currentMusicType: "piano",
       init: function(){
-          app.getConfig();
-          app.eventBindings();
-          app.loadCurrentLang(true);
-          app.getPageSizing();
+            app.getConfig();
+            app.eventBindings();
+            app.loadCurrentLang(true);
+            app.getPageSizing();
             window.addEventListener("resize", function(){
                 app.getPageSizing();
             })
+            app.setMusicOptions();
       },
       loadCurrentLang: function(random){
         app.makeLanguageDropdown();
@@ -291,6 +180,21 @@ function redirectToSystemBrowser(url) {
 
             
         }
+
+        // if music is playing, stop it
+        if(app.musicPlayer)
+            app.musicPlayer.pause()
+
+        
+        document.querySelectorAll(".hymnFooter .musicType").forEach(function(elem){
+            elem.classList.remove("active");
+        });
+       
+        if(app.musicOpen){
+            document.querySelector(".musicPlayer").classList.add("active");
+        } else {
+            document.querySelector(".musicPlayer").classList.remove("active");
+        }
       },
       toggleTheme: function(){
         if(document.querySelector("html").classList.contains("dim")){
@@ -343,6 +247,14 @@ function redirectToSystemBrowser(url) {
         
         app.setLang(langValue);
         app.getTitle();
+
+        let currentMusicType = app.storage.getItem("currentMusicType");
+        if(currentMusicType!=null){
+            app.currentMusicType = currentMusicType;
+        }
+        if(app.currentMusicType=="vocal"){
+            document.getElementById("vocal_version").checked=true;
+        }
 
         
         var fontKey = "size";
@@ -404,6 +316,7 @@ function redirectToSystemBrowser(url) {
         app.storage.setItem(app.langKey, langValue)
         document.querySelector("html").setAttribute("lang", langValue);
         app.getTitle();
+        app.setMusicOptions();
       },
       toggleHamburger: function(){
         let button = document.querySelector(".navbar-toggler")
@@ -414,6 +327,30 @@ function redirectToSystemBrowser(url) {
         } else {
             button.classList.add("collapsed")
             menu.classList.add("show")
+        }
+      },
+      setMusicOptions: function(){
+        const vocalIcon = document.getElementById("vocalIcon");
+        const pianoIcon =   document.getElementById("pianoIcon");
+        const bodyTag = document.querySelector("body");
+        console.log("set music options", app.lang)
+        if(app.lang=="en"){
+            app.hasVocal = true;
+        } else {
+            app.hasVocal = false;
+        }
+        if(app.hasVocal==true){
+            vocalIcon.classList.remove("hidden");
+            pianoIcon.classList.remove("solo");
+            pianoIcon.classList.remove("hidden");
+            bodyTag.classList.add("hasVocal");
+            
+        } else {
+
+            vocalIcon.classList.add("hidden");
+            pianoIcon.classList.add("hidden");
+            bodyTag.classList.remove("hasVocal");
+            
         }
       },
       makeCopyrightTabs: function(){
@@ -472,13 +409,79 @@ function redirectToSystemBrowser(url) {
       },
       setCurrentMusicState: function(type){
         //app.storage.setItem("music", type);
+        app.currentMusicType = type;
         document.querySelectorAll(".musicType").forEach(function(elem){
             elem.classList.remove("active")
         })
         document.querySelector(`#${type}Icon`).classList.add("active");
       },
+
       eventBindings: function(){
         
+        document.getElementById("musicControl").addEventListener("click", function(e){
+            let button = e.target;
+            let originalState = app.musicOpen;
+            app.musicOpen = !app.musicOpen;
+            const bodyTag = document.querySelector("body");
+            const musicPlayerWrapper  = document.querySelector(".musicPlayer");
+            const hymnFooter = document.querySelector(".hymnFooter");
+            if(app.musicOpen==false){
+                button.classList.remove("active");
+                bodyTag.classList.remove("hasMusicOpen");
+                
+                musicPlayerWrapper.classList.remove("active");
+                hymnFooter.classList.remove("musicOpen");
+                app.musicPlayer.pause();
+            } else {
+                button.classList.add("active");
+                bodyTag.classList.add("hasMusicOpen");
+                
+                musicPlayerWrapper.classList.add("active");
+                hymnFooter.classList.add("musicOpen")
+                
+            }
+
+            let musicType = app.currentMusicType;
+            
+            if(originalState==false){
+            app.makeMusic(musicType);
+            app.setCurrentMusicState("piano")
+            }
+                
+            
+        });
+
+        document.getElementById("closeMusic").addEventListener("click", function(e){
+            e.preventDefault();
+            app.musicOpen = false;
+
+            const bodyTag = document.querySelector("body");
+            const musicPlayerWrapper  = document.querySelector(".musicPlayer");
+            const hymnFooter = document.querySelector(".hymnFooter");
+           
+            bodyTag.classList.remove("hasMusicOpen");
+                
+            musicPlayerWrapper.classList.remove("active");
+            hymnFooter.classList.remove("musicOpen");
+            app.musicPlayer.pause();
+
+        });
+
+        document.getElementById("vocal_version").addEventListener("change", function(e){
+            let val = e.target.checked;
+            let currentType = "piano";
+            if(val){
+                currentType = "vocal";
+            }
+            app.hasVocal = val;
+            app.currentMusicType = currentType;
+            app.storage.setItem("currentMusicType", currentType);
+            console.log(val, currentType, "vocal button")
+            app.setMusicOptions();
+            app.makeMusic(currentType);
+        });
+
+
         document.querySelector(".navbar-toggler").addEventListener("click", function(e){
             let button = e.target;
             app.toggleHamburger();
@@ -922,27 +925,47 @@ function redirectToSystemBrowser(url) {
                 document.querySelector(".musicPlayer").classList.add("active");
 
                 source.setAttribute("src", sourcePath);
-                let myPlayer = videojs('audio_player', {
-                    "playbackRates": [0.6, 0.7, 0.8, 0.9, 1, 1.2, 1.3, 1.4, 1.5, 2],
-                    controls: true,
-                    autoplay: false,
-                    preload: 'auto'
-                });
 
-                myPlayer.src({type: 'audio/mp3', src: sourcePath});
-                myPlayer.ready(function() {
-                    myPlayer.play();
+                if(app.musicPlayer){
+
+                } else {
+
+                    app.musicPlayer = videojs('audio_player', {
+                        "playbackRates": [0.6, 0.7, 0.8, 0.9, 1, 1.2, 1.3, 1.4, 1.5, 2],
+                        controls: true,
+                        autoplay: false,
+                        preload: 'auto'
+                    });
+                }
+
+                app.musicPlayer.src({type: 'audio/mp3', src: sourcePath});
+                app.musicPlayer.ready(function() {
+                    app.musicPlayer.play();
+                    app.addShuffleControls();
                 });
+               // add shuffle controls
+              
             }
         } else {
-            // midi
+           // future functionality
 
-            document.getElementById("midi").innerHTML="Playing " + app.getHymnWithZeros(app.currentHymn);
-            //window['playMidi'](app.getHymnWithZeros(app.currentHymn));
-            MIDIjs.play('./hinematov.mid')
+            
             
         }
 
+      },
+      addShuffleControls: function(){
+        const controlBar = document.querySelector(".musicPlayer .video-js .vjs-control-bar");
+        let shufflestring = `
+        
+      `;
+
+      const temp = document.createElement('div');
+      temp.classList.add("playlist-controls")
+        temp.innerHTML = shufflestring;
+
+      //controlBar.appendChild(temp);
+        
       },
       makeLanguageDropdown: function(){
           if(app.languages.length==1){

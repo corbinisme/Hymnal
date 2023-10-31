@@ -6,12 +6,20 @@ $scrollbar-width: 17px;
          url('../font/notosans-regular-webfont.woff2') format('woff2');
 
 }
+@font-face {
+    font-family: 'Noto-sans-bold';
+    src: url('../font/notosans-bold.ttf') format('truetype'),
+         url('../font/notosans-bold-webfont.woff') format('woff'),
+         url('../font/notosans-bold-webfont.woff2') format('woff2');
+
+}
 
 :root {
     --charcoal: #3B3B3B;
     --yellowButton: #ffc742;
     --darkGold:  #AC7A00;
     --blue: #178CE0;
+
 
     --bg-footer-start: rgba(255,255,255,0.46);
     --bg-footer-stop: rgba(255,255,255,0.91);
@@ -26,6 +34,9 @@ $scrollbar-width: 17px;
     --searchHeaderText: var(--charcoal);
     --searchHeaderButtonText: var(--darkGold);
     --form-border: #ced4da;
+    --toggleBG: #fff;
+    --toggleBorder: var(--form-border);
+    --toggleCheckedBG: var(--blue);
 
 }
 html{
@@ -36,12 +47,16 @@ html{
         --bg-body: #111;
         --text-color: #ccc;
         --button-border: #6c757d;
-        --bg-headerBot: #222;
+        --bg-headerBot: #454545;
         --linkColor: #9ec5ff;
         --searchHeader: var(--darkGold);
         --searchHeaderText: #fff;
         --searchHeaderButtonText: var(--yellowButton);
         --form-border: #333;
+        --toggleBG: #eee;
+        --toggleBorder: var(--form-border);
+        --toggleCheckedBG: var(--darkGold);
+    
     }
     height: 100%;
     &[lang="en"],
@@ -83,17 +98,25 @@ body {
     height: 100%;
     font-family: 'Noto-sans', sans-serif;
 
+
+
+    
     &.scrollbar {
         .mainContent {
             .page footer.hymnFooter {
                 width: calc(100vw - $scrollbar-width);
             }
-            .page#hymns .musicPlayer .video-js .vjs-progress-control {
+            .page#hymns .musicPlayer {
                 width: calc(100vw - $scrollbar-width);
+                .video-js .vjs-progress-control {
+                    width: calc(100vw - $scrollbar-width);
+                }
             }
         }
         
     }
+    
+    
     #search, #number {
         .navbar {
             background-color: var(--searchHeader);
@@ -139,6 +162,7 @@ body {
                     color: var(--linkColor);
                     font-size: 1.2em;
                     text-decoration: none;
+                    font-family: 'Noto-sans-bold', sans-serif;
                 }
             }
         }
@@ -361,6 +385,15 @@ body {
                     }
                 }
             
+                #vocalIcon {
+                      
+                    span {
+                        position: relative;
+                        &.fa-microphone {
+                            position: absolute;
+                        }
+                    }
+                }
 
                 a.fontSizer {
                     position: relative;
@@ -399,88 +432,65 @@ body {
 
                 .musicPlayer {
                     width: 100%;
-                    width: calc(100vw - 200px);
-                    left: 100px;
-                    position: fixed;
-                    height: 3.8em;
-                    bottom: 0;
-                    z-index: 98;
-                    display: none;
+                    width: 100%;
+                    left: 0px;
+                    position: static;
+                    height: 4em;
+                    overflow: hidden;
+                    bottom: 0px;
+                    margin-top: 4px;
+                    z-index: 989;
+                    padding: 0 1em;
+                    transform: translateY(10em);
+                    box-shadow: -1px -3px 21px -15px var(--text-color);
                     &.active {
                         display: block;
+                        background-color: var(--bg-body);
+                        transform: translateY(0em);
                     }
 
-                    .video-js {
+                    .form-switch {
+                        display: flex;
+                        justify-content: space-between;
+                        padding-left: 0;
+                        align-items: center;
                         
-                        background-color: transparent;
-                        width: 100%;
-                        z-index: 80;
-                        margin-top: .62em;
+                        .form-check-input {
+                            position: relative;
+                            left: -1.95em;
+                            background-color: var(--toggleBG);
+                            border-color: var(--toggleBorder);
 
-                        >.vjs-control-bar {
-                            background-color: transparent;
-                            height: 38px;
+                            &:checked {
+                                background-color: var(--toggleCheckedBG);
+                                border-color: var(--toggleCheckedBG);
+                            }
                         }
                         
-                        
-                        .vjs-control {
-                            &.vjs-button {
-                                border: 1px solid;
-                                border-radius: 3px;
-                                font-size: 12px;
-                                margin-right: 5px;
-                                background: var(--bg-body);
-                                color: var(--text-color);
-                                height: 42px;
-                                width: 42px;
-                                border-color: var(--button-border);
-                            }
-                            
-                        }
-    
-                        .vjs-playback-rate {
-                            .vjs-playback-rate-value {
-                                line-height: 2.4em;
-                            }
-                        }
-                        .vjs-play-control {
-                            .vjs-icon-placeholder {
-                                &::before {
-                                    top: 2px;
-                                }
-                            }
-                        } 
-                        .vjs-volume-panel {
-                            display: none;
-                        }
-                        .vjs-text-track-display {
-                            display: none;
-                        }
-                        .vjs-remaining-time {
-                            display: none;
-                        }
+                    }
 
-                        .vjs-progress-control {
-                            position: fixed;
-                            top: 110px;
-                            z-index: 99;
-                            height: 6px;
-                            left: 0;
-                            width: calc(100vw);
-
-                            .vjs-progress-holder {
-                                margin: 0;
-                                height: 6px;
-                            }
-                        }
-    
-                        .vjs-menu-button-popup .vjs-menu .vjs-menu-content {
-                            max-height: 30em;
-                        }
-                        .vjs-fullscreen-control {
-                            display: none;
+                    .musicPlayerWrapper {
+                        align-items: center;
+                    }
+                    .musicType  {
+                        display: none;
+                        &.active {
+                            border: none;
                         }
                     }
+
+                    .iconPiano {
+                        img {
+                            width: 22px;
+                            height: auto;
+                        }
+                    }
+
+                    // sass include file
+
+                    @import "videojs"; 
+
+                     
     
                 }
                 
@@ -517,6 +527,12 @@ body {
 
                     >* {
                         color: #fff;
+                    }
+
+                    .navbar-toggler {
+                        &:focus {
+                           box-shadow: 0 0 0 0.25rem #fff3;
+                        }
                     }
                     .navbar-toggler-override {
                         color: #fff;
@@ -591,19 +607,24 @@ body {
                 overflow: hidden;
                 &.hymnFooter {
                     position: fixed;
-                    padding: 0 8px;
+                    padding: 0;
                     bottom: 0;
                     width: 100%;
+                    transition: all ease .3s;
                     left: 0;
                     width: 100%;
                     z-index: 78;
                     line-height: 3.8em;
-
-                    
+                    height: 3.8em;
                     background: linear-gradient(0deg, var(--bg-footer-stop), transparent);
                     color: var(--text-color);
 
+                    &.musicOpen {
+                        height: 8em;
+                    }
+
                     .row {
+                        margin: 0;
                         flex-wrap: nowrap;
 
                         .col {
@@ -622,7 +643,18 @@ body {
                     }
                     .btn {
                         background-color: var(--bg-body);
+
+                        &.active {
+                            background-color: var(--bg-headerBot);
+                        }
                     }
+                    #pianoIcon {
+                        &.solo {
+                            border-top-left-radius: 3px;
+                            border-bottom-left-radius: 3px;
+                        }
+                    }
+
 
                     
                 }
