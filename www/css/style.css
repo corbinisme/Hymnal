@@ -137,14 +137,14 @@ body .mainContent {
   transition: all ease 0.3s;
   height: 100%;
 }
+body .mainContent .page {
+  opacity: 0;
+}
 body .mainContent[data-page-show=search] {
   transform: translateX(-100vw);
 }
 body .mainContent[data-page-show=copyright] {
-  transform: translateX(-100vw);
-}
-body .mainContent[data-page-show=copyright] .page#copyright {
-  margin-left: -200vw;
+  transform: translateX(-200vw);
 }
 body .mainContent[data-page-show=number] {
   transform: translateX(-100vw);
@@ -375,11 +375,13 @@ body .mainContent .page#copyright {
   background-color: var(--bg-body);
 }
 body .mainContent .page#copyright.active {
-  transform: translateX(0);
+  transform: translateX(-100vw);
   z-index: 90;
+  opacity: 1;
 }
 body .mainContent .page.active {
   display: block;
+  opacity: 1;
 }
 body .mainContent .page header {
   position: sticky;

@@ -1004,7 +1004,7 @@ function redirectToSystemBrowser(url) {
                             .then(resp=>{
                                 if (!resp.ok) {
                                     throw new Error('Network response was not ok');
-                                    alert("ahh!")
+                                    //alert("ahh!")
                                 }
                                 return resp.text()
                             })

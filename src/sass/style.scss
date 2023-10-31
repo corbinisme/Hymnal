@@ -179,16 +179,18 @@ body {
 
         height: 100%;
 
+        .page {
+            opacity: 0;
+        }
+
         &[data-page-show="search"]{
             transform: translateX(-100vw);
 
         }
         &[data-page-show="copyright"]{
-            transform: translateX(-100vw);
+            transform: translateX(-200vw);
 
-            .page#copyright {
-                margin-left: -200vw;
-            }
+            
 
         }
         &[data-page-show="number"]{
@@ -491,12 +493,14 @@ body {
                 z-index: 9;
                 background-color:var(--bg-body);
                 &.active {
-                    transform: translateX(0);
+                    transform: translateX(-100vw);
                     z-index: 90;
+                    opacity: 1;
                 }
             }
             &.active {
                 display: block;
+                opacity: 1;
             }
 
             header {
