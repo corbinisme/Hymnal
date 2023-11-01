@@ -196,13 +196,24 @@ function redirectToSystemBrowser(url) {
             document.querySelector(".musicPlayer").classList.remove("active");
         }
       },
-      toggleTheme: function(){
+      toggleTheme: function(reverse){
+
         if(document.querySelector("html").classList.contains("dim")){
             app.contrast = "false";
             document.querySelector("html").classList.remove("dim")
         } else {
             app.contrast = "true";
             document.querySelector("html").classList.add("dim")
+        }
+
+        const sunSolid = document.getElementById("sunSolid");
+        const moonSolid =   document.getElementById("moonSolid");
+        if(app.contrast=="false"){
+            sunSolid.classList.add("hidden");
+            moonSolid.classList.remove("hidden");
+        } else {
+            sunSolid.classList.remove("hidden");
+            moonSolid.classList.add("hidden");
         }
         app.storage.setItem("contrast", app.contrast)
 
@@ -279,6 +290,16 @@ function redirectToSystemBrowser(url) {
             document.querySelector("html").classList.remove("dim");
         }
 
+        const sunSolid = document.getElementById("sunSolid");
+        const moonSolid =   document.getElementById("moonSolid");
+        if(app.contrast=="false"){
+            sunSolid.classList.add("hidden");
+            moonSolid.classList.remove("hidden");
+        } else {
+            sunSolid.classList.remove("hidden");
+            moonSolid.classList.add("hidden");
+        }
+
         if(config.icon!=""){
             var icon = config.icon;
             var link = document.querySelector("link[rel*='icon']") || document.createElement('link');
@@ -333,6 +354,7 @@ function redirectToSystemBrowser(url) {
         const vocalIcon = document.getElementById("vocalIcon");
         const pianoIcon =   document.getElementById("pianoIcon");
         const bodyTag = document.querySelector("body");
+        const vocal_version_toggle = document.getElementById("vocal_version_toggle");
         console.log("set music options", app.lang)
         if(app.lang=="en"){
             app.hasVocal = true;
@@ -344,12 +366,13 @@ function redirectToSystemBrowser(url) {
             pianoIcon.classList.remove("solo");
             pianoIcon.classList.remove("hidden");
             bodyTag.classList.add("hasVocal");
-            
+            vocal_version_toggle.classList.remove("hidden");
         } else {
 
             vocalIcon.classList.add("hidden");
             pianoIcon.classList.add("hidden");
             bodyTag.classList.remove("hasVocal");
+            vocal_version_toggle.classList.add("hidden");
             
         }
       },

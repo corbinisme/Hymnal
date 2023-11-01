@@ -6,6 +6,10 @@
   font-family: "Noto-sans-bold";
   src: url("../font/notosans-bold.ttf") format("truetype"), url("../font/notosans-bold-webfont.woff") format("woff"), url("../font/notosans-bold-webfont.woff2") format("woff2");
 }
+@font-face {
+  font-family: "Noto-sans-semi-bold";
+  src: url("../font/notosans-semibold.ttf") format("truetype"), url("../font/notosans-semibold-webfont.woff") format("woff"), url("../font/notosans-semibold-webfont.woff2") format("woff2");
+}
 :root {
   --charcoal: #3B3B3B;
   --yellowButton: #ffc742;
@@ -112,15 +116,19 @@ body .table {
 body .table th {
   border-color: var(--form-border) !important;
   border-bottom-width: 3px;
+  background-color: var(--body-bg);
+  color: var(--text-color);
 }
 body .table #tocBody td {
+  background-color: var(--body-bg);
+  color: var(--text-color);
   border-color: var(--form-border);
 }
 body .table #tocBody td a {
   color: var(--linkColor);
   font-size: 1.2em;
   text-decoration: none;
-  font-family: "Noto-sans-bold", sans-serif;
+  font-family: "Noto-sans-semi-bold", sans-serif;
 }
 body mark {
   background-color: var(--yellowButton);
@@ -342,13 +350,13 @@ body .mainContent .page#hymns .musicPlayer.active {
 }
 body .mainContent .page#hymns .musicPlayer .form-switch {
   display: flex;
-  justify-content: space-between;
-  padding-left: 0;
+  justify-content: start;
+  padding-left: 2.5em;
   align-items: center;
 }
 body .mainContent .page#hymns .musicPlayer .form-switch .form-check-input {
   position: relative;
-  left: -1.95em;
+  left: -2.5em;
   background-color: var(--toggleBG);
   border-color: var(--toggleBorder);
 }
@@ -405,6 +413,7 @@ body .mainContent .page#hymns .musicPlayer .video-js .vjs-control.vjs-button {
 }
 body .mainContent .page#hymns .musicPlayer .video-js .vjs-control.vjs-button.vjs-playback-rate {
   border: none;
+  display: none;
 }
 body .mainContent .page#hymns .musicPlayer .video-js .vjs-playback-rate {
   border: none;
@@ -472,6 +481,10 @@ body .mainContent .page header .navbar {
 body .mainContent .page header .navbar > * {
   color: #fff;
 }
+body .mainContent .page header .navbar .navbar-toggler {
+  border: none;
+  padding: 6px 12px;
+}
 body .mainContent .page header .navbar .navbar-toggler:focus {
   box-shadow: 0 0 0 0.25rem rgba(255, 255, 255, 0.2);
 }
@@ -495,6 +508,7 @@ body .mainContent .page header .navbar .btn:active, body .mainContent .page head
 body .mainContent .page header .navbar-brand {
   margin-right: 0;
   color: #fff;
+  font-family: "Noto-sans-semi-bold", sans-serif;
 }
 body .mainContent .page header #languageSelector {
   margin-top: 1em;
