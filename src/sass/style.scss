@@ -205,6 +205,14 @@ body {
         background-color: var(--yellowButton);
         color: #000;
     }
+
+    &.hasMusicOpen {
+        .page {
+            .musicContent {
+                padding-bottom: 3em;
+            }
+        }
+    }
     .mainContent {
         display: flex;
         flex-wrap: nowrap;
@@ -264,6 +272,7 @@ body {
             min-width: 100vw;
             z-index: 1;
 
+            
 
             #pdfloader {
                 position: relative;

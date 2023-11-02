@@ -152,6 +152,9 @@ body .btn-secondary {
   background-color: var(--yellowButton);
   color: #000;
 }
+body.hasMusicOpen .page .musicContent {
+  padding-bottom: 3em;
+}
 body .mainContent {
   display: flex;
   flex-wrap: nowrap;
