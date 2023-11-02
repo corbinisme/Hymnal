@@ -9,6 +9,22 @@
         background-color: var(--bg-body);
         border: 1px solid var(--form-border);
     }
+    .vjs-big-play-button {
+        opacity: 1;
+        display: block;
+        border-radius: 100%;
+        height: 88px;
+        width: 88px;
+        top: 7px;
+        display: none;
+
+
+
+        .vjs-icon-placeholder:before {
+            top: 21px;
+        }
+    
+    }
 
     >.vjs-control-bar {
         background-color: transparent;
@@ -43,6 +59,7 @@
 
             &.vjs-playback-rate  {
                 border: none;
+                display: none;
 
             }
         }
@@ -74,7 +91,7 @@
 
     .vjs-progress-control {
         position: fixed;
-        top: 110px;
+        top: 0px;
         z-index: 99;
         height: 6px;
         left: 0;

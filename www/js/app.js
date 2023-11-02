@@ -950,7 +950,7 @@ function redirectToSystemBrowser(url) {
                 source.setAttribute("src", sourcePath);
 
                 if(app.musicPlayer){
-
+                    app.musicPlayer.pause();
                 } else {
 
                     app.musicPlayer = videojs('audio_player', {
@@ -963,7 +963,9 @@ function redirectToSystemBrowser(url) {
 
                 app.musicPlayer.src({type: 'audio/mp3', src: sourcePath});
                 app.musicPlayer.ready(function() {
-                    app.musicPlayer.play();
+
+                    // add logic to know if we should auto play
+                    //app.musicPlayer.play();
                     app.addShuffleControls();
                 });
                // add shuffle controls

@@ -354,9 +354,12 @@ body .mainContent .page#hymns .musicPlayer .form-switch {
   padding-left: 2.5em;
   align-items: center;
 }
+body .mainContent .page#hymns .musicPlayer .form-switch .form-check-label {
+  margin-left: -2.5em;
+}
 body .mainContent .page#hymns .musicPlayer .form-switch .form-check-input {
   position: relative;
-  left: -2.5em;
+  left: 3em;
   background-color: var(--toggleBG);
   border-color: var(--toggleBorder);
 }
@@ -386,6 +389,18 @@ body .mainContent .page#hymns .musicPlayer .video-js {
 body .mainContent .page#hymns .musicPlayer .video-js .vjs-menu-content {
   background-color: var(--bg-body);
   border: 1px solid var(--form-border);
+}
+body .mainContent .page#hymns .musicPlayer .video-js .vjs-big-play-button {
+  opacity: 1;
+  display: block;
+  border-radius: 100%;
+  height: 88px;
+  width: 88px;
+  top: 7px;
+  display: none;
+}
+body .mainContent .page#hymns .musicPlayer .video-js .vjs-big-play-button .vjs-icon-placeholder:before {
+  top: 21px;
 }
 body .mainContent .page#hymns .musicPlayer .video-js > .vjs-control-bar {
   background-color: transparent;
@@ -435,7 +450,7 @@ body .mainContent .page#hymns .musicPlayer .video-js .vjs-remaining-time {
 }
 body .mainContent .page#hymns .musicPlayer .video-js .vjs-progress-control {
   position: fixed;
-  top: 110px;
+  top: 0px;
   z-index: 99;
   height: 6px;
   left: 0;
