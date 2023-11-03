@@ -566,6 +566,14 @@ function redirectToSystemBrowser(url) {
                     page = e.target.closest("a").getAttribute("data-page");
                 }
 
+                document.querySelectorAll(".changePageButton").forEach(function(item){
+                    item.classList.add("inactive");
+
+                    window.setTimeout(function(){
+                        item.classList.remove("inactive");
+                    }, 1000)
+                })
+
                 
                 app.changePage(page)
             })

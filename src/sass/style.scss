@@ -138,8 +138,12 @@ body {
             }
         }
     }
-    #backToHymns {
+    .backToHymns {
         color: #fff;
+
+        &.inactive {
+            pointer-events: none;
+        }
     }
     .form-control {
         background-color: var(--bg-body);
