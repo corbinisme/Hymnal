@@ -312,12 +312,6 @@ function redirectToSystemBrowser(url) {
         }
         */
   
-
-        // check for music types
-        if(config.vocal_path){
-           document.getElementById("vocalIcon").classList.remove("hidden"); 
-        }
-
         app.languages = langs.split(",");
         const sheetMusicOption = (config.pdf? config.pdf:false);
         app.sheetMusicEnabled = sheetMusicOption;
@@ -355,8 +349,7 @@ function redirectToSystemBrowser(url) {
         }
       },
       setMusicOptions: function(){
-        const vocalIcon = document.getElementById("vocalIcon");
-        const pianoIcon =   document.getElementById("pianoIcon");
+        
         const bodyTag = document.querySelector("body");
         const vocal_version_toggle = document.getElementById("vocal_version_toggle");
 
@@ -366,15 +359,12 @@ function redirectToSystemBrowser(url) {
             app.hasVocal = false;
         }
         if(app.hasVocal==true){
-            vocalIcon.classList.remove("hidden");
-            pianoIcon.classList.remove("solo");
-            pianoIcon.classList.remove("hidden");
+            
             bodyTag.classList.add("hasVocal");
             vocal_version_toggle.classList.remove("hidden");
         } else {
 
-            vocalIcon.classList.add("hidden");
-            pianoIcon.classList.add("hidden");
+            
             bodyTag.classList.remove("hasVocal");
             vocal_version_toggle.classList.add("hidden");
             
@@ -440,7 +430,7 @@ function redirectToSystemBrowser(url) {
         document.querySelectorAll(".musicType").forEach(function(elem){
             elem.classList.remove("active")
         })
-        document.querySelector(`#${type}Icon`).classList.add("active");
+        //document.querySelector(`#${type}Icon`).classList.add("active");
       },
 
       eventBindings: function(){
@@ -539,13 +529,6 @@ function redirectToSystemBrowser(url) {
 
         
 
-        document.querySelector("#pianoIcon").addEventListener("click", function(e){
-
-            e.preventDefault();
-            app.makeMusic("piano");
-            app.setCurrentMusicState("piano")
-            
-        })
         if(document.querySelector("#midiIcon")){
             document.querySelector("#midiIcon").addEventListener("click", function(e){
 
@@ -556,14 +539,6 @@ function redirectToSystemBrowser(url) {
             })
         }
         
-        document.querySelector("#vocalIcon").addEventListener("click", function(e){
-
-            e.preventDefault();
-            app.makeMusic("vocal");
-            app.setCurrentMusicState("vocal")
-            
-        })
-
 
         document.querySelectorAll(".changePageButton").forEach(function(item){
 
