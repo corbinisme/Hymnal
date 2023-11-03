@@ -962,13 +962,25 @@ function redirectToSystemBrowser(url) {
                 }
 
                 app.musicPlayer.src({type: 'audio/mp3', src: sourcePath});
+
+                app.musicPlayer.on('play',()=>{
+                    console.log("playing now");
+                    const playerWrapper = document.querySelector(".video-js");
+                    playerWrapper.setAttribute("data-playing", "true");
+                });
+                app.musicPlayer.on('pause',()=>{
+                    console.log("paused now");
+                    const playerWrapper = document.querySelector(".video-js");
+                    playerWrapper.setAttribute("data-playing", "false");
+                });
                 app.musicPlayer.ready(function() {
 
                     // add logic to know if we should auto play
-                    //app.musicPlayer.play();
-                    app.addShuffleControls();
+                    //app.musicPlayer.play();\
+                    // in the future, add shuffle controls
+                    //app.addShuffleControls();
                 });
-               // add shuffle controls
+   
               
             }
         } else {
@@ -1023,6 +1035,7 @@ function redirectToSystemBrowser(url) {
               
               let infoLi = document.createElement("li");
               infoLi.classList.add("nav-item");
+              infoLi.classList.add("copyrightLi");
               infoLi.innerHTML = `<a href="#" id='copyrightBtn' class="nav-link"><i class="fa fa-info-circle"></i> Copyright Information</a>`
               target.appendChild(infoLi);
 

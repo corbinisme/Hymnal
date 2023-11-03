@@ -96,10 +96,20 @@
         height: 6px;
         left: 0;
         width: calc(100vw);
+        opacity: 0;
+        transition: opacity 1s ease-in-out;
 
         .vjs-progress-holder {
             margin: 0;
             height: 6px;
+        }
+    }
+    &[data-playing="true"] {
+        .vjs-big-play-button {
+            display: none;
+        }
+        .vjs-progress-control {
+            opacity: 1;
         }
     }
 

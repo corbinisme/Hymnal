@@ -458,10 +458,18 @@ body .mainContent .page#hymns .musicPlayer .video-js .vjs-progress-control {
   height: 6px;
   left: 0;
   width: 100vw;
+  opacity: 0;
+  transition: opacity 1s ease-in-out;
 }
 body .mainContent .page#hymns .musicPlayer .video-js .vjs-progress-control .vjs-progress-holder {
   margin: 0;
   height: 6px;
+}
+body .mainContent .page#hymns .musicPlayer .video-js[data-playing=true] .vjs-big-play-button {
+  display: none;
+}
+body .mainContent .page#hymns .musicPlayer .video-js[data-playing=true] .vjs-progress-control {
+  opacity: 1;
 }
 body .mainContent .page#hymns .musicPlayer .video-js .vjs-menu-button-popup .vjs-menu .vjs-menu-content {
   max-height: 30em;
@@ -511,6 +519,9 @@ body .mainContent .page header .navbar .navbar-toggler-override {
 }
 body .mainContent .page header .navbar .navbar-nav li a {
   color: #fff;
+}
+body .mainContent .page header .navbar .navbar-nav li.copyrightLi {
+  border-top: 1px solid rgba(255, 255, 255, 0.1411764706);
 }
 body .mainContent .page header .navbar .btn {
   border: 0;

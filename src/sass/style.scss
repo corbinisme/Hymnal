@@ -20,6 +20,7 @@ $scrollbar-width: 17px;
          url('../font/notosans-semibold-webfont.woff2') format('woff2');
 
 }
+  
 
 :root {
     --charcoal: #3B3B3B;
@@ -567,6 +568,9 @@ body {
                         li {
                             a {
                                 color: #fff;
+                            }
+                            &.copyrightLi {
+                                border-top: 1px solid #ffffff24;
                             }
                         }
                     }
