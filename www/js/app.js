@@ -159,7 +159,7 @@ function redirectToSystemBrowser(url) {
            let hymnNumber =app.getHymnWithZeros(app.currentHymn);
            
            const pdfurl = config.pdfpath + hymnNumber + " Guitar.pdf";
-           console.log("pdf url", pdfurl)
+
 
             pdf.url = pdfurl;
             pdf.init();
@@ -190,11 +190,12 @@ function redirectToSystemBrowser(url) {
             elem.classList.remove("active");
         });
        
-        if(app.musicOpen){
+        /*if(app.musicOpen){
             document.querySelector(".musicPlayer").classList.add("active");
         } else {
             document.querySelector(".musicPlayer").classList.remove("active");
         }
+        */
       },
       toggleTheme: function(reverse){
 
@@ -300,14 +301,17 @@ function redirectToSystemBrowser(url) {
             moonSolid.classList.add("hidden");
         }
 
+        /*
         if(config.icon!=""){
             var icon = config.icon;
             var link = document.querySelector("link[rel*='icon']") || document.createElement('link');
             link.type = 'image/x-icon';
             link.rel = 'shortcut icon';
             link.href = icon;
-            document.getElementsByTagName('head')[0].appendChild(link);
+            //document.getElementsByTagName('head')[0].appendChild(link);
         }
+        */
+  
 
         // check for music types
         if(config.vocal_path){
@@ -322,14 +326,14 @@ function redirectToSystemBrowser(url) {
             sheetMusicToggleWrapperNode.classList.remove("hidden");
             const sheetMusicToggleNode = document.getElementById("sheetMusicToggle");
             let sheetMusicActiveInit = (app.storage.getItem("sheetMusicActive")? app.storage.getItem("sheetMusicActive"): false);
-            console.log("sheetMusicActive", sheetMusicActiveInit)
+
             app.sheetMusicActive =  (sheetMusicActiveInit=="true"? true:false);
             if(app.sheetMusicActive){
                 app.sheetMusicEnabled = true;
                 // get the sheetMusicToggleNode node and set it to checked
                 sheetMusicToggleNode.checked=true;
             }
-            console.log("setting", app.sheetMusicActive)
+
             }
       },
       setLang: function(langValue){
@@ -355,7 +359,7 @@ function redirectToSystemBrowser(url) {
         const pianoIcon =   document.getElementById("pianoIcon");
         const bodyTag = document.querySelector("body");
         const vocal_version_toggle = document.getElementById("vocal_version_toggle");
-        console.log("set music options", app.lang)
+
         if(app.lang=="en"){
             app.hasVocal = true;
         } else {
@@ -442,35 +446,39 @@ function redirectToSystemBrowser(url) {
       eventBindings: function(){
         
         document.getElementById("musicControl").addEventListener("click", function(e){
-            let button = e.target;
+            let thisbutton = document.getElementById("musicControl");
+
+            
             let originalState = app.musicOpen;
             app.musicOpen = !app.musicOpen;
+
             const bodyTag = document.querySelector("body");
             const musicPlayerWrapper  = document.querySelector(".musicPlayer");
             const hymnFooter = document.querySelector(".hymnFooter");
             if(app.musicOpen==false){
-                button.classList.remove("active");
+                
                 bodyTag.classList.remove("hasMusicOpen");
                 
                 musicPlayerWrapper.classList.remove("active");
                 hymnFooter.classList.remove("musicOpen");
                 app.musicPlayer.pause();
+                thisbutton.classList.remove("active");
             } else {
-                button.classList.add("active");
+                console.log("should be active")
+                
                 bodyTag.classList.add("hasMusicOpen");
                 
                 musicPlayerWrapper.classList.add("active");
                 hymnFooter.classList.add("musicOpen")
-                
+                thisbutton.classList.add("active");
             }
 
             let musicType = app.currentMusicType;
             
             if(originalState==false){
-            app.makeMusic(musicType);
-            app.setCurrentMusicState("piano")
+                app.makeMusic(musicType);
+                app.setCurrentMusicState("piano")
             }
-                
             
         });
 
@@ -481,6 +489,9 @@ function redirectToSystemBrowser(url) {
             const bodyTag = document.querySelector("body");
             const musicPlayerWrapper  = document.querySelector(".musicPlayer");
             const hymnFooter = document.querySelector(".hymnFooter");
+            const musicToggle= document.getElementById("musicControl");
+
+            musicToggle.classList.remove("active");
            
             bodyTag.classList.remove("hasMusicOpen");
                 
@@ -499,7 +510,7 @@ function redirectToSystemBrowser(url) {
             app.hasVocal = val;
             app.currentMusicType = currentType;
             app.storage.setItem("currentMusicType", currentType);
-            console.log(val, currentType, "vocal button")
+
             app.setMusicOptions();
             app.makeMusic(currentType);
         });
@@ -512,7 +523,7 @@ function redirectToSystemBrowser(url) {
 
         document.getElementById("sheetMusicToggle").addEventListener("change", function(e){
             let val = e.target.checked;
-            console.log("music active", val)
+
             app.sheetMusicActive = val;
 
             if(val==true){
@@ -610,21 +621,7 @@ function redirectToSystemBrowser(url) {
                     tar.classList.add("showFontSizer")
                 }
             
-                /*
-               let val = e.target.getAttribute("data-value");
-               let newSize = app.size;
-    
-               console.log(newSize, val)
-    
-               if(val=="plus"){
-                    newSize += 2;
-               } else if(val=="minus"){
-                    newSize -= 2;
-               } 
-    
-               console.log(newSize, val)
-               app.setFontSize(newSize);
-               */
+              
             })
         })
         
@@ -752,7 +749,7 @@ function redirectToSystemBrowser(url) {
 
         let newString = splits.slice(startIndex2, endIndex2).join(" ");
 
-        console.log("newString", newString)
+
 
         newText = startPrefix + newText.substring(startIndex, endIndex) + endPrefix;
 
@@ -766,7 +763,7 @@ function redirectToSystemBrowser(url) {
             title = window['title_'+app.lang];
 
           let content = '';
-          console.log("filter: ",  app.currentSearchFilter);
+
           for(var i=0; i<title.length; i++){
   
             // see if this makes the cut using the current search filter
@@ -972,12 +969,12 @@ function redirectToSystemBrowser(url) {
                 app.musicPlayer.src({type: 'audio/mp3', src: sourcePath});
 
                 app.musicPlayer.on('play',()=>{
-                    console.log("playing now");
+
                     const playerWrapper = document.querySelector(".video-js");
                     playerWrapper.setAttribute("data-playing", "true");
                 });
                 app.musicPlayer.on('pause',()=>{
-                    console.log("paused now");
+
                     const playerWrapper = document.querySelector(".video-js");
                     playerWrapper.setAttribute("data-playing", "false");
                 });
@@ -1064,7 +1061,7 @@ function redirectToSystemBrowser(url) {
                         app.loadCurrentLang();
                     } else {
                         
-                        console.log("copyright")
+    
                         app.toggleHamburger();
                         app.changePage("copyright");
                         if(true){
