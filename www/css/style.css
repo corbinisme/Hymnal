@@ -33,6 +33,16 @@
   --toggleCheckedBG: var(--blue);
 }
 
+body.cogwa {
+  --blue: #9A816A;
+  --bg-header: #9A816A;
+}
+
+body.cgi {
+  --blue: #0a8f4d;
+  --bg-header: #0a8f4d;
+}
+
 html {
   height: 100%;
 }
@@ -53,6 +63,12 @@ html.dim {
   --toggleBorder: var(--form-border);
   --toggleCheckedBG: var(--darkGold);
 }
+html.dim body.cogwa {
+  --bg-header: #333;
+}
+html.dim body.cgi {
+  --bg-header: #333;
+}
 html[lang=en] #copyright .contentMain #loadCopyright > div, html[lang=de] #copyright .contentMain #loadCopyright > div, html[lang=pg] #copyright .contentMain #loadCopyright > div, html[lang=nl] #copyright .contentMain #loadCopyright > div, html[lang=it] #copyright .contentMain #loadCopyright > div {
   display: none;
 }
@@ -72,6 +88,8 @@ body {
   background-color: var(--bg-body);
   color: var(--text-color);
   height: 100%;
+}
+body.ucg {
   font-family: "Noto-sans", sans-serif;
 }
 body.scrollbar .mainContent .page footer.hymnFooter {
@@ -93,8 +111,11 @@ body #search .navbar .navbar-brand, body #number .navbar .navbar-brand {
 body #search .navbar .btn, body #number .navbar .btn {
   color: var(--searchHeaderButtonText);
 }
-body #backToHymns {
+body .backToHymns {
   color: #fff;
+}
+body .backToHymns.inactive {
+  pointer-events: none;
 }
 body .form-control {
   background-color: var(--bg-body);

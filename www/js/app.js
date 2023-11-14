@@ -107,7 +107,7 @@ function redirectToSystemBrowser(url) {
           let currentLang = app.lang;
           let currentTitle = "Hymnal";
           let searchTitle = "Search";
-          let hymnTitle = "Hcopyrightymn Number";
+          let hymnTitle = "Hymn Number";
           let langObj = 'menu_' + currentLang;
           if(window[langObj]){
               currentTitle = window[langObj].Hymnal;
@@ -115,7 +115,7 @@ function redirectToSystemBrowser(url) {
               hymnTitle = window[langObj]["Search By Number"];
           }
           
-          document.getElementById("brand").innerHTML = currentTitle;
+          document.getElementById("brand").innerHTML = app.brand.toUpperCase() + " " + currentTitle;
           document.getElementById("searchTitle").innerHTML = searchTitle;
           document.getElementById("byNumberTitle").innerHTML = hymnTitle;
       },
